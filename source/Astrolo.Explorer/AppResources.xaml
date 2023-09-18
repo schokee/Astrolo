@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:geneKeys="clr-namespace:Astrolo.GeneKeys;assembly=Astrolo.GeneKeys">
+
+    <SolidColorBrush x:Key="Brush.Gk.Siddhi" Color="#20487C"/>
+    <SolidColorBrush x:Key="Brush.Gk.Gift" Color="#76933C"/>
+    <SolidColorBrush x:Key="Brush.Gk.Shadow" Color="#B8B8A8"/>
+
+    <DataTemplate x:Key="GeneKeySummaryTemplate" DataType="{x:Type geneKeys:IGeneKey}">
+        <TextBlock FontStyle="Italic">
+            <Run Text="{Binding Siddhi, Mode=OneWay}" Foreground="{StaticResource Brush.Gk.Siddhi}"/><LineBreak/>
+            <Run Text="{Binding Gift, Mode=OneWay}" Foreground="{StaticResource Brush.Gk.Gift}"/><LineBreak/>
+            <Run Text="{Binding Shadow, Mode=OneWay}" Foreground="{StaticResource Brush.Gk.Shadow}"/>
+        </TextBlock>
+    </DataTemplate>
+</ResourceDictionary>

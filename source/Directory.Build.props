@@ -1,0 +1,27 @@
+<Project>
+  <PropertyGroup>
+    <Company>Astrolo</Company>
+    <Product>Astrolo</Product>
+    <Authors>Tony Titsas</Authors>
+    <RepositoryUrl>https://github.com/schokee/Astrolo</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/schokee/Astrolo</PackageProjectUrl>
+    <Copyright>Copyright © $([System.DateTime]::Now.Year) $(Company)</Copyright>
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <NoWarn>1701;1702;NU1702</NoWarn>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="$(MSBuildProjectName.EndsWith('Tests'))">
+      <PropertyGroup>
+        <IsPackable>false</IsPackable>
+      </PropertyGroup>
+
+    </When>
+    <Otherwise>
+      <ItemGroup>
+        <PackageReference Include="GitVersion.MsBuild" PrivateAssets="All" />
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
+</Project>

@@ -1,0 +1,7 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/Astrolo.Presentation.Controls;component/Themes/BodyGraph.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Astrolo.Presentation.Controls;component/Themes/RaveChart.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Astrolo.Presentation.Controls;component/Themes/ZodiacRing.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>
