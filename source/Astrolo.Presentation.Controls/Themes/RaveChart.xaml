@@ -1,0 +1,75 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="clr-namespace:Astrolo.Presentation.Controls"
+                    xmlns:halo="clr-namespace:Astrolo.Presentation.Controls.Halo"
+                    xmlns:local="clr-namespace:Astrolo.Presentation.Controls.HumanDesign">
+
+    <Style TargetType="{x:Type local:RaveChart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:RaveChart}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <controls:ConcentricPanel x:Name="PART_Gridlines">
+                                <halo:HaloDisc controls:ConcentricPanel.Band="0" controls:ConcentricPanel.Thickness="25"/>
+                                <halo:HaloDisc controls:ConcentricPanel.Band="1" controls:ConcentricPanel.Thickness="6" />
+                                <halo:HaloDisc controls:ConcentricPanel.Band="2" controls:ConcentricPanel.Thickness="24"/>
+                                <halo:HaloDisc controls:ConcentricPanel.Band="3" controls:ConcentricPanel.Thickness="6"/>
+                            </controls:ConcentricPanel>
+                            <controls:ConcentricPanel>
+                                <controls:OrbitPanel x:Name="PART_Labels" controls:ConcentricPanel.Band="2"/>
+
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="0" Spread="30" Stroke="AliceBlue"      StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="30" Spread="30" Stroke="LemonChiffon"  StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="60" Spread="30" Stroke="LightSalmon"   StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="90" Spread="30" Stroke="DarkSeaGreen"  StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="120" Spread="30" Stroke="AliceBlue"    StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="150" Spread="30" Stroke="LemonChiffon" StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="180" Spread="30" Stroke="LightSalmon"  StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="210" Spread="30" Stroke="DarkSeaGreen" StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="240" Spread="30" Stroke="AliceBlue"    StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="270" Spread="30" Stroke="LemonChiffon" StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="300" Spread="30" Stroke="LightSalmon"  StrokeThickness="24"/>
+                                <halo:HaloArc controls:ConcentricPanel.Band="4" Angle="330" Spread="30" Stroke="DarkSeaGreen" StrokeThickness="24"/>
+
+                                <halo:HaloDisc controls:ConcentricPanel.Band="0" controls:ConcentricPanel.Thickness="25"/>
+                                <halo:HaloDisc controls:ConcentricPanel.Band="1" controls:ConcentricPanel.Thickness="6" />
+                                <halo:HaloDisc controls:ConcentricPanel.Band="2" Stroke="Gainsboro" controls:ConcentricPanel.Thickness="24"/>
+                                <halo:HaloDisc controls:ConcentricPanel.Band="3" Stroke="Gainsboro" controls:ConcentricPanel.Thickness="6"/>
+                                <halo:HaloDisc controls:ConcentricPanel.Band="4" Stroke="Gainsboro" />
+
+                                <controls:OrbitPanel controls:ConcentricPanel.Band="4">
+                                    <controls:OrbitPanel.Resources>
+                                        <Style TargetType="{x:Type Line}">
+                                            <Setter Property="StrokeThickness" Value="1"/>
+                                            <Setter Property="Stroke" Value="LightGray"/>
+                                            <Setter Property="Y2" Value="24"/>
+                                        </Style>
+                                    </controls:OrbitPanel.Resources>
+                                    <Line controls:OrbitPanel.Angle="0" />
+                                    <Line controls:OrbitPanel.Angle="30" />
+                                    <Line controls:OrbitPanel.Angle="60" />
+                                    <Line controls:OrbitPanel.Angle="90" />
+                                    <Line controls:OrbitPanel.Angle="120" />
+                                    <Line controls:OrbitPanel.Angle="150" />
+                                    <Line controls:OrbitPanel.Angle="180" />
+                                    <Line controls:OrbitPanel.Angle="210" />
+                                    <Line controls:OrbitPanel.Angle="240" />
+                                    <Line controls:OrbitPanel.Angle="270" />
+                                    <Line controls:OrbitPanel.Angle="300" />
+                                    <Line controls:OrbitPanel.Angle="330" />
+                                </controls:OrbitPanel>
+
+                                <halo:HaloDisc controls:ConcentricPanel.Band="5" Stroke="Gainsboro" />
+                            </controls:ConcentricPanel>
+
+                            <controls:OrbitPanel x:Name="PART_Figures"/>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

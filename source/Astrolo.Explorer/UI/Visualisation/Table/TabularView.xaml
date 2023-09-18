@@ -1,0 +1,104 @@
+<UserControl x:Class="Astrolo.Explorer.UI.Visualisation.Table.TabularView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:astrolo="http://schemas.astrolo.org/"
+             xmlns:local="clr-namespace:Astrolo.Explorer.UI.Visualisation.Table"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance {x:Type local:TabularViewModel}, IsDesignTimeCreatable=false}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Visualisation/Shared.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <DockPanel.Resources>
+            <Style x:Key="HexagramStyle" TargetType="{x:Type astrolo:HexagramElement}">
+                <Setter Property="Width" Value="28"/>
+                <Setter Property="Height" Value="32"/>
+                <Setter Property="UseLayoutRounding" Value="True"/>
+            </Style>
+        </DockPanel.Resources>
+        <astrolo:SpacingPanel DockPanel.Dock="Top" HorizontalAlignment="Right">
+            <Label FontSize="{DynamicResource MahApps.Font.Size.ToggleSwitch}" VerticalContentAlignment="Center">Show Keys</Label>
+            <mah:ToggleSwitch x:Name="ShowKeys" MinWidth="100" />
+        </astrolo:SpacingPanel>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <DockPanel TextElement.FontSize="10">
+                <ItemsControl ItemsSource="{Binding Path=Layout[0]}" BorderThickness="0,0,1,0" BorderBrush="LightGray" Padding="10,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="1" IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:TabularCell}">
+                            <StackPanel VerticalAlignment="Bottom" Margin="0,5">
+                                <astrolo:HexagramElement Hexagram="{Binding Hexagram}" HexagramAspect="UpperTrigram" Style="{StaticResource HexagramStyle}" />
+                                <TextBlock DockPanel.Dock="Bottom" Text="{Binding Path=Hexagram.UpperTrigram}" HorizontalAlignment="Center" Foreground="Gray"/>
+                                <TextBlock DockPanel.Dock="Bottom" Visibility="{Binding IsOn, ElementName=ShowKeys, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <LineBreak/>
+                                    <LineBreak/>
+                                </TextBlock>
+
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding Layout}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding}" Margin="0,5">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" IsItemsHost="True"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type local:TabularCell}">
+                                        <DockPanel x:Name="Figure">
+                                            <TextBlock DockPanel.Dock="Bottom" TextAlignment="Center" HorizontalAlignment="Center"
+                                                   DataContext="{Binding Key}" Foreground="DimGray"
+                                                   Visibility="{Binding IsOn, ElementName=ShowKeys, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                   Padding="3,0">
+                                                <Run Text="{Binding Siddhi, Mode=OneTime}"/><LineBreak/>
+                                                <Run Text="{Binding Gift, Mode=OneTime}"/><LineBreak/>
+                                                <Run Text="{Binding Shadow, Mode=OneTime}"/>
+                                            </TextBlock>
+                                            <TextBlock DockPanel.Dock="Bottom" Text="{Binding Hexagram}" HorizontalAlignment="Center" Padding="3,0"/>
+                                            <astrolo:HexagramElement Hexagram="{Binding Hexagram}" Margin="0,0,0,6" Style="{StaticResource HexagramStyle}"/>
+                                        </DockPanel>
+
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="False">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="Figure" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="Figure" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</UserControl>

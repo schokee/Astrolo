@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Metadata\Gates.csv" />
+    <None Remove="Metadata\IncarnationCrossInfo.txt" />
+    <None Remove="Metadata\Lines.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Metadata\Gates.csv" />
+    <EmbeddedResource Include="Metadata\IncarnationCrossInfo.txt" />
+    <EmbeddedResource Include="Metadata\Lines.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Astrolo.Astrology\Astrolo.Astrology.csproj" />
+    <ProjectReference Include="..\Astrolo.Core\Astrolo.Core.csproj" />
+    <ProjectReference Include="..\Astrolo.YiJing\Astrolo.YiJing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="morelinq" />
+  </ItemGroup>
+
+</Project>
