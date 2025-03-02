@@ -68,18 +68,18 @@
 
                             </Grid>
                             <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <DataTrigger Binding="{Binding IsSelected}" Value="False">
                                     <DataTrigger.EnterActions>
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="DisableOverlay" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="DisableOverlay" Storyboard.TargetProperty="Opacity" To="0.85" Duration="0:0:0.2"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </DataTrigger.EnterActions>
                                     <DataTrigger.ExitActions>
                                         <BeginStoryboard>
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="DisableOverlay" Storyboard.TargetProperty="Opacity" To="0.85" Duration="0:0:0.2"/>
+                                                <DoubleAnimation Storyboard.TargetName="DisableOverlay" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
                                             </Storyboard>
                                         </BeginStoryboard>
                                     </DataTrigger.ExitActions>

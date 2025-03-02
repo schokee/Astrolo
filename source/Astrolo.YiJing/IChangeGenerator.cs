@@ -1,7 +1,6 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public interface IChangeGenerator
 {
-    public interface IChangeGenerator
-    {
-        Movement Generate(Func<int, int> random);
-    }
+    Movement Generate(Func<int, int> random);
 }

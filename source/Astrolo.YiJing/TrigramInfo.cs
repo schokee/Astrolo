@@ -1,30 +1,21 @@
 ﻿using Astrolo.Core;
 
-namespace Astrolo.YiJing
+namespace Astrolo.YiJing;
+
+public sealed class TrigramInfo(Trigram key, string name, string direction)
 {
-    public sealed class TrigramInfo
+    public const int TotalLines = 3;
+
+    public Trigram Key { get; } = key;
+
+    public BitArray Bits { get; } = key.ToBitArray();
+
+    public string Name { get; } = name;
+
+    public string Direction { get; } = direction;
+
+    public override string ToString()
     {
-        public const int TotalLines = 3;
-
-        public TrigramInfo(Trigram key, string name, string direction)
-        {
-            Key = key;
-            Bits = key.ToBitArray();
-            Name = name;
-            Direction = direction;
-        }
-
-        public Trigram Key { get; }
-
-        public BitArray Bits { get; }
-
-        public string Name { get; }
-
-        public string Direction { get; }
-
-        public override string ToString()
-        {
-            return $"{Name}, {Key.GetDescriptionOrDefault()}";
-        }
+        return $"{Name}, {Key.GetDescriptionOrDefault()}";
     }
 }

@@ -1,17 +1,16 @@
-﻿namespace Astrolo.YiJing.Generators
+﻿namespace Astrolo.YiJing.Generators;
+
+public sealed class CoinTossGenerator : IChangeGenerator
 {
-    public sealed class CoinTossGenerator : IChangeGenerator
+    public Movement Generate(Func<int, int> random)
     {
-        public Movement Generate(Func<int, int> random)
-        {
-            Line RandomLine() => random(2) % 2 == 1;
+        Line RandomLine() => random(2) % 2 == 1;
 
-            return new Movement(RandomLine(), RandomLine());
-        }
+        return new Movement(RandomLine(), RandomLine());
+    }
 
-        public override string ToString()
-        {
-            return "Coin Toss";
-        }
+    public override string ToString()
+    {
+        return "Coin Toss";
     }
 }

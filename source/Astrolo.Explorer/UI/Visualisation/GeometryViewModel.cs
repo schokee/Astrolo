@@ -8,66 +8,65 @@ using Astrolo.Explorer.UI.Visualisation.Table;
 using Caliburn.Micro;
 using MoreLinq;
 
-namespace Astrolo.Explorer.UI.Visualisation
+namespace Astrolo.Explorer.UI.Visualisation;
+
+public sealed class GeometryViewModel : Conductor<Screen>.Collection.OneActive
 {
-    public sealed class GeometryViewModel : Conductor<Screen>.Collection.OneActive
+    private bool _showSphere;
+
+    public GeometryViewModel(
+        YiSphereViewModel sphere,
+        HexChartViewModel hexChart,
+        TabularViewModel table,
+        MandalaViewModel mandala,
+        InspectionFilterViewModel filter)
     {
-        private bool _showSphere;
+        DisplayName = "Geometry";
 
-        public GeometryViewModel(
-            YiSphereViewModel sphere,
-            HexChartViewModel hexChart,
-            TabularViewModel table,
-            MandalaViewModel mandala,
-            InspectionFilterViewModel filter)
+        Items.Add(hexChart);
+        Items.Add(mandala);
+        Items.Add(table);
+        Items.Add(sphere);
+
+        ActiveItem = hexChart;
+
+        Sphere = sphere;
+        Sphere.Filter = filter;
+
+        HexChart = hexChart;
+
+        Filter = filter;
+        Filter.SelectionChanged += delegate { ApplyFilters(); };
+    }
+
+    public InspectionFilterViewModel Filter { get; }
+
+    public HexChartViewModel HexChart { get; }
+
+    public YiSphereViewModel Sphere { get; }
+
+    public bool ShowHexChart => !ShowSphere;
+
+    public bool ShowSphere
+    {
+        get => _showSphere;
+        set
         {
-            DisplayName = "Geometry";
-
-            Items.Add(hexChart);
-            Items.Add(mandala);
-            Items.Add(table);
-            Items.Add(sphere);
-
-            ActiveItem = hexChart;
-
-            Sphere = sphere;
-            Sphere.Filter = filter;
-
-            HexChart = hexChart;
-
-            Filter = filter;
-            Filter.SelectionChanged += delegate { ApplyFilters(); };
+            if (value == _showSphere) return;
+            _showSphere = value;
+            NotifyOfPropertyChange();
+            NotifyOfPropertyChange(nameof(ShowHexChart));
         }
+    }
 
-        public InspectionFilterViewModel Filter { get; }
+    protected override Task OnActivateAsync(CancellationToken cancellationToken)
+    {
+        ApplyFilters();
+        return base.OnActivateAsync(cancellationToken);
+    }
 
-        public HexChartViewModel HexChart { get; }
-
-        public YiSphereViewModel Sphere { get; }
-
-        public bool ShowHexChart => !ShowSphere;
-
-        public bool ShowSphere
-        {
-            get => _showSphere;
-            set
-            {
-                if (value == _showSphere) return;
-                _showSphere = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(ShowHexChart));
-            }
-        }
-
-        protected override Task OnActivateAsync(CancellationToken cancellationToken)
-        {
-            ApplyFilters();
-            return base.OnActivateAsync(cancellationToken);
-        }
-
-        private void ApplyFilters()
-        {
-            Items.OfType<ISupportFiltering>().ForEach(x => x.UpdateSelection(Filter));
-        }
+    private void ApplyFilters()
+    {
+        Items.OfType<ISupportFiltering>().ForEach(x => x.UpdateSelection(Filter));
     }
 }

@@ -1,9 +1,8 @@
-﻿namespace Astrolo.Explorer.UI.Cleromancy
+﻿namespace Astrolo.Explorer.UI.Cleromancy;
+
+public enum Progress
 {
-    public enum Progress
-    {
-        Start,
-        Middle,
-        End
-    }
+    Start,
+    Middle,
+    End
 }

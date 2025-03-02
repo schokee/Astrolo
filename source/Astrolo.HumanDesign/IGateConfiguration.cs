@@ -1,12 +1,11 @@
-namespace Astrolo.HumanDesign
+namespace Astrolo.HumanDesign;
+
+public interface IGateConfiguration
 {
-    public interface IGateConfiguration
-    {
-        IGateInfo Gate { get; }
+    IGateInfo Gate { get; }
 
-        bool IsActive { get; }
+    bool IsActive { get; }
 
-        // Currently only used for rendering channels.
-        GateActivation ActivationState { get; }
-    }
+    // Currently only used for rendering channels.
+    GateActivation ActivationState { get; }
 }

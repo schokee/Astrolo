@@ -1,13 +1,12 @@
-namespace Astrolo.HumanDesign
+namespace Astrolo.HumanDesign;
+
+public interface ILineInfo
 {
-    public interface ILineInfo
-    {
-        IGateInfo Gate { get; }
+    IGateInfo Gate { get; }
 
-        int Number { get; }
+    int Number { get; }
 
-        MandalaSlice MandalaSlice { get; }
+    MandalaSlice MandalaSlice { get; }
 
-        string Theme { get; }
-    }
+    string Theme { get; }
 }

@@ -1,30 +1,21 @@
 using Astrolo.YiJing;
 
-namespace Astrolo.HumanDesign.Charting
+namespace Astrolo.HumanDesign.Charting;
+
+public sealed class TransitChart(
+    IGateDictionary gateLookup,
+    LineOfHexagram lineOfHexagram,
+    Func<IGateInfo, bool> isGateActive)
+    : Chart(gateLookup, gate => new GateConfiguration(gate, isGateActive(gate)))
 {
-    public sealed class TransitChart : Chart
+    public LineOfHexagram LineOfHexagram { get; } = lineOfHexagram;
+
+    private class GateConfiguration(IGateInfo gate, bool isActive) : IGateConfiguration
     {
-        public TransitChart(IGateDictionary gateLookup, LineOfHexagram lineOfHexagram, Func<IGateInfo, bool> isGateActive)
-            : base(gateLookup, gate => new GateConfiguration(gate, isGateActive(gate)))
-        {
-            LineOfHexagram = lineOfHexagram;
-        }
+        public IGateInfo Gate { get; } = gate;
 
-        public LineOfHexagram LineOfHexagram { get; }
+        public bool IsActive { get; } = isActive;
 
-        private class GateConfiguration : IGateConfiguration
-        {
-            public GateConfiguration(IGateInfo gate, bool isActive)
-            {
-                Gate = gate;
-                IsActive = isActive;
-            }
-
-            public IGateInfo Gate { get; }
-
-            public bool IsActive { get; }
-
-            public GateActivation ActivationState => IsActive ? GateActivation.Personality : GateActivation.None;
-        }
+        public GateActivation ActivationState => IsActive ? GateActivation.Personality : GateActivation.None;
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace Astrolo.Astrology
+﻿namespace Astrolo.Astrology;
+
+public enum Element
 {
-    public enum Element
-    {
-        Earth,
-        Air,
-        Water,
-        Fire
-    }
+    Earth,
+    Air,
+    Water,
+    Fire
 }

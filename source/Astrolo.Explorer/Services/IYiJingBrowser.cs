@@ -1,11 +1,10 @@
 ﻿using Astrolo.YiJing;
 
-namespace Astrolo.Explorer.Services
-{
-    public interface IYiJingBrowser
-    {
-        void ViewInfo(HexagramFigure figure);
+namespace Astrolo.Explorer.Services;
 
-        void ViewReading(IEnumerable<Movement> changes);
-    }
+public interface IYiJingBrowser
+{
+    void ViewInfo(HexagramFigure figure);
+
+    void ViewReading(IEnumerable<Movement> changes);
 }

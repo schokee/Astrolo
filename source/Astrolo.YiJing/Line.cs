@@ -1,60 +1,59 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public readonly struct Line : IPolarized, IEquatable<Line>
 {
-    public readonly struct Line : IPolarized, IEquatable<Line>
+    public static Line Yang => true;
+
+    public static Line Yin => false;
+
+    private Line(bool isYang)
     {
-        public static Line Yang => true;
+        IsYang = isYang;
+    }
 
-        public static Line Yin => false;
+    public bool IsYang { get; }
 
-        private Line(bool isYang)
-        {
-            IsYang = isYang;
-        }
+    public bool IsYin => !IsYang;
 
-        public bool IsYang { get; }
+    public Line Complement => IsYang ? Yin : Yang;
 
-        public bool IsYin => !IsYang;
+    public bool Equals(Line other)
+    {
+        return IsYang == other.IsYang;
+    }
 
-        public Line Complement => IsYang ? Yin : Yang;
+    public override bool Equals(object obj)
+    {
+        return obj is Line other && Equals(other);
+    }
 
-        public bool Equals(Line other)
-        {
-            return IsYang == other.IsYang;
-        }
+    public override int GetHashCode()
+    {
+        return IsYang.GetHashCode();
+    }
 
-        public override bool Equals(object obj)
-        {
-            return obj is Line other && Equals(other);
-        }
+    public static bool operator ==(Line left, Line right)
+    {
+        return left.Equals(right);
+    }
 
-        public override int GetHashCode()
-        {
-            return IsYang.GetHashCode();
-        }
+    public static bool operator !=(Line left, Line right)
+    {
+        return !left.Equals(right);
+    }
 
-        public static bool operator ==(Line left, Line right)
-        {
-            return left.Equals(right);
-        }
+    public static Line operator !(Line line)
+    {
+        return line.Complement;
+    }
 
-        public static bool operator !=(Line left, Line right)
-        {
-            return !left.Equals(right);
-        }
+    public static implicit operator uint(Line line)
+    {
+        return line.IsYang ? 1u : 0;
+    }
 
-        public static Line operator !(Line line)
-        {
-            return line.Complement;
-        }
-
-        public static implicit operator uint(Line line)
-        {
-            return line.IsYang ? 1u : 0;
-        }
-
-        public static implicit operator Line(bool isYang)
-        {
-            return new Line(isYang);
-        }
+    public static implicit operator Line(bool isYang)
+    {
+        return new Line(isYang);
     }
 }

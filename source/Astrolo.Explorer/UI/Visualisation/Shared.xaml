@@ -14,6 +14,7 @@
             </astrolo:SpacingPanel>
             <ListBox ItemsSource="{Binding GroupedFilters}" IsEnabled="{Binding IsSelected}" SelectionMode="Extended" DisplayMemberPath="Label"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      VirtualizingPanel.IsVirtualizing='False'
                      VirtualizingPanel.IsVirtualizingWhenGrouping='True'
                      VirtualizingPanel.ScrollUnit="Item">

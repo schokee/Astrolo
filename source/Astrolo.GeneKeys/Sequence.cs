@@ -1,10 +1,9 @@
-namespace Astrolo.GeneKeys
+namespace Astrolo.GeneKeys;
+
+public enum Sequence
 {
-    public enum Sequence
-    {
-        Activation,
-        Venus,
-        Pearl,
-        StarPearl
-    }
+    Activation,
+    Venus,
+    Pearl,
+    StarPearl
 }

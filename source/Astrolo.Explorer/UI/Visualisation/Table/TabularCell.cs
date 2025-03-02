@@ -1,24 +1,23 @@
+using Astrolo.Explorer.Components;
 using Astrolo.GeneKeys;
-using Astrolo.Presentation.Core.Components;
 using Astrolo.YiJing;
 
-namespace Astrolo.Explorer.UI.Visualisation.Table
+namespace Astrolo.Explorer.UI.Visualisation.Table;
+
+public class TabularCell : Selectable
 {
-    public class TabularCell : Selectable
+    public TabularCell(IGeneKey key)
     {
-        public TabularCell(IGeneKey key)
-        {
-            Key = key;
-            IsSelected = true;
-        }
+        Key = key;
+        IsSelected = true;
+    }
 
-        public IGeneKey Key { get; }
+    public IGeneKey Key { get; }
 
-        public HexagramFigure Hexagram => Key.Hexagram;
+    public HexagramFigure Hexagram => Key.Hexagram;
 
-        public override string ToString()
-        {
-            return Hexagram.ToString();
-        }
+    public override string ToString()
+    {
+        return Hexagram.ToString();
     }
 }

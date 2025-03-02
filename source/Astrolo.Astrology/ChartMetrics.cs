@@ -1,29 +1,22 @@
 using Astrolo.Geometry;
 
-namespace Astrolo.Astrology
+namespace Astrolo.Astrology;
+
+public class ChartMetrics(Rectangle bounds)
 {
-    public class ChartMetrics
+    public const int DegreesPerSign = 360 / 12;
+
+    public Rectangle Bounds { get; } = bounds;
+
+    public Circle OuterCircle { get; } = Circle.CenterWithin(bounds);
+
+    public Point StartPoint(ZodiacSign sign)
     {
-        public const int DegreesPerSign = 360 / 12;
+        return OuterCircle.PointAt(StartAngle(sign));
+    }
 
-        public ChartMetrics(Rectangle bounds)
-        {
-            Bounds = bounds;
-            OuterCircle = Circle.CenterWithin(bounds);
-        }
-
-        public Rectangle Bounds { get; }
-
-        public Circle OuterCircle { get; }
-
-        public Point StartPoint(ZodiacSign sign)
-        {
-            return OuterCircle.PointAt(StartAngle(sign));
-        }
-
-        public static Angle StartAngle(ZodiacSign sign)
-        {
-            return Angle.FromDegrees((11 - (int)sign) * DegreesPerSign);
-        }
+    public static Angle StartAngle(ZodiacSign sign)
+    {
+        return Angle.FromDegrees((11 - (int)sign) * DegreesPerSign);
     }
 }

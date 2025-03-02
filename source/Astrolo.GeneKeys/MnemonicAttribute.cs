@@ -1,13 +1,7 @@
-﻿namespace Astrolo.GeneKeys
-{
-    [AttributeUsage(AttributeTargets.All)]
-    public sealed class MnemonicAttribute : Attribute
-    {
-        public MnemonicAttribute(string mnemonic)
-        {
-            Mnemonic = mnemonic;
-        }
+﻿namespace Astrolo.GeneKeys;
 
-        public string Mnemonic { get; }
-    }
+[AttributeUsage(AttributeTargets.All)]
+public sealed class MnemonicAttribute(string mnemonic) : Attribute
+{
+    public string Mnemonic { get; } = mnemonic;
 }

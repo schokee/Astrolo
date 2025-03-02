@@ -1,18 +1,17 @@
-﻿namespace Astrolo.Astrology
+﻿namespace Astrolo.Astrology;
+
+public enum ZodiacSign
 {
-    public enum ZodiacSign
-    {
-        Capricorn,
-        Aquarius,
-        Pisces,
-        Aries,
-        Taurus,
-        Gemini,
-        Cancer,
-        Leo,
-        Virgo,
-        Libra,
-        Scorpio,
-        Sagittarius
-    }
+    Capricorn,
+    Aquarius,
+    Pisces,
+    Aries,
+    Taurus,
+    Gemini,
+    Cancer,
+    Leo,
+    Virgo,
+    Libra,
+    Scorpio,
+    Sagittarius
 }

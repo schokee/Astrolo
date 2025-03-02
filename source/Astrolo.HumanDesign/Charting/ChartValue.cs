@@ -1,25 +1,17 @@
 using Astrolo.Astrology;
 using Astrolo.YiJing;
 
-namespace Astrolo.HumanDesign.Charting
+namespace Astrolo.HumanDesign.Charting;
+
+public sealed class ChartValue(Marker marker, bool isDesign, ILineInfo line)
 {
-    public sealed class ChartValue
-    {
-        public ChartValue(Marker marker, bool isDesign, ILineInfo line)
-        {
-            Marker = marker;
-            IsDesign = isDesign;
-            Line = line;
-        }
+    public Marker Marker { get; } = marker;
 
-        public Marker Marker { get; }
+    public bool IsDesign { get; } = isDesign;
 
-        public bool IsDesign { get; }
+    public IGateInfo Gate => Line.Gate;
 
-        public IGateInfo Gate => Line.Gate;
+    public ILineInfo Line { get; } = line;
 
-        public ILineInfo Line { get; }
-
-        public LineOfHexagram LineOfHexagram => Line.ToLineOfHexagram();
-    }
+    public LineOfHexagram LineOfHexagram => Line.ToLineOfHexagram();
 }

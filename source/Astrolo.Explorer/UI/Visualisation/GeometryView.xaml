@@ -15,7 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <DockPanel>
-        <ContentControl DockPanel.Dock="Right" Content="{Binding Filter}" Width="220" Margin="10,0,0,0" Focusable="False" IsTabStop="False" />
+        <ContentControl DockPanel.Dock="Right" Content="{Binding Filter}" Width="230" Margin="10,0,0,0" Focusable="False" IsTabStop="False" />
         <Grid>
             <ContentControl x:Name="ActiveItem" IsTabStop="False" Focusable="False" />
             <ComboBox x:Name="Items" DisplayMemberPath="DisplayName" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="0,5"/>

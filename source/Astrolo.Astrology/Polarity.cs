@@ -1,8 +1,7 @@
-﻿namespace Astrolo.Astrology
+﻿namespace Astrolo.Astrology;
+
+public enum Polarity
 {
-    public enum Polarity
-    {
-        Negative,
-        Positive
-    }
+    Negative,
+    Positive
 }

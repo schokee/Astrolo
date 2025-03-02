@@ -1,10 +1,9 @@
-﻿namespace Astrolo.Explorer.UI.Cleromancy
+﻿namespace Astrolo.Explorer.UI.Cleromancy;
+
+public partial class ReadingView
 {
-    public partial class ReadingView
+    public ReadingView()
     {
-        public ReadingView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

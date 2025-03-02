@@ -1,10 +1,9 @@
-namespace Astrolo.HumanDesign.Charting
+namespace Astrolo.HumanDesign.Charting;
+
+public enum ChannelMatch
 {
-    public enum ChannelMatch
-    {
-        Attraction,
-        Friendship,
-        Compromise,
-        Dominant
-    }
+    Attraction,
+    Friendship,
+    Compromise,
+    Dominant
 }

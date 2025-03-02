@@ -1,13 +1,12 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public interface ISequence
 {
-    public interface ISequence
-    {
-        string Name { get; }
+    string Name { get; }
 
-        IReadOnlyList<TrigramFigure> Trigrams { get; }
+    IReadOnlyList<TrigramFigure> Trigrams { get; }
 
-        IReadOnlyList<HexagramFigure> Hexagrams { get; }
+    IReadOnlyList<HexagramFigure> Hexagrams { get; }
 
-        HexagramFigure[][] ToTable();
-    }
+    HexagramFigure[][] ToTable();
 }

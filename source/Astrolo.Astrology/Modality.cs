@@ -1,9 +1,8 @@
-﻿namespace Astrolo.Astrology
+﻿namespace Astrolo.Astrology;
+
+public enum Modality
 {
-    public enum Modality
-    {
-        Cardinal,
-        Fixed,
-        Mutable
-    }
+    Cardinal,
+    Fixed,
+    Mutable
 }

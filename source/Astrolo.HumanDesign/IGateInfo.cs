@@ -1,27 +1,26 @@
 using Astrolo.YiJing;
 
-namespace Astrolo.HumanDesign
+namespace Astrolo.HumanDesign;
+
+public interface IGateInfo : IFormattable
 {
-    public interface IGateInfo : IFormattable
-    {
-        int Number { get; }
+    int Number { get; }
 
-        string Name { get; }
+    string Name { get; }
 
-        MandalaSlice MandalaSlice { get; }
+    MandalaSlice MandalaSlice { get; }
 
-        HexagramFigure Hexagram { get; }
+    HexagramFigure Hexagram { get; }
 
-        IReadOnlyCollection<ILineInfo> Lines { get; }
+    IReadOnlyCollection<ILineInfo> Lines { get; }
 
-        ILineInfo this[int line] { get; }
+    ILineInfo this[int line] { get; }
 
-        Center Center { get; }
+    Center Center { get; }
 
-        Circuit Circuit { get; }
+    Circuit Circuit { get; }
 
-        IReadOnlyCollection<IChannel> Channels { get; }
+    IReadOnlyCollection<IChannel> Channels { get; }
 
-        IEnumerable<int> Harmonics { get; }
-    }
+    IEnumerable<int> Harmonics { get; }
 }

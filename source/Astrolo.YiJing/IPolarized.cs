@@ -1,7 +1,6 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public interface IPolarized
 {
-    public interface IPolarized
-    {
-        bool IsYang { get; }
-    }
+    bool IsYang { get; }
 }

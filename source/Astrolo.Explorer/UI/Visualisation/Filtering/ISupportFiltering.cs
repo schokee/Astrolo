@@ -1,7 +1,6 @@
-﻿namespace Astrolo.Explorer.UI.Visualisation.Filtering
+﻿namespace Astrolo.Explorer.UI.Visualisation.Filtering;
+
+public interface ISupportFiltering
 {
-    public interface ISupportFiltering
-    {
-        void UpdateSelection(IHexagramFilter filter);
-    }
+    void UpdateSelection(IHexagramFilter filter);
 }

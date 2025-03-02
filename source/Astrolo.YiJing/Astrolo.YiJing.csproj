@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <NoWarn>1701;1702;NU1702</NoWarn>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +23,7 @@
   <ItemGroup>
     <PackageReference Include="CsvHelper" />
     <PackageReference Include="morelinq" />
+    <PackageReference Include="NuGetizer" />
     <PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
   </ItemGroup>
 

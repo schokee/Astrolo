@@ -1,0 +1,6 @@
+assembly-informational-format: '{MajorMinorPatch}{PreReleaseTagWithDash}'
+mode: ContinuousDelivery
+branches: {}
+ignore:
+  sha: []
+merge-message-formats: {}

@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +25,9 @@
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" />
+    <PackageReference Include="NuGetizer" />
     <PackageReference Include="Sprache" />
+    <PackageReference Include="System.Text.RegularExpressions" />
   </ItemGroup>
 
 </Project>

@@ -1,16 +1,15 @@
-﻿namespace Astrolo.HumanDesign
+﻿namespace Astrolo.HumanDesign;
+
+public enum Center
 {
-    public enum Center
-    {
-        Head,
-        Ajna,
-        Throat,
-        G,
-        Heart,
-        Spleen,
-        [Description("Solar Plexus")]
-        SolarPlexus,
-        Sacral,
-        Root
-    }
+    Head,
+    Ajna,
+    Throat,
+    G,
+    Heart,
+    Spleen,
+    [Description("Solar Plexus")]
+    SolarPlexus,
+    Sacral,
+    Root
 }

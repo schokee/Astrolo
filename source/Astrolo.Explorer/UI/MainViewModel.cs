@@ -2,18 +2,17 @@
 using Astrolo.Explorer.UI.Visualisation;
 using Caliburn.Micro;
 
-namespace Astrolo.Explorer.UI
+namespace Astrolo.Explorer.UI;
+
+internal sealed class MainViewModel : Conductor<Screen>.Collection.OneActive
 {
-    internal sealed class MainViewModel : Conductor<Screen>.Collection.OneActive
+    public MainViewModel(ReadingViewModel reading, GeometryViewModel geometry)
     {
-        public MainViewModel(ReadingViewModel reading, GeometryViewModel geometry)
-        {
-            DisplayName = "Astrolo";
+        DisplayName = "Astrolo " + ProductInfo.Version;
 
-            Items.Add(geometry);
-            Items.Add(reading);
+        Items.Add(geometry);
+        Items.Add(reading);
 
-            ActiveItem = geometry;
-        }
+        ActiveItem = geometry;
     }
 }

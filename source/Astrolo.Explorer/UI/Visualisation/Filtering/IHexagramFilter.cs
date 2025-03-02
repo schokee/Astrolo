@@ -1,10 +1,17 @@
-﻿using Astrolo.Presentation.Core.Components;
+﻿using Astrolo.Explorer.Components;
 using Astrolo.YiJing;
 
-namespace Astrolo.Explorer.UI.Visualisation.Filtering
+namespace Astrolo.Explorer.UI.Visualisation.Filtering;
+
+[Flags]
+public enum VisualStates
 {
-    public interface IHexagramFilter : ISelectable
-    {
-        bool Includes(HexagramFigure hexagram);
-    }
+    None,
+    Selected = 1,
+    Emphasized = 3
+}
+
+public interface IHexagramFilter : ISelectable
+{
+    VisualStates GetState(HexagramFigure hexagram);
 }

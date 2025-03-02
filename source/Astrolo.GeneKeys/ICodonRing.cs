@@ -1,13 +1,12 @@
-namespace Astrolo.GeneKeys
+namespace Astrolo.GeneKeys;
+
+public interface ICodonRing : IFormattable
 {
-    public interface ICodonRing : IFormattable
-    {
-        CodonRing Id { get; }
+    CodonRing Id { get; }
 
-        string Name { get; }
+    string Name { get; }
 
-        IReadOnlyList<int> Sequence { get; }
+    IReadOnlyList<int> Sequence { get; }
 
-        string ArcanaArchetype { get; }
-    }
+    string ArcanaArchetype { get; }
 }

@@ -1,14 +1,13 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public enum Trigram
 {
-    public enum Trigram
-    {
-        Earth,
-        Thunder,
-        Water,
-        Lake,
-        Mountain,
-        Fire,
-        Wind,
-        Heaven
-    }
+    Earth,
+    Thunder,
+    Water,
+    Lake,
+    Mountain,
+    Fire,
+    Wind,
+    Heaven
 }

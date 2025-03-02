@@ -1,7 +1,6 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public interface IFigure : IEnumerable<Line>
 {
-    public interface IFigure : IEnumerable<Line>
-    {
-        int LineCount { get; }
-    }
+    int LineCount { get; }
 }

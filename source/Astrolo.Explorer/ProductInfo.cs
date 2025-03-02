@@ -1,19 +1,18 @@
 ﻿using System.Reflection;
 
-namespace Astrolo.Explorer
+namespace Astrolo.Explorer;
+
+static class ProductInfo
 {
-    static class ProductInfo
+    static ProductInfo()
     {
-        static ProductInfo()
-        {
-            var assembly = Assembly.GetEntryAssembly();
+        var assembly = Assembly.GetEntryAssembly();
 
-            ProductName = assembly!.GetCustomAttribute<AssemblyProductAttribute>().Product;
-            Version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
-        }
-
-        public static string ProductName { get; }
-
-        public static string Version { get; }
+        ProductName = assembly!.GetCustomAttribute<AssemblyProductAttribute>().Product;
+        Version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion;
     }
+
+    public static string ProductName { get; }
+
+    public static string Version { get; }
 }

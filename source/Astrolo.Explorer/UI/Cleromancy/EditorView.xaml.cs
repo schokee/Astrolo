@@ -1,10 +1,9 @@
-﻿namespace Astrolo.Explorer.UI.Cleromancy
+﻿namespace Astrolo.Explorer.UI.Cleromancy;
+
+public partial class EditorView
 {
-    public partial class EditorView
+    public EditorView()
     {
-        public EditorView()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

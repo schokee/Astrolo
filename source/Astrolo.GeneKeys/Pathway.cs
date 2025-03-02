@@ -1,18 +1,17 @@
-﻿namespace Astrolo.GeneKeys
+﻿namespace Astrolo.GeneKeys;
+
+public enum Pathway
 {
-    public enum Pathway
-    {
-        Challenge,
-        Breakthrough,
-        CoreStability,
-        Dharma,
-        Karma,
-        Intelligence,
-        Love,
-        Realisation,
-        Initiative,
-        Growth,
-        Service,
-        Quantum,
-    }
+    Challenge,
+    Breakthrough,
+    CoreStability,
+    Dharma,
+    Karma,
+    Intelligence,
+    Love,
+    Realisation,
+    Initiative,
+    Growth,
+    Service,
+    Quantum,
 }

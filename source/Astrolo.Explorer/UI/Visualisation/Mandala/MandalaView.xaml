@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2010"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:astrolo="http://schemas.astrolo.org/"
-             xmlns:converters="clr-namespace:Astrolo.Presentation.Core.Converters;assembly=Astrolo.Presentation.Core"
+             xmlns:humanDesign="clr-namespace:Astrolo.HumanDesign;assembly=Astrolo.HumanDesign"
+             xmlns:converters="clr-namespace:Astrolo.Explorer.Converters"
              xmlns:local="clr-namespace:Astrolo.Explorer.UI.Visualisation.Mandala"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800"
@@ -65,6 +66,41 @@
                 <astrolo:ConcentricPanel Band="3" Thickness="40" />
                 <astrolo:ZodiacRing astrolo:ConcentricPanel.Band="4" Padding="3" IconSize="14" Thickness="20" />
                 <astrolo:HaloDisc astrolo:ConcentricPanel.Band="5" Fill="White" />
+
+                <ItemsControl astrolo:ConcentricPanel.Band="5" ItemsSource="{Binding Rays}">
+                    <ItemsControl.Style>
+                        <Style TargetType="{x:Type ItemsControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFilterActive}" Value="False">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.8"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.Style>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type humanDesign:MandalaSlice}">
+                            <astrolo:HaloSlice Fill="LemonChiffon" Angle="{Binding Path=StartAngle.Degrees, Mode=OneWay}" Spread="{Binding Path=SweepAngle.Degrees, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
                 <ItemsControl Style="{StaticResource ItemsStyle}" astrolo:ConcentricPanel.Band="1" >
                     <ItemsControl.ItemContainerStyle>
@@ -131,7 +167,7 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
 
-                <astrolo:BodyGraph astrolo:ConcentricPanel.Band="5" Margin="28,20,20,20" Chart="{Binding Chart}" ShowGates="{Binding IsFilterActive}">
+                <astrolo:BodyGraph astrolo:ConcentricPanel.Band="5" Margin="28,20,20,20" Chart="{Binding Chart, Mode=OneTime}" ShowGates="{Binding IsFilterActive}">
                     <astrolo:BodyGraph.GateTemplate>
                         <DataTemplate DataType="{x:Type local:MandalaFigure}">
                             <Grid MinHeight="6.5" MinWidth="6.5" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"

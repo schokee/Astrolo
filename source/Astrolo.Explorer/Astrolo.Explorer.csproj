@@ -6,7 +6,6 @@
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
     <IsPackable>false</IsPackable>
-    <PackageIcon></PackageIcon>
     <ApplicationIcon>YinYang.ico</ApplicationIcon>
   </PropertyGroup>
 
@@ -22,13 +21,14 @@
     <PackageReference Include="JetBrains.Annotations" />
     <PackageReference Include="MahApps.Metro" />
     <PackageReference Include="MahApps.Metro.IconPacks.Material" />
+    <PackageReference Include="Newtonsoft.Json" />
     <PackageReference Include="Serilog.Sinks.Debug" />
     <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="System.Reactive" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Astrolo.Presentation.Controls\Astrolo.Presentation.Controls.csproj" />
-    <ProjectReference Include="..\Astrolo.Presentation.Core\Astrolo.Presentation.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,10 +43,6 @@
     <None Update="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <None Update="YinYang.ico">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
 

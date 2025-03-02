@@ -1,13 +1,12 @@
-﻿namespace Astrolo.HumanDesign
+﻿namespace Astrolo.HumanDesign;
+
+public enum Circuit
 {
-    public enum Circuit
-    {
-        Centering,
-        Defense,
-        Ego,
-        Knowing,
-        Retreat,
-        Sensing,
-        Understanding
-    }
+    Centering,
+    Defense,
+    Ego,
+    Knowing,
+    Retreat,
+    Sensing,
+    Understanding
 }

@@ -1,33 +1,46 @@
+using Astrolo.Explorer.Components;
 using Astrolo.GeneKeys;
 using Astrolo.Geometry;
 using Astrolo.HumanDesign;
-using Astrolo.Presentation.Core.Components;
 using Astrolo.YiJing;
 
-namespace Astrolo.Explorer.UI.Visualisation.Mandala
+namespace Astrolo.Explorer.UI.Visualisation.Mandala;
+
+public sealed class MandalaFigure : Selectable, IGateConfiguration
 {
-    public sealed class MandalaFigure : Selectable, IGateConfiguration
+    private static readonly Angle Half = Seconds.ToAngle(MandalaGeometry.SecondsPerHexagram / 2);
+    private bool _isEmphasized;
+
+    public MandalaFigure(IGeneKey geneKey)
     {
-        private static readonly Angle Half = Seconds.ToAngle(MandalaGeometry.SecondsPerHexagram / 2);
+        GeneKey = geneKey;
+        IsSelected = true;
+    }
 
-        public MandalaFigure(IGeneKey geneKey)
-        {
-            GeneKey = geneKey;
-            IsSelected = true;
-        }
+    public IGeneKey GeneKey { get; }
 
-        public IGeneKey GeneKey { get; }
+    public HexagramFigure Hexagram => GeneKey.Hexagram;
 
-        public HexagramFigure Hexagram => GeneKey.Hexagram;
+    public double StartAngle => GeneKey.Gate.MandalaSlice.StartAngle - Half;
 
-        public double StartAngle => GeneKey.Gate.MandalaSlice.StartAngle - Half;
+    public bool IsEmphasized
+    {
+        get => _isEmphasized;
+        set => Set(ref _isEmphasized, value);
+    }
 
-        #region IGateConfiguration
+    #region IGateConfiguration
 
-        public IGateInfo Gate => GeneKey.Gate;
-        public bool IsActive => IsSelected;
-        public GateActivation ActivationState => GateActivation.None;
+    public IGateInfo Gate => GeneKey.Gate;
+    public bool IsActive => IsSelected;
+    public GateActivation ActivationState => IsSelected ? GateActivation.Personality : GateActivation.None;
 
-        #endregion
+    #endregion
+
+    protected override void OnSelectionChanged()
+    {
+        base.OnSelectionChanged();
+        NotifyOfPropertyChange(nameof(IsActive));
+        NotifyOfPropertyChange(nameof(ActivationState));
     }
 }

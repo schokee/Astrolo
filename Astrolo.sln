@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C32BFC1-B708-41E2-BFC1-DEBC91E2735F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		GitVersion.yml = GitVersion.yml
+		global.json = global.json
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{87683907-7071-4E5C-A5EB-EDB9A96A906F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B88EBEDC-FDC0-46C8-B34B-AF6724157454}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.Core", "source\Astrolo.Core\Astrolo.Core.csproj", "{6103773A-4CC9-4D1F-90DC-F089D9844858}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.Geometry", "source\Astrolo.Geometry\Astrolo.Geometry.csproj", "{FDC50567-221D-4376-9021-F88B584A110A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.Astrology", "source\Astrolo.Astrology\Astrolo.Astrology.csproj", "{9D2268DE-32DB-4815-8A3D-C1AD3852B323}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.YiJing", "source\Astrolo.YiJing\Astrolo.YiJing.csproj", "{BAC663FC-7515-474D-983C-4EE0667FF6A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.HumanDesign", "source\Astrolo.HumanDesign\Astrolo.HumanDesign.csproj", "{8523C18C-7A2A-40BA-88FA-ABEA6087F5A2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.GeneKeys", "source\Astrolo.GeneKeys\Astrolo.GeneKeys.csproj", "{558CCA33-D1B8-47D4-9262-1A5A8A4D7647}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{5C22C3D1-B3CF-4277-8E04-A566D1A1ABB0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.Presentation.Controls", "source\Astrolo.Presentation.Controls\Astrolo.Presentation.Controls.csproj", "{391F1384-462E-4031-A8BE-081BE81A5DDE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controls", "Controls", "{E030010E-ECE1-4E4D-870A-339F43D4ACD9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.Explorer", "source\Astrolo.Explorer\Astrolo.Explorer.csproj", "{5816B06A-A59C-41BD-901E-75D976FA6A2A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Astrolo.Tests", "tests\Astrolo.Tests\Astrolo.Tests.csproj", "{09BA1989-ECAD-4163-A8F6-81454E3E08D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6103773A-4CC9-4D1F-90DC-F089D9844858}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6103773A-4CC9-4D1F-90DC-F089D9844858}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6103773A-4CC9-4D1F-90DC-F089D9844858}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6103773A-4CC9-4D1F-90DC-F089D9844858}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDC50567-221D-4376-9021-F88B584A110A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDC50567-221D-4376-9021-F88B584A110A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDC50567-221D-4376-9021-F88B584A110A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDC50567-221D-4376-9021-F88B584A110A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D2268DE-32DB-4815-8A3D-C1AD3852B323}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D2268DE-32DB-4815-8A3D-C1AD3852B323}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D2268DE-32DB-4815-8A3D-C1AD3852B323}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D2268DE-32DB-4815-8A3D-C1AD3852B323}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAC663FC-7515-474D-983C-4EE0667FF6A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAC663FC-7515-474D-983C-4EE0667FF6A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAC663FC-7515-474D-983C-4EE0667FF6A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAC663FC-7515-474D-983C-4EE0667FF6A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8523C18C-7A2A-40BA-88FA-ABEA6087F5A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8523C18C-7A2A-40BA-88FA-ABEA6087F5A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8523C18C-7A2A-40BA-88FA-ABEA6087F5A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8523C18C-7A2A-40BA-88FA-ABEA6087F5A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558CCA33-D1B8-47D4-9262-1A5A8A4D7647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558CCA33-D1B8-47D4-9262-1A5A8A4D7647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558CCA33-D1B8-47D4-9262-1A5A8A4D7647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558CCA33-D1B8-47D4-9262-1A5A8A4D7647}.Release|Any CPU.Build.0 = Release|Any CPU
+		{391F1384-462E-4031-A8BE-081BE81A5DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{391F1384-462E-4031-A8BE-081BE81A5DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{391F1384-462E-4031-A8BE-081BE81A5DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{391F1384-462E-4031-A8BE-081BE81A5DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5816B06A-A59C-41BD-901E-75D976FA6A2A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5816B06A-A59C-41BD-901E-75D976FA6A2A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5816B06A-A59C-41BD-901E-75D976FA6A2A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5816B06A-A59C-41BD-901E-75D976FA6A2A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09BA1989-ECAD-4163-A8F6-81454E3E08D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BA1989-ECAD-4163-A8F6-81454E3E08D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BA1989-ECAD-4163-A8F6-81454E3E08D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BA1989-ECAD-4163-A8F6-81454E3E08D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6103773A-4CC9-4D1F-90DC-F089D9844858} = {87683907-7071-4E5C-A5EB-EDB9A96A906F}
+		{FDC50567-221D-4376-9021-F88B584A110A} = {87683907-7071-4E5C-A5EB-EDB9A96A906F}
+		{9D2268DE-32DB-4815-8A3D-C1AD3852B323} = {87683907-7071-4E5C-A5EB-EDB9A96A906F}
+		{BAC663FC-7515-474D-983C-4EE0667FF6A1} = {87683907-7071-4E5C-A5EB-EDB9A96A906F}
+		{8523C18C-7A2A-40BA-88FA-ABEA6087F5A2} = {87683907-7071-4E5C-A5EB-EDB9A96A906F}
+		{558CCA33-D1B8-47D4-9262-1A5A8A4D7647} = {87683907-7071-4E5C-A5EB-EDB9A96A906F}
+		{391F1384-462E-4031-A8BE-081BE81A5DDE} = {E030010E-ECE1-4E4D-870A-339F43D4ACD9}
+		{5816B06A-A59C-41BD-901E-75D976FA6A2A} = {5C22C3D1-B3CF-4277-8E04-A566D1A1ABB0}
+		{09BA1989-ECAD-4163-A8F6-81454E3E08D6} = {B88EBEDC-FDC0-46C8-B34B-AF6724157454}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {083B76EE-F54A-49DA-8CEE-038A1E48D2C4}
+	EndGlobalSection
+EndGlobal

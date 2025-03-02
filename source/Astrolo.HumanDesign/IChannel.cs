@@ -1,11 +1,10 @@
-namespace Astrolo.HumanDesign
+namespace Astrolo.HumanDesign;
+
+public interface IChannel : IEnumerable<IGateInfo>
 {
-    public interface IChannel : IEnumerable<IGateInfo>
-    {
-        string Name { get; }
+    string Name { get; }
 
-        IGateInfo StartGate { get; }
+    IGateInfo StartGate { get; }
 
-        IGateInfo EndGate { get; }
-    }
+    IGateInfo EndGate { get; }
 }

@@ -1,25 +1,23 @@
 ﻿using Astrolo.Explorer.Properties;
-using Astrolo.Presentation.Core;
 
-namespace Astrolo.Explorer.UI
+namespace Astrolo.Explorer.UI;
+
+public partial class MainWindow
 {
-    public partial class MainWindow
+    public MainWindow()
     {
-        public MainWindow()
-        {
-            InitializeComponent();
+        InitializeComponent();
 
-            Closing += delegate
-            {
-                Settings.Default.MainWindowPlacement = this.GetPlacement();
-                Settings.Default.Save();
-            };
-        }
-
-        protected override void OnSourceInitialized(EventArgs e)
+        Closing += delegate
         {
-            base.OnSourceInitialized(e);
-            this.SetPlacement(Settings.Default.MainWindowPlacement);
-        }
+            Settings.Default.MainWindowPlacement = this.GetPlacement();
+            Settings.Default.Save();
+        };
+    }
+
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+        this.SetPlacement(Settings.Default.MainWindowPlacement);
     }
 }

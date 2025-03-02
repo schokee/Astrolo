@@ -1,17 +1,10 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public readonly struct Movement(Line startState, Line endState)
 {
-    public readonly struct Movement
-    {
-        public Movement(Line startState, Line endState)
-        {
-            StartState = startState;
-            EndState = endState;
-        }
+    public Line StartState { get; } = startState;
 
-        public Line StartState { get; }
+    public Line EndState { get; } = endState;
 
-        public Line EndState { get; }
-
-        public bool IsChange => EndState != StartState;
-    }
+    public bool IsChange => EndState != StartState;
 }

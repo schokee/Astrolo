@@ -1,15 +1,14 @@
-﻿namespace Astrolo.YiJing
+﻿namespace Astrolo.YiJing;
+
+public interface IHexagramInfo
 {
-    public interface IHexagramInfo
-    {
-        public int Number { get; }
+    public int Number { get; }
 
-        public string Title { get; }
+    public string Title { get; }
 
-        public Trigram LowerTrigram { get; }
+    public Trigram LowerTrigram { get; }
 
-        public Trigram UpperTrigram { get; }
+    public Trigram UpperTrigram { get; }
 
-        public YiSpherePoint SphereLocation { get; }
-    }
+    public YiSpherePoint SphereLocation { get; }
 }

@@ -1,9 +1,8 @@
-﻿namespace Astrolo.HumanDesign
+﻿namespace Astrolo.HumanDesign;
+
+public enum CenterState
 {
-    public enum CenterState
-    {
-        Open,
-        Undefined,
-        Defined
-    }
+    Open,
+    Undefined,
+    Defined
 }
