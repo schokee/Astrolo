@@ -1,0 +1,211 @@
+<UserControl x:Class="Astrolo.Explorer.UI.Visualisation.Mandala.MandalaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2010"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:astrolo="http://schemas.astrolo.org/"
+             xmlns:humanDesign="clr-namespace:Astrolo.HumanDesign;assembly=Astrolo.HumanDesign"
+             xmlns:converters="clr-namespace:Astrolo.Explorer.Converters"
+             xmlns:local="clr-namespace:Astrolo.Explorer.UI.Visualisation.Mandala"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance {x:Type local:MandalaViewModel}, IsDesignTimeCreatable=false}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/UI/Visualisation/Shared.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="TooltipTemplate" DataType="{x:Type local:MandalaFigure}">
+                <astrolo:SpacingPanel Orientation="Vertical" Width="150" Spacing="4">
+                    <TextBlock Text="{Binding Hexagram}"  FontWeight="SemiBold" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Hexagram, StringFormat=t}" Foreground="Gainsboro"/>
+                    <TextBlock FontStyle="Italic">
+                        <Run Text="{Binding Path=GeneKey.Siddhi, Mode=OneTime}" Foreground="{StaticResource Brush.Gk.Siddhi}"/><LineBreak/>
+                        <Run Text="{Binding Path=GeneKey.Gift, Mode=OneTime}" Foreground="{StaticResource Brush.Gk.Gift}"/><LineBreak/>
+                        <Run Text="{Binding Path=GeneKey.Shadow, Mode=OneTime}" Foreground="{StaticResource Brush.Gk.Shadow}"/>
+                    </TextBlock>
+                    <TextBlock Text="{Binding Path=GeneKey.ProgrammingPartner.Number, StringFormat={}Prog. Partner {0}}" />
+                    <TextBlock Text="{Binding Path=GeneKey.CodonRing, StringFormat=R, Mode=OneTime}" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding Path=Gate, Mode=OneTime, StringFormat=g}" TextWrapping="Wrap"/>
+                </astrolo:SpacingPanel>
+            </DataTemplate>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <DockPanel>
+        <astrolo:SpacingPanel DockPanel.Dock="Top" HorizontalAlignment="Right" >
+            <TextBlock Text="Aspect" VerticalAlignment="Center" FontSize="14" />
+            <ComboBox x:Name="Aspect" ItemsSource="{converters:EnumValues {x:Type astrolo:HexagramAspect}}" SelectedIndex="2" Width="150" VerticalAlignment="Center"/>
+            <Label FontSize="{DynamicResource MahApps.Font.Size.ToggleSwitch}" VerticalContentAlignment="Center">Show Binary</Label>
+            <mah:ToggleSwitch x:Name="ViewBinary" IsOn="{Binding ShowBinary}" MinWidth="100" />
+        </astrolo:SpacingPanel>
+        <Viewbox Stretch="Uniform">
+            <astrolo:ConcentricPanel Width="660" Height="660">
+                <astrolo:ConcentricPanel.Resources>
+                    <Style x:Key="ItemContainerStyle" TargetType="{x:Type ContentPresenter}" d:Style.DataContext="{d:DesignInstance {x:Type local:MandalaFigure}}">
+                        <Setter Property="astrolo:OrbitPanel.Angle" Value="{Binding StartAngle, Mode=OneWay}"/>
+                    </Style>
+
+                    <Style x:Key="ItemsStyle" TargetType="{x:Type ItemsControl}">
+                        <Setter Property="Focusable" Value="False"/>
+                        <Setter Property="IsTabStop" Value="False"/>
+                        <Setter Property="ItemsSource" Value="{Binding GeneKeys}"/>
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <astrolo:OrbitPanel IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </astrolo:ConcentricPanel.Resources>
+
+                <astrolo:HaloSpokeWheel StartAngle="{Binding StartAngle, Mode=OneTime}" Spokes="64" StrokeThickness="1" Stroke="WhiteSmoke"/>
+
+                <astrolo:ConcentricPanel Band="3" Thickness="40" />
+                <astrolo:ZodiacRing astrolo:ConcentricPanel.Band="4" Padding="3" IconSize="14" Thickness="20" />
+                <astrolo:HaloDisc astrolo:ConcentricPanel.Band="5" Fill="White" />
+
+                <ItemsControl astrolo:ConcentricPanel.Band="5" ItemsSource="{Binding Rays}">
+                    <ItemsControl.Style>
+                        <Style TargetType="{x:Type ItemsControl}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFilterActive}" Value="False">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.8"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.Style>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Grid IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type humanDesign:MandalaSlice}">
+                            <astrolo:HaloSlice Fill="LemonChiffon" Angle="{Binding Path=StartAngle.Degrees, Mode=OneWay}" Spread="{Binding Path=SweepAngle.Degrees, Mode=OneWay}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl Style="{StaticResource ItemsStyle}" astrolo:ConcentricPanel.Band="1" >
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="{x:Type ContentPresenter}" BasedOn="{StaticResource ItemContainerStyle}">
+                            <Setter Property="astrolo:OrbitPanel.TranslateOnly" Value="True"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:MandalaFigure}">
+                            <StackPanel x:Name="Text" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Path=Hexagram.Number}" FontSize="10" FontWeight="SemiBold" Foreground="DimGray" HorizontalAlignment="Center"/>
+                                <TextBlock Text="{Binding Hexagram, StringFormat=b}" HorizontalAlignment="Center" FontSize="6.5" FontFamily="Consolas" Opacity="0.5"
+                                           Visibility="{Binding IsOn, ElementName=ViewBinary, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding IsSelected}" Value="False">
+                                    <Setter TargetName="Text" Property="Opacity" Value="0.01"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <ItemsControl Style="{StaticResource ItemsStyle}" ItemContainerStyle="{StaticResource ItemContainerStyle}"
+                              astrolo:ConcentricPanel.Thickness="30" astrolo:ConcentricPanel.Band="0">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type local:MandalaFigure}">
+                            <Button Background="Transparent" BorderThickness="0" Focusable="False" IsTabStop="False"
+                                    astrolo:Clicked.Point="{Binding Path=GeneKey.Number, Mode=OneTime}">
+                                <Button.ToolTip>
+                                    <ContentPresenter ContentTemplate="{StaticResource TooltipTemplate}"/>
+                                </Button.ToolTip>
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                            <astrolo:HexagramElement x:Name="Icon" Width="22" Height="26" UseLayoutRounding="True" Hexagram="{Binding Hexagram, Mode=OneTime}"
+                                                                      HexagramAspect="{Binding SelectedValue, ElementName=Aspect}"/>
+                                        </Border>
+
+                                        <ControlTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="False">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation Storyboard.TargetName="Icon" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+                <astrolo:BodyGraph astrolo:ConcentricPanel.Band="5" Margin="28,20,20,20" Chart="{Binding Chart, Mode=OneTime}" ShowGates="{Binding IsFilterActive}">
+                    <astrolo:BodyGraph.GateTemplate>
+                        <DataTemplate DataType="{x:Type local:MandalaFigure}">
+                            <Grid MinHeight="6.5" MinWidth="6.5" Visibility="{Binding IsSelected, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                  UseLayoutRounding="False">
+                                <Ellipse x:Name="Bg" Fill="SteelBlue">
+                                    <Ellipse.ToolTip>
+                                        <ContentPresenter ContentTemplate="{StaticResource TooltipTemplate}"/>
+                                    </Ellipse.ToolTip>
+                                </Ellipse>
+                                <TextBlock FontSize="4" FontFamily="Segoe UI" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-0.5,0,0"
+                                           Text="{Binding Path=Gate.Number}" IsHitTestVisible="False" />
+                            </Grid>
+                        </DataTemplate>
+                    </astrolo:BodyGraph.GateTemplate>
+                    <astrolo:BodyGraph.Style>
+                        <Style TargetType="{x:Type astrolo:BodyGraph}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsFilterActive}" Value="False">
+                                    <DataTrigger.EnterActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.2" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.EnterActions>
+                                    <DataTrigger.ExitActions>
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </DataTrigger.ExitActions>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </astrolo:BodyGraph.Style>
+                </astrolo:BodyGraph>
+            </astrolo:ConcentricPanel>
+        </Viewbox>
+    </DockPanel>
+</UserControl>

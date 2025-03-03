@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>true</IsPackable>
+    <Description>Model of Gene Keys concepts, with mappings to Human Design and I Ching.</Description>
+    <PackageTags>Gene Keys; Human Design; Hexagram</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Metadata\Frequencies.csv" />
+    <None Remove="Metadata\Keynotes.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Metadata\Frequencies.csv" />
+    <EmbeddedResource Include="Metadata\Keynotes.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Astrolo.Astrology\Astrolo.Astrology.csproj" />
+    <ProjectReference Include="..\Astrolo.HumanDesign\Astrolo.HumanDesign.csproj" />
+    <ProjectReference Include="..\Astrolo.YiJing\Astrolo.YiJing.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="NuGetizer" />
+    <PackageReference Include="Sprache" />
+    <PackageReference Include="System.Text.RegularExpressions" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,57 @@
+<Window x:Class="Astrolo.Explorer.Windows.ExceptionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Exception Details"
+        Width="800" Height="600"
+        MinWidth="640" MinHeight="480"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10" FocusManager.FocusedElement="{Binding ElementName=Message}">
+        <Grid.Resources>
+            <Style x:Key="BoldTextBlockStyle" TargetType="{x:Type TextBlock}">
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+                <Setter Property="Foreground" Value="#474747"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+            </Style>
+            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                <Setter Property="Foreground" Value="Black"/>
+                <Setter Property="FontFamily" Value="Consolas"/>
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalContentAlignment" Value="Top"/>
+                <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+                <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+            </Style>
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80" MinHeight="80" MaxHeight="160"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Top" Text="Message" Margin="0,0,0,5" Style="{StaticResource BoldTextBlockStyle}" />
+            <TextBox x:Name="Message" MaxLines="1000" TextWrapping="Wrap"/>
+        </DockPanel>
+
+        <GridSplitter Grid.Row="1" Height="10" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" Background="Transparent"
+                      HorizontalAlignment="Stretch" VerticalAlignment="Center" IsTabStop="False"/>
+
+        <DockPanel Grid.Row="2" >
+            <TextBlock DockPanel.Dock="Top" Text="Details" Margin="0,0,0,5" Style="{StaticResource BoldTextBlockStyle}"/>
+            <TextBox x:Name="Details" MaxLines="1000" />
+        </DockPanel>
+
+        <Button Grid.Row="4" HorizontalAlignment="Right" MinWidth="80" Content="Close" IsCancel="True"/>
+    </Grid>
+</Window>

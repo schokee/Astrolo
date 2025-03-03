@@ -1,0 +1,39 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2010"
+                    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+                    xmlns:filtering="clr-namespace:Astrolo.Explorer.UI.Visualisation.Filtering"
+                    xmlns:astrolo="http://schemas.astrolo.org/"
+                    mc:Ignorable="d">
+    <DataTemplate DataType="{x:Type filtering:InspectionFilterViewModel}">
+        <DockPanel>
+            <astrolo:SpacingPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,5">
+                <Label FontSize="{DynamicResource MahApps.Font.Size.ToggleSwitch}" VerticalContentAlignment="Center">Filter</Label>
+                <mah:ToggleSwitch IsOn="{Binding IsSelected}" />
+            </astrolo:SpacingPanel>
+            <ListBox ItemsSource="{Binding GroupedFilters}" IsEnabled="{Binding IsSelected}" SelectionMode="Extended" DisplayMemberPath="Label"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     VirtualizingPanel.IsVirtualizing='False'
+                     VirtualizingPanel.IsVirtualizingWhenGrouping='True'
+                     VirtualizingPanel.ScrollUnit="Item">
+                <ListBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}" Margin="3,2" FontWeight="SemiBold" Foreground="{StaticResource MahApps.Brushes.Accent}"/>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListBox.GroupStyle>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}"
+                           d:Style.DataContext ="{d:DesignInstance {x:Type filtering:HexagramFilter}, IsDesignTimeCreatable=false}">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

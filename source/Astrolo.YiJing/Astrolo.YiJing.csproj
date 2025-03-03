@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <NoWarn>1701;1702;NU1702</NoWarn>
+    <IsPackable>true</IsPackable>
+    <Description>Model of I Ching concepts.</Description>
+    <PackageTags>Hexagram;Trigram;King Wen;Yarrow sticks</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Metadata\KingWen.csv" />
+    <None Remove="Metadata\YiSphere.csv" />
+    <None Remove="Metadata\YiSphereAlt.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Metadata\KingWen.csv" />
+    <EmbeddedResource Include="Metadata\YiSphere.csv" />
+    <EmbeddedResource Include="Metadata\YiSphereAlt.csv" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CsvHelper" />
+    <PackageReference Include="morelinq" />
+    <PackageReference Include="NuGetizer" />
+    <PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Astrolo.Core\Astrolo.Core.csproj" />
+    <ProjectReference Include="..\Astrolo.Geometry\Astrolo.Geometry.csproj" />
+  </ItemGroup>
+
+</Project>

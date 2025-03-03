@@ -1,0 +1,782 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:humanDesign="clr-namespace:Astrolo.HumanDesign;assembly=Astrolo.HumanDesign"
+                    xmlns:local="clr-namespace:Astrolo.Presentation.Controls"
+                    xmlns:hd="clr-namespace:Astrolo.Presentation.Controls.HumanDesign">
+    <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+    <DataTemplate x:Key="GateTemplate" DataType="{x:Type humanDesign:IGateConfiguration}">
+        <Button MinHeight="6.5" MinWidth="6.5" Focusable="False" IsTabStop="False" Command="{x:Static local:Commands.SelectPointCommand}" CommandParameter="{Binding Gate}">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Ellipse x:Name="Bg" ToolTip="{Binding Path=Gate.Name}">
+                            <Ellipse.Style>
+                                <Style TargetType="{x:Type Ellipse}">
+                                    <Setter Property="Fill" Value="#80C0C0C0"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                            <Setter Property="Fill" Value="Transparent"/>
+                                            <Setter Property="StrokeThickness" Value="0.2"/>
+                                            <Setter Property="Stroke" Value="#FFC0C0C0"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Ellipse.Style>
+                        </Ellipse>
+                        <TextBlock FontSize="4" FontFamily="Segoe UI" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-1,0,0"
+                                   Text="{Binding Path=Gate.Number, FallbackValue=?}" IsHitTestVisible="False" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bg" Property="Fill" Value="Gainsboro"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </DataTemplate>
+
+    <Style TargetType="{x:Type hd:BodyChannel}">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Background" Value="#FFD3D3D3"/>
+        <Setter Property="Foreground" Value="DimGray"/>
+        <Setter Property="Design" Value="Crimson"/>
+        <Setter Property="Panel.ZIndex" Value="10"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type hd:BodyChannel}">
+                    <Canvas>
+                        <Path x:Name="Bg" Data="{TemplateBinding ChannelGeometry}" StrokeThickness="5" Stroke="{TemplateBinding Background}" StrokeStartLineCap="Round" StrokeEndLineCap="Round"/>
+                        <Path x:Name="Fg" Data="{TemplateBinding SplitGeometry}" Fill="{TemplateBinding Foreground}"
+                              Visibility="{TemplateBinding IsSplit, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </Canvas>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ActivationState" Value="None">
+                            <Setter Property="Panel.ZIndex" Value="0"/>
+                        </Trigger>
+                        <Trigger Property="ActivationState" Value="Personality">
+                            <Setter TargetName="Bg" Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Trigger>
+                        <Trigger Property="ActivationState" Value="Design">
+                            <Setter TargetName="Bg" Property="Stroke" Value="{Binding Design, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Trigger>
+                        <Trigger Property="ActivationState" Value="Both">
+                            <Setter TargetName="Bg" Property="Stroke" Value="{Binding Design, RelativeSource={RelativeSource TemplatedParent}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type hd:BodyGraph}">
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="UseLayoutRounding" Value="False"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        <Setter Property="Personality" Value="DimGray"/>
+        <Setter Property="Design" Value="Salmon"/>
+        <Setter Property="ShowGates" Value="true"/>
+        <Setter Property="ShowChannels" Value="true"/>
+        <Setter Property="GateTemplate" Value="{StaticResource GateTemplate}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type hd:BodyGraph}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Viewbox Stretch="Uniform">
+                            <Canvas Width="240" Height="320">
+                                <!-- Body Outline -->
+                                <Path Fill="#FFF5F5F5" StrokeThickness="0.8" Stroke="#FF000000">
+                                    <Path.Data>
+                                        <PathGeometry Figures="m 137.30866 100.47792 c 0.90442 2.15649 2.28884 3.70191 3.82987 5.20851 2.80177 2.73923 5.72891 4.75521 9.62565 6.74866 3.13253 1.6025 6.70347 1.91098 10.68166 2.68235 3.97817 0.77137 8.56247 0.47043 12.17926 2.93034 1.51125 1.02785 3.20855 3.80866 3.20855 3.80866 l 50.86888 123.3464 c 0 0 2.06871 5.00238 0 9.08727 -0.89377 1.76488 -3.47593 4.81091 -3.47593 4.81091 -13.10157 15.76911 -33.09277 33.16046 -51.06942 41.96185 -17.97665 8.80139 -34.58104 11.49272 -55.0801 11.22546 h -4.20585 6.98877 -4.20584 c -20.49907 0.26726 -37.103458 -2.42407 -55.080019 -11.22546 -17.976549 -8.80139 -37.967612 -26.19274 -51.069129 -41.96185 0 0 -2.5821459 -3.04603 -3.4759284 -4.81091 -2.0686923 -4.08489 0 -9.08727 0 -9.08727 L 57.897697 121.85644 c 0 0 1.697304 -2.78081 3.208538 -3.80866 3.616779 -2.45991 8.201035 -2.15897 12.179202 -2.93034 3.978153 -0.77137 8.217545 -2.0153 10.080009 -3.01644 3.855321 -2.07234 6.46327 -2.95267 10.360948 -7.21638 1.743375 -1.90711 2.858512 -3.76479 3.762903 -5.921296 0.56051 -1.336496 0.983083 -4.235072 0.983083 -4.235072 m -4e-5 -2e-6 c 0 0 0.546424 -4.696991 -0.800588 -5.488539 -1.347032 -0.791548 -1.895657 -0.682333 -3.002131 -0.63379 -1.106474 0.04854 -1.739533 0.266005 -3.303895 0.34359 -1.564341 0.07758 -4.358787 -0.258593 -5.671965 -1.700917 -1.313179 -1.442323 -0.977121 -4.010588 -1.14587 -6.150807 -0.114247 -1.449414 -0.203424 -2.434558 0.09384 -4.547806 0.420293 -2.988201 0.235117 -5.367634 -0.03842 -6.038503 -0.273492 -0.670868 -3.741754 -1.865925 -4.014266 -2.161928 -0.462289 -0.50211 -0.594783 -0.919819 -0.189077 -2.267882 0.405706 -1.348063 5.394332 -8.919986 5.148671 -12.017106 -0.245681 -3.09712 -1.820706 -2.832719 -2.434918 -5.081778 -0.614212 -2.24906 1.591732 -12.33355 4.848868 -17.486361 3.257115 -5.152812 8.992007 -9.554038 13.612721 -11.717407 4.62072 -2.163368 8.80375 -1.811846 12.47832 -2.078895 3.67459 -0.267049 6.59648 -0.259351 9.4533 0.188982 2.85679 0.448334 4.27811 0.610538 7.56262 2.267888 3.28448 1.65735 8.3593 5.162434 11.34395 8.504565 2.98464 3.342131 5.12542 7.670832 6.42823 10.961444 1.30282 3.290613 1.82891 5.486332 1.89066 8.315583 0.0618 2.829251 -0.79539 5.440967 -1.51254 8.315574 -0.71716 2.874607 -1.68989 6.104537 -2.83598 8.882553 -1.14609 2.778016 -2.61556 5.134119 -3.97037 7.748604 -1.35482 2.614484 -3.21338 5.904656 -4.15947 7.937597 -0.94609 2.032941 -1.29715 2.794405 -1.7016 4.157793 -0.40444 1.363389 -0.62933 2.101148 -0.75625 3.968799 -0.12685 1.867651 0.0794 5.257337 0.37814 7.181631 0.29858 1.924299 1.13438 4.346786 1.13438 4.346786" FillRule="NonZero"/>
+                                    </Path.Data>
+                                </Path>
+                                <!-- Channels -->
+                                <Canvas x:Name="PART_Channels" Visibility="{TemplateBinding ShowChannels, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[1].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24563 141.55202 v 29.3688" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 139.03854 v 34.39583 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -29.36875 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[2].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24563 170.92082 v 35.19014" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 168.40729 v 40.21718 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -35.1901 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[3].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24563 237.56284 v 28.34404" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 235.04922 v 33.3711 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -28.34402 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[4].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.36609 45.984083 0 19.122374" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 43.470732 v 24.14943 a 2.5135416 2.5135416 0 0 0 2.51354 -2.513541 V 45.984273 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.513541 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[5].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46022 206.11096 v 31.45188" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 203.59739 v 36.47891 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -31.45183 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[6].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 154.37388 245.08356 c 6.60737 -1.73579 13.05207 -4.19792 18.71717 -7.05115 3.94215 -1.98546 7.26529 -4.38205 9.37103 -6.77623" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 151.92509 245.65064 c 1.47367 -0.34459 2.94913 -0.68775 4.40748 -1.10433 1.97271 -0.5635 3.92536 -1.18918 5.84099 -1.86862 1.91563 -0.67943 3.79467 -1.41232 5.61981 -2.18953 1.82515 -0.77721 3.59663 -1.59883 5.29787 -2.45566 0.98554 -0.49637 1.93202 -1.0183 2.83084 -1.5596 0.89881 -0.54129 1.74961 -1.10205 2.54299 -1.67535 0.79339 -0.5733 1.52958 -1.15944 2.19884 -1.75183 0.66925 -0.59238 1.2719 -1.19101 1.79833 -1.78955 l 1.77716 -1.77716 a 2.5135416 2.5135416 0 0 0 -0.11731 -0.11007 2.5135416 2.5135416 0 0 0 -1.62987 -0.62632 2.5135416 2.5135416 0 0 0 -1.91771 0.8537 c -1.78901 2.03406 -4.89071 4.31615 -8.61395 6.19135 -5.49995 2.77005 -11.79435 5.17526 -18.22524 6.8647 a 2.5135416 2.5135416 0 0 0 -1.81023 2.99827 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[7].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46022 141.55202 v 29.3688" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 139.03854 v 34.39583 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -29.36875 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[8].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24563 117.3514 10e-6 24.20063" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 114.83795 v 29.22767 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -24.20059 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[9].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.36609 237.56284 v 28.34404" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 235.04922 v 33.3711 a 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 v -28.34402 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[10].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 97.191315 170.53424 c -29.32718 0.66377 -46.919646 7.89405 -51.634791 25.13449" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 99.702957 170.44799 -2.511475 0.0863 c -1.885029 0.0427 -3.721976 0.11249 -5.509741 0.21032 -1.787766 0.0978 -3.526325 0.22344 -5.216218 0.37828 -1.689894 0.15483 -3.330766 0.33875 -4.922182 0.55242 -1.591415 0.21366 -3.133743 0.45741 -4.626072 0.73174 -1.492332 0.27432 -2.934748 0.5794 -4.327385 0.91622 -1.39264 0.33681 -2.735323 0.70526 -4.027662 1.10639 -1.292339 0.40113 -2.534436 0.83497 -3.725871 1.30225 -1.191432 0.46727 -2.332093 0.96801 -3.422012 1.50326 -1.089922 0.53526 -2.128806 1.10492 -3.116606 1.70998 -0.987801 0.60505 -1.924572 1.24568 -2.809648 1.92236 -0.885076 0.67669 -1.718881 1.38926 -2.500622 2.13941 -0.781743 0.75014 -1.511728 1.53772 -2.18953 2.36316 -0.677802 0.82544 -1.303115 1.68901 -1.876372 2.59157 -0.573254 0.90256 -1.094076 1.84416 -1.562179 2.82567 -0.468101 0.9815 -0.883576 2.00265 -1.245918 3.06493 -0.362342 1.06228 -0.671618 2.1655 -0.927592 3.31039 -0.07178 0.32104 -0.107969 0.643 -0.151929 0.9648 a 2.5135416 2.5135416 0 0 0 2.947106 -1.79576 c 2.171317 -7.93918 7.079948 -13.36015 15.228012 -17.16949 8.148063 -3.80934 19.570715 -5.7874 34.039264 -6.11487 a 2.5135416 2.5135416 0 0 0 2.455664 -2.56987 2.5135416 2.5135416 0 0 0 -0.0011 -0.0295 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[11].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.3661 65.106457 0 27.761649" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 62.593079 v 32.788696 a 2.5135416 2.5135416 0 0 0 2.51354 -2.513542 V 65.106621 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[12].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 189.14616 195.06617 c -4.72742 -15.57753 -11.76475 -30.64958 -21.21739 -43.38041 -9.1646 -12.34287 -20.7341 -23.30633 -33.64662 -31.10194 -6.16479 -3.72185 -12.33091 -6.41219 -17.03954 -6.44124" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.25796 111.62884 a 2.5135416 2.5135416 0 0 0 -2.52905 2.49804 2.5135416 2.5135416 0 0 0 0.0104 0.24133 c 0.19041 -0.0302 0.39064 -0.0803 0.57774 -0.10387 0.63695 -0.0803 1.25436 -0.12195 1.84898 -0.12195 0.58979 0 1.20237 0.0424 1.83555 0.1235 0.63318 0.0811 1.28671 0.2008 1.9575 0.35657 0.67079 0.15577 1.35877 0.3476 2.06137 0.57154 0.70261 0.22395 1.42008 0.48019 2.14871 0.76585 1.45726 0.5713 2.96047 1.25933 4.48706 2.03863 1.5266 0.7793 3.07648 1.64984 4.62608 2.58537 1.61406 0.97446 3.20695 1.9986 4.77697 3.06855 1.57002 1.06995 3.11716 2.18551 4.63899 3.34398 1.52183 1.15847 3.01861 2.35978 4.4881 3.59978 1.46949 1.24 2.9118 2.51881 4.3248 3.83336 1.413 1.31454 2.79673 2.66468 4.1491 4.04678 1.35237 1.3821 2.67341 2.79634 3.961 4.23902 1.28758 1.44267 2.54132 2.91381 3.75998 4.41006 1.21865 1.49626 2.40201 3.01759 3.54758 4.56045 1.20811 1.62708 2.37683 3.29221 3.50625 4.99194 1.12942 1.69973 2.21943 3.43394 3.2706 5.19865 1.05118 1.76472 2.06366 3.56006 3.03702 5.3821 0.97337 1.82204 1.90796 3.6706 2.80397 5.5423 0.896 1.8717 1.75337 3.76658 2.57245 5.68027 0.81908 1.91369 1.5999 3.84646 2.34249 5.79448 0.7426 1.94802 1.44702 3.91126 2.11357 5.88595 0.66655 1.97468 1.29525 3.96099 1.88619 5.95467 0.13402 0.45214 0.24616 0.91242 0.37569 1.36633 a 2.5135416 2.5135416 0 0 0 0.0393 -0.0114 2.5135416 2.5135416 0 0 0 1.67534 -3.13468 c -4.79788 -15.80971 -11.94214 -31.13546 -21.60488 -44.14925 -9.3435 -12.58381 -21.12888 -23.76398 -34.36534 -31.75516 -6.34084 -3.82814 -12.67097 -6.76834 -18.32343 -6.80321 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[13].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.36609 141.55202 v 29.3688" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 139.03854 v 34.39583 a 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 v -29.36875 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[14].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24563 206.11096 v 31.45188" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 203.59739 v 36.47891 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -31.45183 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[15].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46022 170.92082 v 35.19014" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 168.40729 v 40.21718 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -35.1901 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[16].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24568 104.68142 c -0.0266 -9e-5 -0.0533 -1.4e-4 -0.0799 -1.4e-4 v 0 c -7.78452 0 -15.37459 3.73421 -22.009026 7.80478 -14.052457 8.6219 -26.037664 20.82457 -35.854547 34.06684 -9.965385 13.44256 -17.724963 28.83617 -22.501412 44.87163 -0.155528 0.52213 -0.307314 1.04542 -0.45542 1.56982" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 119.75444 104.83288 c -0.85988 -0.0888 -1.72212 -0.15142 -2.58847 -0.15142 -0.97306 0 -1.94336 0.0584 -2.90886 0.16847 -0.9655 0.11006 -1.92652 0.27168 -2.88148 0.47852 -0.95497 0.20684 -1.90385 0.45844 -2.8453 0.7488 -0.94146 0.29035 -1.87538 0.61919 -2.80035 0.97978 -0.92497 0.36059 -1.84109 0.75343 -2.7466 1.17099 -0.90552 0.41756 -1.80048 0.86011 -2.68356 1.32136 -1.76617 0.92251 -3.484229 1.91913 -5.142838 2.93678 -1.756558 1.07773 -3.481054 2.2115 -5.172811 3.39617 -1.691759 1.18468 -3.35091 2.42042 -4.977473 3.7021 -1.626566 1.28168 -3.220646 2.60929 -4.781622 3.97805 -1.560975 1.36877 -3.088706 2.77863 -4.5837 4.22455 -1.494991 1.44592 -2.957163 2.92792 -4.385778 4.44107 -1.428615 1.51316 -2.823951 3.05717 -4.18579 4.62763 -1.361842 1.57045 -2.690098 3.1674 -3.984771 4.78524 -1.294672 1.61783 -2.555605 3.25656 -3.782713 4.91184 -1.245674 1.68032 -2.457114 3.39119 -3.632338 5.12992 -1.175223 1.73873 -2.314591 3.50532 -3.416329 5.29735 -1.101738 1.79203 -2.165805 3.60958 -3.19102 5.4498 -1.025213 1.84022 -2.011267 3.70345 -2.956925 5.58674 -0.945656 1.88328 -1.850986 3.78641 -2.714046 5.70766 -0.86306 1.92124 -1.683919 3.86054 -2.461347 5.81463 -0.777431 1.95409 -1.511107 3.92325 -2.199868 5.90506 -0.68876 1.98182 -1.332542 3.97609 -1.929598 5.98052 -0.394488 1.32437 -0.731628 2.66599 -1.079003 4.00441 a 2.5135416 2.5135416 0 0 0 3.042193 -1.75132 c 0.144894 -0.51302 0.293362 -1.02472 0.44545 -1.53531 4.689469 -15.74345 12.321413 -30.88585 22.111827 -44.09239 9.673952 -13.04947 21.455408 -25.01901 35.149792 -33.42122 6.490128 -3.98203 13.714168 -7.43366 20.694858 -7.43366 0.0238 0 0.0475 -7e-5 0.0713 0 a 2.5135416 2.5135416 0 0 0 2.51715 -2.36212 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[17].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46023 65.106457 0 27.761649" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 62.593079 v 32.788696 a 2.5135416 2.5135416 0 0 0 2.51355 -2.513542 V 65.106621 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[18].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 31.642579,245.00413 v 7.22438 c -1.48e-4,1.43214 0.327908,2.84526 0.958985,4.13086 6.180576,12.58257 14.941309,23.56379 25.754186,31.76624" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 31.642513,242.49062 v 2.51354 7.22437 c -7.4e-5,0.71607 0.082,1.42728 0.242879,2.12028 0.16088,0.693 0.400698,1.36793 0.716235,2.01073 0.838695,1.70744 1.724803,3.38518 2.657203,5.0307 0.932397,1.64552 1.911241,3.25868 2.934705,4.83639 1.023461,1.57774 2.091534,3.11999 3.203422,4.62402 1.111887,1.50402 2.26723,2.96958 3.464903,4.39404 1.197674,1.42446 2.437813,2.80802 3.718637,4.14705 1.280822,1.339 2.602251,2.63374 3.963583,3.88141 1.361331,1.24767 2.762607,2.4483 4.201811,3.59873 1.186407,0.94838 2.414799,1.84005 3.652488,2.7187 a 2.5135416,2.5135416 0 0 0 -0.523481,-3.46747 C 49.401907,278.17847 40.87913,267.50978 34.857819,255.2516 v -5.2e-4 c -0.461711,-0.94074 -0.701873,-1.9746 -0.701765,-3.02255 v -7.22437 a 2.5135416,2.5135416 0 0 0 -2.513541,-2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[19].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 163.99028,273.14702 c -9.62083,7.28221 -21.13932,11.65791 -34.04781,11.72601 h -5.11329" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 165.95679,271.58135 c -0.1051,0.0863 -0.20343,0.18214 -0.30902,0.26768 -1.10496,0.89529 -2.23671,1.75135 -3.39411,2.56627 -1.1574,0.81489 -2.34042,1.58821 -3.54862,2.3182 -1.2082,0.72998 -2.44165,1.41674 -3.699,2.05724 -1.25735,0.6405 -2.53884,1.23481 -3.84369,1.78128 -1.30485,0.54647 -2.63304,1.04505 -3.98374,1.49294 -1.3507,0.44789 -2.72372,0.84534 -4.11861,1.19009 -1.3949,0.34476 -2.81191,0.6368 -4.24935,0.87384 -1.43745,0.23707 -2.89555,0.41884 -4.3739,0.54364 -1.47834,0.12481 -2.9767,0.19251 -4.4943,0.2005 h -5.11338 -2.51354 a 2.5135416,2.5135416 0 0 0 2.51354,2.51355 h 5.1201 0.007 c 13.4686,-0.071 25.54705,-4.66297 35.55132,-12.23542 a 2.5135416,2.5135416 0 0 0 0.48731,-3.52124 2.5135416,2.5135416 0 0 0 -0.0377,-0.0486 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[20].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24261 114.14258 c -0.0257 -1.6e-4 -0.0513 -2.4e-4 -0.0768 -2.4e-4 -4.75694 0 -10.96672 2.66915 -17.05778 6.40632 -12.704244 7.79469 -23.922164 19.12047 -33.201112 31.63711 -9.306877 12.55429 -16.586763 27.00117 -21.035968 41.93801 -0.139419 0.46805 -0.275653 0.93757 -0.408752 1.40851" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 119.74256 114.40077 c -0.24534 -0.0417 -0.50135 -0.10417 -0.74104 -0.13488 -0.63318 -0.0811 -1.24576 -0.1235 -1.83555 -0.1235 -0.59461 0 -1.21203 0.0417 -1.84898 0.12195 -0.63695 0.0803 -1.29366 0.19916 -1.9668 0.35347 -0.67315 0.15431 -1.36283 0.34428 -2.06603 0.56637 -0.70319 0.22209 -1.42004 0.47604 -2.14715 0.75965 -1.45423 0.56721 -2.94973 1.25149 -4.46278 2.02726 -1.51305 0.77577 -3.04336 1.64333 -4.56613 2.57762 -1.588031 0.97434 -3.153071 2.00394 -4.693771 3.08405 -1.540698 1.08011 -3.056959 2.21065 -4.548558 3.38739 -1.491599 1.17675 -2.958483 2.39962 -4.399216 3.66386 -1.440731 1.26424 -2.855572 2.56983 -4.243668 3.91242 -1.388094 1.34259 -2.749265 2.72232 -4.082955 4.13412 -1.333691 1.4118 -2.640071 2.85551 -3.91759 4.32738 -1.277517 1.47187 -2.526448 2.97151 -3.746024 4.4943 -1.219578 1.5228 -2.409423 3.06873 -3.569292 4.63331 -1.16336 1.56929 -2.295144 3.16833 -3.393591 4.79402 -1.098447 1.6257 -2.163726 3.27812 -3.194119 4.95474 -1.030396 1.67662 -2.026147 3.37737 -2.985349 5.09943 -0.959202 1.72206 -1.881886 3.46556 -2.766756 5.22759 -0.88487 1.76203 -1.731981 3.54269 -2.539381 5.33921 -0.807397 1.79651 -1.574877 3.60877 -2.301666 5.43429 -0.726789 1.82553 -1.41265 3.6643 -2.055688 5.51336 -0.643041 1.84905 -1.243224 3.70826 -1.799376 5.57537 -0.377243 1.26648 -0.702998 2.55621 -1.03456 3.84317 a 2.5135416 2.5135416 0 0 0 3.044259 -1.75079 c 0.129928 -0.45973 0.262921 -0.91796 0.398941 -1.3746 4.361643 -14.64288 11.51536 -28.84178 20.646284 -41.15872 9.133763 -12.3208 20.155379 -23.41936 32.496726 -30.99139 5.8967 -3.61793 11.92653 -6.03529 15.74322 -6.03529 0.0204 0 0.0405 -1.3e-4 0.061 0 a 2.5135416 2.5135416 0 0 0 2.51561 -2.25516 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[21].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 165.27617 203.00258 c 0.34616 -14.37637 -3.25951 -30.63551 -9.93079 -44.27312 -0.34494 -0.70513 -0.6999 -1.40844 -1.06481 -2.10921" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 153.08885 154.40763 c 0.008 0.0141 0.017 0.0277 0.0248 0.0418 0.78511 1.41505 1.52928 2.84352 2.2319 4.27985 0.83391 1.7047 1.61955 3.45028 2.35593 5.2281 0.73638 1.77783 1.4234 3.58802 2.05879 5.42138 0.63539 1.83335 1.21935 3.69012 1.75028 5.56142 0.53093 1.87129 1.00894 3.75711 1.43195 5.64875 0.42302 1.89163 0.79114 3.78899 1.10278 5.68337 0.31164 1.89438 0.56646 3.78576 0.76326 5.66528 0.19679 1.87954 0.33543 3.74741 0.41393 5.5945 0.0785 1.84708 0.097 3.67342 0.0537 5.47046 l -1.07384 2.27273 a 2.5135416 2.5135416 0 0 0 1.01338 0.2403 2.5135416 2.5135416 0 0 0 2.57349 -2.45257 c 0.35737 -14.84186 -3.32523 -31.4132 -10.18594 -45.43805 -0.35414 -0.72393 -0.71878 -1.44619 -1.09348 -2.16576 a 2.5135416 2.5135416 0 0 0 -2.23087 -1.35237 2.5135416 2.5135416 0 0 0 -1.1591 0.28422 2.5135416 2.5135416 0 0 0 -0.031 0.0165 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[22].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 195.00208 237.56739 c 0.44138 -13.82808 -1.56568 -28.0396 -5.54103 -41.4514 -0.1038 -0.35018 -0.20876 -0.70013 -0.31489 -1.04982" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 194.87751 240.07733 a 2.5135416 2.5135416 0 0 0 0.0444 0.002 2.5135416 2.5135416 0 0 0 2.59261 -2.43189 c 0.45088 -14.12581 -1.59626 -28.59137 -5.64359 -42.246 -0.10534 -0.35539 -0.21165 -0.71015 -0.31936 -1.06505 a 2.5135416 2.5135416 0 0 0 -2.42104 -1.78387 2.5135416 2.5135416 0 0 0 -0.71417 0.10852 2.5135416 2.5135416 0 0 0 -0.045 0.0145 c 0.36666 1.14615 0.7484 2.28866 1.08985 3.44061 0.52202 1.76115 1.00991 3.53611 1.46296 5.32216 0.45305 1.78605 0.87125 3.58323 1.25315 5.38882 0.38191 1.80559 0.72752 3.61917 1.03612 5.43894 0.30859 1.81978 0.57976 3.64549 0.81287 5.47409 0.2331 1.8286 0.42798 3.6601 0.58342 5.49217 0.15545 1.83207 0.27167 3.66457 0.34727 5.49475 0.0756 1.83019 0.1108 3.65839 0.10439 5.48132 -0.006 1.82294 -0.0546 3.64051 -0.14521 5.45083 -0.007 0.13955 -0.0306 0.27849 -0.0388 0.41807 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[23].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="M 117.24563 92.868103 V 117.3514" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 90.354691 v 29.510339 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 V 92.868233 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[24].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24563 45.984083 0 19.122374" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 43.470732 v 24.14943 a 2.5135416 2.5135416 0 0 0 2.51355 -2.513541 V 45.984273 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.513541 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[25].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 137.18645 171.18542 c 5.69505 1.22618 10.25227 3.39083 13.32279 7.54054" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 137.17095 168.67187 a 2.5135416 2.5135416 0 0 0 -2.43447 1.95337 l 2.44998 0.56017 c 1.3269 0.2857 2.59202 0.62238 3.79098 1.0232 0.59948 0.20041 1.18238 0.41697 1.74821 0.65112 0.56584 0.23416 1.11481 0.48585 1.6459 0.75706 0.53109 0.27121 1.04419 0.56176 1.53944 0.87333 0.49524 0.31158 0.97263 0.64417 1.43092 0.99942 0.45829 0.35525 0.89751 0.7331 1.31775 1.13533 0.42024 0.40224 0.82143 0.82906 1.20251 1.28158 0.38108 0.45253 0.74232 0.93099 1.08314 1.43712 0.32069 0.47625 0.61971 0.98189 0.90382 1.50844 a 2.5135416 2.5135416 0 0 0 0.15503 -0.10542 2.5135416 2.5135416 0 0 0 0.52554 -3.51555 c -3.52924 -4.76966 -8.79369 -7.20661 -14.81408 -8.50284 a 2.5135416 2.5135416 0 0 0 -0.54467 -0.0563 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[26].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 144.88691 202.15286 c -2.39931 0 -25.95241 -1.03188 -38.76519 0.58521 -4.88209 0.61616 -9.947698 1.35549 -14.99271 2.3157" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 147.39979 202.19437 -2.51303 -0.0413 c -0.59983 0 -2.52167 -0.0644 -5.26738 -0.13591 -2.7457 -0.0715 -6.31533 -0.15036 -10.21023 -0.17828 -1.94744 -0.014 -3.97605 -0.0149 -6.02392 0.004 -2.04786 0.0185 -4.11495 0.0566 -6.13864 0.12195 -2.0237 0.0653 -4.00377 0.15768 -5.87871 0.28422 -1.87494 0.12655 -3.64459 0.28724 -5.24619 0.48938 -2.27391 0.28699 -4.5876 0.60055 -6.920512 0.95085 -2.332906 0.35029 -4.685086 0.73762 -7.035745 1.17098 -1.168757 0.21547 -2.328333 0.48072 -3.493844 0.72037 a 2.5135416 2.5135416 0 0 0 2.927469 1.94252 c 4.974225 -0.94674 9.988772 -1.67888 14.837342 -2.29082 6.15066 -0.77627 15.21088 -0.93504 22.95518 -0.87953 7.7443 0.0555 13.93519 0.31419 15.49518 0.31419 a 2.5135416 2.5135416 0 0 0 2.51303 -2.4722 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[27].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 78.677682 244.73769 c 1.750565 0.48615 3.515455 0.92248 5.283067 1.30269 3.237881 0.69646 8.822291 1.13383 15.955756 1.50756 h 17.329105" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 76.276479 243.99544 c 0.577755 0.1768 1.140685 0.38471 1.722377 0.55087 1.972702 0.5635 3.965549 1.06455 5.961909 1.49397 0.809472 0.17411 1.765829 0.33219 2.856156 0.47697 1.090327 0.14478 2.314498 0.27635 3.660759 0.39791 2.692522 0.24311 5.871969 0.44617 9.438701 0.63303 H 119.7591 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 h -17.24287 c -7.07504 -0.37151 -12.651719 -0.83608 -15.513264 -1.45159 -1.717381 -0.3694 -3.43472 -0.79375 -5.139222 -1.26711 a 2.5135416 2.5135416 0 0 0 -0.677479 -0.092 2.5135416 2.5135416 0 0 0 -2.396236 1.77147 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[28].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 41.013671,237.86037 v 14.36814 c 5.648944,11.50026 13.436573,21.3342 23.019093,28.59103" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 41.013517,235.34687 v 9.65729 7.22437 c 0.761749,1.55079 1.562717,3.07145 2.401403,4.55941 0.838687,1.48796 1.71536,2.94342 2.629297,4.36407 0.91394,1.42066 1.865038,2.80642 2.852539,4.1553 0.987505,1.3489 2.011233,2.66044 3.070614,3.93311 1.059381,1.27265 2.154462,2.50653 3.284038,3.69848 1.129575,1.19195 2.293694,2.34209 3.491775,3.44887 1.198083,1.1068 2.429965,2.16974 3.694866,3.1869 1.180269,0.94909 2.395307,1.84934 3.632335,2.71661 a 2.5135416,2.5135416 0 0 0 -0.52038,-3.47575 C 56.453926,271.92708 49.001293,262.58396 43.527059,251.61151 v -13.7511 a 2.5135416,2.5135416 0 0 0 -2.513542,-2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[29].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.36609 206.11096 v 31.45188" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 203.59739 v 36.47891 a 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 v -31.45183 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[30].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 202.3409,245.00413 v 7.22438 c 1.5e-4,1.43214 -0.32791,2.84526 -0.95899,4.13086 -6.18061,12.58265 -14.94142,23.56392 -25.75439,31.7664" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 202.34114,242.49062 v 9.73791 c 7e-5,0.71607 -0.082,1.42729 -0.24288,2.12028 -0.16089,0.693 -0.4007,1.36793 -0.71624,2.01073 -0.83869,1.70744 -1.7248,3.38519 -2.6572,5.0307 -0.9324,1.64552 -1.91125,3.25868 -2.93471,4.83639 -1.02346,1.57774 -2.09153,3.11999 -3.20342,4.62402 -1.11189,1.50402 -2.26774,2.96958 -3.46542,4.39404 -1.19767,1.42446 -2.4373,2.80802 -3.71812,4.14705 -1.28082,1.339 -2.60277,2.63374 -3.9641,3.88141 -1.36133,1.24767 -2.76209,2.4483 -4.20129,3.59873 -1.18643,0.9484 -2.4153,1.84005 -3.65301,2.7187 a 2.5135416,2.5135416 0 0 0 0.0403,0.0543 2.5135416,2.5135416 0 0 0 3.52175,0.48368 c 11.15274,-8.46021 20.15153,-19.75419 26.4914,-32.66104 v -5.2e-4 c 0.80031,-1.63033 1.21666,-3.42279 1.21647,-5.23896 v -7.22385 a 2.5135416,2.5135416 0 0 0 -2.51354,-2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[31].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46022 117.3514 0 24.20063" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 114.83795 v 29.22767 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -24.20059 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[32].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 49.753215,237.86043 -0.422875,10.22836 c 5.183105,9.97013 12.186459,18.64227 20.66286,25.05823" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 49.753035,235.34687 v 2.51354 l -0.422714,10.22832 c 0.691626,1.3304 1.415822,2.63776 2.171443,3.91966 0.755624,1.28189 1.542611,2.53837 2.360581,3.76721 0.81797,1.22884 1.666915,2.43009 2.54558,3.60133 0.878668,1.17124 1.787186,2.31242 2.724899,3.4215 0.937715,1.10907 1.904455,2.18585 2.899563,3.22823 0.995111,1.04235 2.018723,2.05041 3.069582,3.02151 1.050859,0.9711 2.128954,1.90559 3.23391,2.80086 1.104958,0.89529 2.236705,1.75135 3.394109,2.56627 0.09909,0.0698 0.204383,0.12925 0.303858,0.19844 a 2.5135416,2.5135416 0 0 0 -0.523483,-3.47112 C 63.532046,265.10366 56.869895,256.92743 51.870736,247.49135 l 0.393774,-9.52707 a 2.5135416,2.5135416 0 0 0 -2.407605,-2.61534 2.5135416,2.5135416 0 0 0 -0.10387,-0.002 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[33].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.36609 117.3514 0 24.20063" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 114.83795 v 29.22767 a 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 v -24.20059 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[34].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 45.556524 195.66873 c -0.133974 0.48987 -0.257556 0.98783 -0.37071 1.49394 -1.747565 7.81628 4.942477 15.91242 10.664737 21.57843 7.326506 7.25446 17.992034 10.66985 27.931467 13.54924 7.363285 2.1331 22.853242 2.57733 22.853242 2.57733" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 46.344974 193.28226 c -0.07104 0.19471 -0.164134 0.37246 -0.23151 0.56999 -0.362342 1.06228 -0.671618 2.1655 -0.927592 3.31039 -0.109223 0.48852 -0.185394 0.97808 -0.230995 1.46813 -0.0456 0.49004 -0.06045 0.98046 -0.04702 1.47071 0.01344 0.49024 0.05512 0.98055 0.122989 1.46968 0.06787 0.48912 0.161856 0.97731 0.279569 1.46399 0.235426 0.97335 0.565817 1.94031 0.973069 2.89595 0.407249 0.95563 0.891167 1.89988 1.433504 2.82721 0.542335 0.92733 1.143186 1.83801 1.783869 2.72645 0.640683 0.88844 1.321361 1.75468 2.02365 2.59364 0.702288 0.83897 1.426202 1.65041 2.153356 2.42931 0.727157 0.7789 1.457195 1.52521 2.172478 2.23346 0.915813 0.90681 1.884246 1.75332 2.896465 2.54661 1.012216 0.79329 2.068303 1.53303 3.161046 2.22571 1.092745 0.69267 2.221733 1.33859 3.379123 1.94355 1.157388 0.60495 2.343497 1.16897 3.549653 1.69912 1.206156 0.53014 2.432568 1.02625 3.671612 1.49448 1.239041 0.46824 2.490489 0.90886 3.74654 1.32808 2.512102 0.83846 5.042331 1.59164 7.527189 2.31149 0.920411 0.26664 1.967693 0.50718 3.095935 0.72347 1.128244 0.21629 2.337355 0.40849 3.581177 0.57929 2.487645 0.34162 5.114203 0.59715 7.510653 0.786 2.396446 0.18885 4.563136 0.31105 6.130366 0.38603 1.56724 0.075 2.53525 0.10283 2.53525 0.10283 l 2.47943 0.41135 a 2.5135416 2.5135416 0 0 0 0.0331 -0.33952 2.5135416 2.5135416 0 0 0 -2.44068 -2.58434 c 0 0 -3.81438 -0.10974 -8.540043 -0.48214 -4.725662 -0.37239 -10.411499 -1.04884 -13.685469 -1.99729 -9.890781 -2.8653 -20.122314 -6.24681 -26.862442 -12.92066 -2.783806 -2.75644 -5.748388 -6.07376 -7.732345 -9.46609 -1.983959 -3.39233 -2.932364 -6.71694 -2.247926 -9.77821 0.104727 -0.46841 0.218707 -0.92807 0.342098 -1.37925 a 2.5135416 2.5135416 0 0 0 -1.636075 -3.04942 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[35].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 198.26489 192.52559 c -4.98998 -16.5169 -12.4557 -32.63199 -22.73534 -46.47662 -9.83148 -13.24102 -22.23422 -25.03799 -36.35475 -33.56291 -6.64069 -4.00914 -14.17278 -7.77889 -21.92912 -7.80464" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.25382 102.16792 a 2.5135416 2.5135416 0 0 0 -2.52181 2.50527 2.5135416 2.5135416 0 0 0 0.004 0.14883 c 0.80771 -0.0775 1.61701 -0.14056 2.42983 -0.14056 0.97306 0 1.94255 0.0588 2.90731 0.17002 0.96476 0.11127 1.92455 0.27499 2.87838 0.48369 0.95383 0.20871 1.90142 0.46268 2.84168 0.75499 0.94027 0.29231 1.87319 0.62287 2.79725 0.98496 0.92406 0.36208 1.83931 0.75554 2.74454 1.17357 0.90523 0.41802 1.8003 0.86071 2.68407 1.32085 1.76753 0.92027 3.48988 1.91089 5.15576 2.91662 1.76506 1.06561 3.50288 2.18227 5.2126 3.34656 1.70972 1.1643 3.39103 2.37598 5.04207 3.63182 1.65104 1.25584 3.27218 2.55565 4.8612 3.89589 1.58902 1.34023 3.14581 2.72127 4.66948 4.13876 1.52367 1.4175 3.01399 2.87181 4.46898 4.35943 1.45499 1.48761 2.87465 3.0083 4.25762 4.55889 1.38297 1.55059 2.72934 3.13075 4.03697 4.73718 1.30761 1.60643 2.57651 3.23915 3.80545 4.89427 1.30836 1.7621 2.57154 3.56115 3.78943 5.39296 1.21789 1.8318 2.39087 3.69654 3.51968 5.59035 1.12882 1.89381 2.21345 3.81641 3.25458 5.76451 1.04114 1.9481 2.03877 3.92174 2.99362 5.91643 0.95485 1.9947 1.86683 4.0105 2.73678 6.04408 0.86995 2.03358 1.69764 4.08474 2.48409 6.1495 0.78645 2.06475 1.53169 4.14342 2.23604 6.23166 0.70435 2.08823 1.36796 4.18605 1.99161 6.29005 0.14859 0.50131 0.27305 1.01178 0.41651 1.51515 a 2.5135416 2.5135416 0 0 0 0.0403 -0.0119 2.5135416 2.5135416 0 0 0 1.67897 -3.13314 c -5.0598 -16.74803 -12.6342 -33.12178 -23.12313 -47.24828 -10.00867 -13.47966 -22.63235 -25.49738 -37.07371 -34.216 -6.76379 -4.08346 -14.65494 -8.13799 -23.22029 -8.16643 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[36].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 204.47163 237.56565 c 0.43956 -14.84424 -1.72108 -29.91529 -5.93655 -44.13718 -0.0892 -0.30108 -0.1793 -0.60205 -0.27019 -0.90288" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 204.37099 240.07681 a 2.5135416 2.5135416 0 0 0 0.0264 0.001 2.5135416 2.5135416 0 0 0 2.58692 -2.43757 c 0.44826 -15.13814 -1.75296 -30.46454 -6.03943 -44.92594 -0.0905 -0.3053 -0.18172 -0.61066 -0.27388 -0.91571 a 2.5135416 2.5135416 0 0 0 -2.41846 -1.78645 2.5135416 2.5135416 0 0 0 -0.71468 0.10748 2.5135416 2.5135416 0 0 0 -0.0455 0.0145 c 0.34867 1.0981 0.71621 2.19244 1.04283 3.29437 0.55733 1.88029 1.07846 3.77537 1.5627 5.68286 0.48423 1.90748 0.93135 3.82755 1.33997 5.75727 0.40862 1.92971 0.77901 3.86921 1.10949 5.81618 0.33048 1.94697 0.62144 3.90137 0.87127 5.86062 0.24982 1.95925 0.45864 3.92301 0.62528 5.88957 0.16665 1.96655 0.29061 3.93565 0.37155 5.90454 0.081 1.96889 0.1189 3.93779 0.11162 5.90404 -0.007 1.94778 -0.0598 3.89289 -0.15606 5.83323 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[37].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 184.34737 232.35997 c 0.68901 -7.77332 0.0485 -12.89658 -1.88478 -16.6499" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 181.10936 213.59213 c 0.10158 0.13431 0.21494 0.25867 0.31212 0.39687 0.30354 0.43163 0.5859 0.88234 0.84646 1.35548 0.26056 0.47313 0.49933 0.96864 0.71675 1.48879 0.21743 0.52016 0.41344 1.06494 0.58757 1.63763 0.17412 0.57269 0.32665 1.17329 0.45733 1.80402 0.13068 0.63073 0.23953 1.29165 0.3266 1.98593 0.0871 0.69428 0.15203 1.42154 0.19533 2.18488 0.0433 0.76334 0.0647 1.56297 0.0641 2.40089 -0.001 1.67582 -0.0903 3.50619 -0.2682 5.51335 l -0.41134 2.47944 a 2.5135416 2.5135416 0 0 0 0.18913 0.0243 2.5135416 2.5135416 0 0 0 2.72593 -2.28203 c 0.70969 -8.00653 0.1023 -13.6425 -2.15387 -18.02268 a 2.5135416 2.5135416 0 0 0 -2.22519 -1.3627 2.5135416 2.5135416 0 0 0 -1.16065 0.27905 2.5135416 2.5135416 0 0 0 -0.20205 0.11679 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[38].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 64.032764,280.81954 c 11.092461,8.40033 24.590026,13.34741 39.959426,13.4285 h 15.42187" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 62.065979,279.25376 c 0.126703,0.10335 0.244697,0.21847 0.37207,0.32091 1.264901,1.01714 2.562749,1.9884 3.892785,2.91145 1.330037,0.92305 2.69257,1.79808 4.086056,2.62258 1.393486,0.82447 2.817876,1.59882 4.273124,2.32026 1.455248,0.72144 2.941251,1.39007 4.456576,2.00401 1.515324,0.61397 3.060109,1.17284 4.633825,1.67484 1.573715,0.50199 3.176005,0.94718 4.806426,1.33273 1.630418,0.38555 3.288935,0.71152 4.974373,0.97618 1.685438,0.26464 3.397866,0.46792 5.136636,0.60719 1.73877,0.13928 3.50384,0.21482 5.29425,0.22426 h 15.4218 2.51354 a 2.5135416,2.5135416 0 0 0 -2.51354,-2.51354 h -15.40836 c -14.837817,-0.0783 -27.766777,-4.82449 -38.455536,-12.9191 a 2.5135416,2.5135416 0 0 0 -1.533758,-0.50953 2.5135416,2.5135416 0 0 0 -1.950267,0.94776 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[39].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 169.95085,280.81946 c -11.09249,8.40036 -24.5901,13.34749 -39.95957,13.42858 h -15.42185" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 171.91767,279.25376 c -0.1267,0.10335 -0.2447,0.21847 -0.37207,0.32091 -1.2649,1.01714 -2.56327,1.9884 -3.8933,2.91145 -1.33004,0.92305 -2.69205,1.79808 -4.08554,2.62258 -1.39349,0.82447 -2.81839,1.59882 -4.27364,2.32026 -1.45525,0.72144 -2.94074,1.39007 -4.45606,2.00401 -1.51533,0.61397 -3.06011,1.17284 -4.63383,1.67484 -1.57371,0.50199 -3.17652,0.94718 -4.80694,1.33273 -1.63042,0.38555 -3.28842,0.71152 -4.97385,0.97618 -1.68544,0.26464 -3.39839,0.46792 -5.13716,0.60719 -1.73877,0.13928 -3.50383,0.21482 -5.29425,0.22426 h -15.4218 -2.51354 a 2.5135416,2.5135416 0 0 0 2.51354,2.51355 h 15.42852 0.007 c 15.90104,-0.0839 29.96743,-5.23259 41.46361,-13.93868 a 2.5135416,2.5135416 0 0 0 0.4868,-3.52123 2.5135416,2.5135416 0 0 0 -0.0372,-0.048 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[40].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 182.46259 215.71007 c -2.0603 -3.99992 -5.58883 -6.44399 -10.5411 -8.88155" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 171.90527 204.31517 a 2.5135416 2.5135416 0 0 0 -2.23914 1.40354 2.5135416 2.5135416 0 0 0 -0.008 0.0176 l 2.26343 1.09244 c 1.1999 0.59061 2.31653 1.18132 3.34863 1.79473 1.03211 0.6134 1.97968 1.24931 2.84272 1.9296 0.43153 0.34014 0.84192 0.69165 1.23093 1.05678 0.38902 0.36512 0.75694 0.74384 1.1033 1.13946 0.34635 0.39562 0.67108 0.8081 0.97462 1.23972 0.30353 0.43162 0.5859 0.88234 0.84646 1.35547 0.26055 0.47314 0.49932 0.96864 0.71675 1.4888 0.15965 0.38196 0.29517 0.79262 0.43149 1.20251 a 2.5135416 2.5135416 0 0 0 0.19741 -0.0909 2.5135416 2.5135416 0 0 0 1.08365 -3.38584 c -2.40439 -4.66796 -6.54083 -7.46279 -11.66595 -9.98543 a 2.5135416 2.5135416 0 0 0 -1.12603 -0.25839 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[41].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 175.62752,288.12577 c -12.66375,9.60639 -28.14228,15.40132 -45.5874,15.49336 -0.0163,3e-5 -0.0325,3e-5 -0.0488,0 h -15.42186" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 177.59691,286.56441 a 2.5135416,2.5135416 0 0 0 -1.98386,-0.95239 2.5135416,2.5135416 0 0 0 -1.50482,0.51109 c -12.26581,9.30452 -27.18519,14.8934 -44.08154,14.98254 -0.0105,0 -0.021,2e-5 -0.0315,0 h -0.002 -15.42438 a 2.5135416,2.5135416 0 0 0 -2.51354,2.51354 h 2.51354 15.42232 c 0.0163,5e-5 0.0323,5e-5 0.0486,0 2.0213,-0.0107 4.01645,-0.0981 5.98362,-0.2589 1.96717,-0.16084 3.90628,-0.39507 5.8167,-0.70022 1.91041,-0.30514 3.79205,-0.68093 5.64306,-1.12448 1.85101,-0.44354 3.67168,-0.95509 5.46065,-1.53117 1.78897,-0.57607 3.54618,-1.21705 5.27048,-1.91979 1.7243,-0.7027 3.41558,-1.46682 5.07256,-2.29028 1.65698,-0.82349 3.27934,-1.70593 4.86637,-2.64428 1.58703,-0.93837 3.13851,-1.93286 4.65294,-2.98018 1.51444,-1.04736 2.99206,-2.14755 4.43126,-3.29801 0.123,-0.0983 0.23671,-0.20841 0.35915,-0.30747 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[42].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46022 237.56284 v 28.34404" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 235.04922 v 33.3711 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -28.34402 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[43].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24564 65.106457 0 27.761649" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 62.593079 v 32.788696 a 2.5135416 2.5135416 0 0 0 2.51355 -2.513542 V 65.106621 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[44].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 91.12901 205.05377 c -13.753322 2.61764 -27.353601 6.8768 -36.665643 14.7572 -3.174063 2.68609 -6.966865 6.70315 -7.443433 11.05225" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 93.605137 204.62007 c -0.480959 0.0849 -0.958686 0.1511 -1.439704 0.23978 -2.350661 0.43335 -4.699796 0.91284 -7.026962 1.449 -2.327164 0.53616 -4.632246 1.12878 -6.894669 1.78749 -2.262423 0.65871 -4.482436 1.38387 -6.638872 2.18488 -1.078217 0.4005 -2.140315 0.81957 -3.1843 1.25935 -1.043988 0.43979 -2.069632 0.89979 -3.074231 1.38131 -1.004601 0.48153 -1.988084 0.98476 -2.948141 1.51051 -0.960056 0.52574 -1.896705 1.07398 -2.807065 1.64641 -0.910357 0.57242 -1.794462 1.16901 -2.649966 1.79059 -0.855504 0.62157 -1.682393 1.26829 -2.477886 1.94148 -0.793515 0.67152 -1.625619 1.42616 -2.434992 2.24844 -0.809374 0.82229 -1.595787 1.71227 -2.298052 2.6541 -0.351131 0.47092 -0.681588 0.95509 -0.982885 1.45004 -0.301299 0.49495 -0.573677 1.00059 -0.80977 1.51567 -0.236093 0.51508 -0.435661 1.03914 -0.591177 1.57045 -0.15552 0.53131 -0.267026 1.07022 -0.326597 1.61386 l -0.478523 2.46703 a 2.5135416 2.5135416 0 0 0 0.204637 0.0315 2.5135416 2.5135416 0 0 0 2.772442 -2.22519 c 0.337531 -3.08026 3.584114 -6.88152 6.568591 -9.40718 8.731726 -7.38929 21.951693 -11.62596 35.512043 -14.20688 a 2.5135416 2.5135416 0 0 0 2.006079 -2.90266 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[45].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 154.28057 156.62025 c -5.58152 -10.71872 -13.48909 -20.8406 -23.40957 -27.72382 -1.93235 -1.34074 -6.67689 -2.28299 -6.67689 -2.28299" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 124.20689 124.09992 a 2.5135416 2.5135416 0 0 0 -2.4784 2.02365 2.5135416 2.5135416 0 0 0 -0.047 0.55448 l 2.51251 -0.0646 c 0 0 1.18611 0.23556 2.61379 0.63872 0.71384 0.20158 1.48798 0.44504 2.20452 0.72192 0.71654 0.27688 1.37571 0.58724 1.8588 0.92242 1.32113 0.91666 2.60658 1.89082 3.85558 2.9161 1.24899 1.02529 2.46161 2.10162 3.63699 3.22306 1.17538 1.12145 2.31346 2.28769 3.41374 3.49281 1.10029 1.20513 2.16266 2.44904 3.18637 3.72536 1.02371 1.27632 2.00868 2.58513 2.95434 3.92017 0.94566 1.33504 1.85206 2.69651 2.71818 4.07779 0.86613 1.38128 1.69226 2.78263 2.47737 4.19767 0.78511 1.41505 1.52928 2.84352 2.2319 4.27985 0.0219 0.0448 0.0402 0.0926 0.062 0.13746 a 2.5135416 2.5135416 0 0 0 0.0341 -0.0171 2.5135416 2.5135416 0 0 0 1.06815 -3.39049 c -5.7313 -11.00635 -13.85104 -21.4432 -24.20575 -28.62771 -1.53121 -1.06241 -3.2815 -1.56581 -4.81315 -1.99832 -1.53164 -0.43252 -2.80706 -0.68524 -2.80706 -0.68524 a 2.5135416 2.5135416 0 0 0 -0.47697 -0.0481 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[46].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.36609 170.92082 v 35.19014" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 168.40729 v 40.21718 a 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 v -35.1901 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[47].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46022 45.984083 0 19.122374" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 43.470732 v 24.14943 a 2.5135416 2.5135416 0 0 0 2.51355 -2.513541 V 45.984273 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.513541 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[48].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 36.345375 192.99435 c -4.062629 14.38432 -5.357651 29.60047 -5.174577 44.57161" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 37.070606 190.58785 c -0.08534 0.27999 -0.186232 0.55625 -0.269753 0.83664 -0.583208 1.95794 -1.113951 3.9323 -1.59525 5.92005 -0.4813 1.98775 -0.913167 3.98913 -1.299146 6.00118 -0.38598 2.01206 -0.725943 4.03493 -1.023194 6.06578 -0.297249 2.03086 -0.551767 4.06968 -0.766876 6.11384 -0.215112 2.04416 -0.390644 4.09341 -0.530202 6.14537 -0.139557 2.05195 -0.24308 4.10661 -0.313676 6.16086 -0.07059 2.05425 -0.108567 4.10827 -0.116787 6.15931 -0.0082 2.03327 0.01376 4.06327 0.06046 6.088 a 2.5135416 2.5135416 0 0 0 2.468067 -2.54351 c -0.181046 -14.8054 1.10521 -29.78521 5.079794 -43.85779 a 2.5135416 2.5135416 0 0 0 -1.693437 -3.08973 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[49].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 184.52562,245.00421 0.12753,3.08458 c -5.18312,9.97013 -12.18647,18.64227 -20.66287,25.05823" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 184.42181,242.49269 0.23152,5.59604 c -0.69163,1.3304 -1.41582,2.63776 -2.17145,3.91966 -0.75562,1.28189 -1.54261,2.53837 -2.36058,3.76721 -0.81797,1.22884 -1.66691,2.43009 -2.54558,3.60133 -0.87866,1.17124 -1.78718,2.31242 -2.7249,3.4215 -0.93771,1.10907 -1.90445,2.18585 -2.89956,3.22823 -0.99511,1.04235 -2.01872,2.05041 -3.06958,3.02151 -1.05086,0.9711 -2.12895,1.90559 -3.23391,2.80086 -1.10496,0.89529 -2.23671,1.75135 -3.39411,2.56627 -0.0993,0.0699 -0.2047,0.12965 -0.30437,0.19894 a 2.5135416,2.5135416 0 0 0 0.0367,0.0496 2.5135416,2.5135416 0 0 0 3.52123,0.48731 c 8.81423,-6.67168 16.04057,-15.63978 21.37595,-25.90281 l 0.30903,-0.59428 -0.15503,-3.75378 a 2.5135416,2.5135416 0 0 0 -2.50734,-2.40967 2.5135416,2.5135416 0 0 0 -0.10801,0.002 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[50].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 52.103945 231.53593 c 1.648299 2.04916 4.929609 4.37768 9.136558 6.49649 5.298659 2.66866 11.279311 4.99519 17.437179 6.70528" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 50.326644 229.75858 1.777151 1.77715 c 0.412075 0.5123 0.926541 1.04225 1.531691 1.58182 0.605147 0.53957 1.301274 1.08916 2.077392 1.64073 0.776115 0.55156 1.631971 1.10485 2.556949 1.65313 0.924981 0.54827 1.919142 1.09138 2.970879 1.62109 1.701242 0.85682 3.472725 1.67845 5.297869 2.45566 1.82514 0.77721 3.703664 1.51009 5.619295 2.18953 1.915628 0.67944 3.868282 1.30512 5.840986 1.86862 1.032955 0.29506 2.080149 0.5229 3.121774 0.78238 a 2.5135416 2.5135416 0 0 0 -1.770436 -3.01274 c -5.995828 -1.66509 -11.834619 -3.93742 -16.978807 -6.52828 -4.015152 -2.02221 -7.099009 -4.32271 -8.309054 -5.82703 a 2.5135416 2.5135416 0 0 0 -1.975591 -0.93845 2.5135416 2.5135416 0 0 0 -1.558044 0.55501 2.5135416 2.5135416 0 0 0 -0.202054 0.18138 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[51].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 150.50924 178.72596 c 2.65274 3.5851 4.19582 8.65184 4.40429 15.87508" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 148.85551 176.83365 c 0.34651 0.34338 0.68765 0.69399 1.00666 1.0728 0.38108 0.45253 0.74232 0.93099 1.08314 1.43712 0.34082 0.50613 0.66121 1.03997 0.96066 1.60301 0.29946 0.56303 0.5781 1.15492 0.83509 1.77818 0.25699 0.62326 0.49197 1.27743 0.70539 1.96422 0.21342 0.68679 0.40486 1.40645 0.57361 2.16008 0.16874 0.75363 0.31524 1.54145 0.43821 2.36523 0.12297 0.82378 0.2226 1.68348 0.29869 2.58072 0.0761 0.89724 0.12847 1.83203 0.15658 2.80603 v 2.51354 a 2.5135416 2.5135416 0 0 0 0.0724 -10e-4 2.5135416 2.5135416 0 0 0 2.44016 -2.58485 c -0.21781 -7.54689 -1.84729 -13.17695 -4.89635 -17.29765 a 2.5135416 2.5135416 0 0 0 -2.00504 -1.01852 2.5135416 2.5135416 0 0 0 -1.5105 0.49299 2.5135416 2.5135416 0 0 0 -0.15865 0.12816 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[52].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.36609 265.90688 v 11.22725" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 263.39322 v 16.25429 a 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 v -11.22719 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.51356 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[53].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46022 265.90688 v 11.22725" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.45695 263.39322 v 16.25429 a 2.5135416 2.5135416 0 0 0 0.003 0 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 v -11.22719 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.51356 2.5135416 2.5135416 0 0 0 -0.003 0 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[54].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 69.9932,273.14702 c 9.620832,7.28221 21.139324,11.65791 34.04782,11.72601 h 5.11327" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 68.027372,271.58188 c 0.10492,0.0861 0.203102,0.18177 0.308507,0.26715 1.104958,0.89529 2.236705,1.75135 3.394109,2.56627 1.157404,0.81489 2.340417,1.58821 3.548621,2.3182 1.208201,0.72998 2.441649,1.41674 3.698999,2.05724 1.25735,0.6405 2.538844,1.23481 3.843692,1.78128 1.304848,0.54647 2.633038,1.04505 3.983736,1.49294 1.350698,0.44789 2.723716,0.84534 4.118613,1.19009 1.394894,0.34476 2.811391,0.6368 4.248835,0.87384 1.437444,0.23707 2.896068,0.41884 4.374409,0.54364 1.478347,0.12481 2.976707,0.19251 4.494297,0.2005 h 5.11287 2.51354 a 2.5135416,2.5135416 0 0 0 -2.51354,-2.51354 h -5.09995 C 91.705733,282.29435 80.747755,278.1346 71.510363,271.14262 a 2.5135416,2.5135416 0 0 0 -1.534274,-0.50901 2.5135416,2.5135416 0 0 0 -1.948717,0.94827 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[55].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 192.96981,245.00413 v 7.22438 c -5.64892,11.50021 -13.4365,21.33412 -23.01896,28.59095" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 192.96961,242.49062 v 9.73791 c -0.76175,1.55079 -1.56219,3.07145 -2.40088,4.55941 -0.83869,1.48796 -1.71536,2.94342 -2.6293,4.36407 -0.91394,1.42066 -1.86504,2.80642 -2.85254,4.1553 -0.9875,1.3489 -2.01123,2.66044 -3.07061,3.93311 -1.05939,1.27265 -2.15446,2.50653 -3.28404,3.69848 -1.12957,1.19195 -2.29369,2.34209 -3.49178,3.44887 -1.19808,1.1068 -2.42996,2.16974 -3.69486,3.1869 -1.18017,0.94901 -2.39542,1.84939 -3.63234,2.71661 a 2.5135416,2.5135416 0 0 0 0.0336,0.0455 2.5135416,2.5135416 0 0 0 3.52123,0.48627 c 9.93121,-7.52094 17.95576,-17.6748 23.75773,-29.48657 l 0.25734,-0.524 v -7.80831 a 2.5135416,2.5135416 0 0 0 -2.51354,-2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[56].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="M 126.36609 92.868103 V 117.3514" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36593 90.354691 v 29.510339 a 2.5135416 2.5135416 0 0 0 2.51354 -2.51354 V 92.868233 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[57].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 45.462168 195.53229 c -3.746653 13.25656 -5.008231 27.63556 -4.827039 42.0301" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 46.192529 193.12671 c -0.102245 0.33329 -0.222001 0.66304 -0.321429 0.99684 -0.534701 1.7951 -1.022874 3.61178 -1.466577 5.44721 -0.443701 1.83543 -0.842984 3.68971 -1.20096 5.55987 -0.357976 1.87016 -0.674359 3.75617 -0.951878 5.65547 -0.277521 1.89929 -0.516483 3.81222 -0.71882 5.73505 -0.202337 1.92283 -0.368316 3.85577 -0.500745 5.79654 -0.132427 1.94077 -0.230899 3.88892 -0.298691 5.84202 -0.06779 1.95311 -0.104746 3.91112 -0.11317 5.87096 -0.0084 1.95985 0.0117 3.92187 0.05736 5.88285 0.0013 0.0553 0.0059 0.10656 0.0072 0.16174 a 2.5135416 2.5135416 0 0 0 2.463416 -2.54454 c -0.179078 -14.22665 1.075087 -28.37389 4.732528 -41.31479 a 2.5135416 2.5135416 0 0 0 -1.688269 -3.08922 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[58].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 58.35575,288.12561 c 12.663782,9.60649 28.142391,15.40148 45.5876,15.49352 0.0163,6e-5 0.0325,6e-5 0.0488,0 h 15.42187" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="M 213.11328 1083.0762 A 9.4999999 9.4999999 0 0 0 212.98828 1083.2363 A 9.4999999 9.4999999 0 0 0 214.81641 1096.5469 C 264.18351 1133.9958 324.7979 1156.6783 392.80664 1157.0371 L 392.81641 1157.0371 L 392.82617 1157.0371 C 392.90825 1157.0374 392.99019 1157.0374 393.07227 1157.0371 L 451.32812 1157.0371 A 9.4999999 9.4999999 0 0 0 460.82812 1147.5371 L 451.32812 1147.5371 L 393.04102 1147.5371 C 392.97952 1147.5373 392.91892 1147.5373 392.85742 1147.5371 C 385.21789 1147.4968 377.67716 1147.1665 370.24219 1146.5586 C 362.80721 1145.9507 355.47826 1145.0654 348.25781 1143.9121 C 341.03736 1142.7588 333.92564 1141.3385 326.92969 1139.6621 C 319.93374 1137.9857 313.05249 1136.0523 306.29102 1133.875 C 299.52954 1131.6977 292.88812 1129.2751 286.37109 1126.6191 C 279.85407 1123.9632 273.46183 1121.0752 267.19922 1117.9629 C 260.93661 1114.8505 254.8029 1111.5153 248.80469 1107.9688 C 242.80648 1104.4222 236.9426 1100.6635 231.21875 1096.7051 C 225.4949 1092.7466 219.91216 1088.5884 214.47266 1084.2402 C 214.00708 1083.8681 213.57674 1083.4511 213.11328 1083.0762 z " FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[59].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24561 247.54794 h 17.16942 c 7.13346 -0.37373 12.71793 -0.81112 15.95576 -1.50756 1.3376 -0.28772 2.67364 -0.60756 4.00309 -0.95682" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 114.73201 247.54819 h 19.68304 c 3.56673 -0.18686 6.74617 -0.38991 9.4387 -0.63303 1.34626 -0.12156 2.57095 -0.25313 3.66128 -0.39791 1.09032 -0.14478 2.04618 -0.30286 2.85564 -0.47697 1.99636 -0.42942 3.9892 -0.93047 5.9619 -1.49397 0.15535 -0.0444 0.30484 -0.10213 0.45992 -0.14728 a 2.5135416 2.5135416 0 0 0 -2.4076 -1.82883 2.5135416 2.5135416 0 0 0 -0.64957 0.0822 c -1.29395 0.33993 -2.59371 0.65115 -3.89331 0.93069 -2.86149 0.61549 -8.43823 1.08008 -15.51326 1.45159 h -17.0832 a 2.5135416 2.5135416 0 0 0 -2.51354 2.51354 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+
+
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[60].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24563 265.90688 v 11.22725" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 263.39322 v 16.25429 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 v -11.22719 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.51356 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[61].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 117.24564 36.550536 v 9.433547" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 117.24555 34.037198 v 14.460617 a 2.5135416 2.5135416 0 0 0 2.51355 -2.513542 V 36.55074 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[62].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="M 108.46022 92.868103 V 117.3514" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 108.46004 90.354691 v 29.510339 a 2.5135416 2.5135416 0 0 0 2.51355 -2.51354 V 92.868233 a 2.5135416 2.5135416 0 0 0 -2.51355 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[63].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 126.3661 36.550536 v 9.433547" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="m 126.36606 34.037198 v 14.460617 a 2.5135416 2.5135416 0 0 0 2.51354 -2.513542 V 36.55074 a 2.5135416 2.5135416 0 0 0 -2.51354 -2.513542 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                    <hd:BodyChannel ActivationState="{Binding Path=Chart[64].ActivationState, RelativeSource={RelativeSource TemplatedParent}}">
+                                        <hd:BodyChannel.ChannelGeometry>
+                                            <PathGeometry Figures="m 108.46023 36.550536 v 9.433547" FillRule="NonZero"/>
+                                        </hd:BodyChannel.ChannelGeometry>
+                                        <hd:BodyChannel.SplitGeometry>
+                                            <PathGeometry Figures="M 108.46012 34.037322 V 48.49786 c 0.66648 0 1.30598 -0.264848 1.7772 -0.736336 0.47149 -0.471223 0.73634 -1.11072 0.73634 -1.777206 v -9.433454 c 0 -0.66675 -0.26485 -1.305983 -0.73634 -1.777471 -0.47122 -0.471487 -1.11072 -0.736071 -1.7772 -0.736071 z" FillRule="NonZero"/>
+                                        </hd:BodyChannel.SplitGeometry>
+                                    </hd:BodyChannel>
+                                </Canvas>
+
+                                <Canvas Name="PART_Centers" Panel.ZIndex="20">
+                                    <Canvas.Resources>
+                                        <Style x:Key="CenterStyle" TargetType="{x:Type Shape}">
+                                            <Setter Property="Fill" Value="White"/>
+                                            <Setter Property="Stroke" Value="Gray"/>
+                                            <Setter Property="StrokeThickness" Value="0.4"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="hd:BodyGraph.ActivationState" Value="{x:Static humanDesign:CenterState.Defined}">
+                                                    <Setter Property="Fill" Value="LemonChiffon"></Setter>
+                                                    <Setter Property="Stroke" Value="Gold"></Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                        <Style x:Key="MotorCenterStyle" TargetType="{x:Type Rectangle}" BasedOn="{StaticResource CenterStyle}">
+                                            <Setter Property="Width" Value="37.056858"/>
+                                            <Setter Property="Height" Value="37.057182"/>
+                                            <Setter Property="RadiusX" Value="3"/>
+                                            <Setter Property="RadiusY" Value="3"/>
+                                        </Style>
+                                    </Canvas.Resources>
+                                    <Path hd:BodyGraph.Center="Head" Style="{StaticResource CenterStyle}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="m 139.69674 35.940087 c 0 2.630292 -2.13311 4.762558 -4.76445 4.762558 H 99.800645 c -2.631339 0 -4.764454 -2.132266 -4.764454 -4.762558 0 -0.937592 0.275373 -1.808583 0.743405 -2.545612 l -0.004 -0.006 17.319744 -26.7222081 c 0.77715 -1.5751033 2.39546 -2.6613707 4.27125 -2.6613707 1.92439 0 3.57824 1.1427021 4.33019 2.7843523 L 138.7508 33.101152 c 0.5914 0.79343 0.94606 1.773622 0.94606 2.839135 z" FillRule="NonZero"/>
+                                        </Path.Data>
+                                    </Path>
+                                    <Path hd:BodyGraph.Center="Ajna" Style="{StaticResource CenterStyle}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="m 139.69674 55.949193 c 0 -2.630293 -2.13311 -4.762559 -4.76445 -4.762559 H 99.800645 c -2.631339 0 -4.764454 2.132266 -4.764454 4.762559 0 0.937591 0.275373 1.808582 0.743405 2.545611 l -0.004 0.006 17.319744 26.722211 c 0.77715 1.575099 2.39546 2.661373 4.27125 2.661373 1.92439 0 3.57824 -1.142714 4.33019 -2.784355 L 138.7508 58.788128 c 0.5914 -0.79343 0.94606 -1.773622 0.94606 -2.839135 z" FillRule="NonZero"/>
+                                        </Path.Data>
+                                    </Path>
+                                    <Rectangle hd:BodyGraph.Center="Throat" Style="{StaticResource MotorCenterStyle}" Canvas.Left="98.838089" Canvas.Top="98.130074" Height="39.310009"/>
+                                    <Path  hd:BodyGraph.Center="G" Style="{StaticResource CenterStyle}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="m 188.12859 19.180246 h 31.62084 c 1.662 0 3.00001 1.338002 3.00001 3.000005 v 31.62084 c 0 1.662003 -1.33801 3.000005 -3.00001 3.000005 h -31.62084 c -1.662 0 -3 -1.338002 -3 -3.000005 v -31.62084 c 0 -1.662003 1.338 -3.000005 3 -3.000005 z" FillRule="NonZero"/>
+                                        </Path.Data>
+                                        <Path.RenderTransform>
+                                            <MatrixTransform Matrix="0.70724741 0.70696612 -0.70724741 0.70696612 0 0"/>
+                                        </Path.RenderTransform>
+                                    </Path>
+                                    <Path hd:BodyGraph.Center="Heart" Style="{StaticResource CenterStyle}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="m 142.12802 202.21659 c -0.33786 1.96619 0.98356 3.83379 2.95147 4.17133 l 26.27391 4.50692 c 1.96791 0.33756 3.8371 -0.98271 4.17498 -2.94892 0.12045 -0.70087 0.0268 -1.38727 -0.22884 -1.99828 l 0.004 -0.004 -9.52048 -22.19735 c -0.3789 -1.27716 -1.44965 -2.29675 -2.85251 -2.53738 -1.43919 -0.24686 -2.82284 0.39511 -3.59607 1.52588 l -16.13394 17.48092 c -0.54418 0.51722 -0.93532 1.20447 -1.0722 2.00096 z" FillRule="NonZero"/>
+                                        </Path.Data>
+                                    </Path>
+                                    <Path hd:BodyGraph.Center="Spleen" Style="{StaticResource CenterStyle}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="m 30.344618 215.24159 c -2.631335 0 -4.764454 2.13227 -4.764454 4.76256 v 35.11767 c 0 2.6303 2.133119 4.76256 4.764454 4.76256 0.937978 0 1.809314 -0.27526 2.546628 -0.74311 l 0.0062 0.004 26.732848 -17.31285 c 1.57573 -0.77685 2.662429 -2.39451 2.662429 -4.26955 0 -1.92363 -1.143156 -3.57683 -2.78547 -4.32848 L 33.184888 216.18716 c -0.793735 -0.59116 -1.774325 -0.94569 -2.840266 -0.94569 z" FillRule="NonZero"/>
+                                        </Path.Data>
+                                    </Path>
+                                    <Path hd:BodyGraph.Center="SolarPlexus" Style="{StaticResource CenterStyle}">
+                                        <Path.Data>
+                                            <PathGeometry Figures="m 203.4202 215.24157 c 2.63132 0 4.76445 2.13227 4.76445 4.76256 v 35.11769 c 0 2.6303 -2.13313 4.76256 -4.76445 4.76256 -0.93799 0 -1.80932 -0.27526 -2.54665 -0.74311 l -0.006 0.004 -26.73284 -17.31285 c -1.57573 -0.77685 -2.66243 -2.39451 -2.66243 -4.26955 0 -1.92363 1.14317 -3.57683 2.78548 -4.32848 l 26.32235 -17.04725 c 0.79375 -0.59116 1.77433 -0.94569 2.84027 -0.94569 z" FillRule="NonZero"/>
+                                        </Path.Data>
+                                    </Path>
+                                    <Rectangle hd:BodyGraph.Center="Sacral" Style="{StaticResource MotorCenterStyle}" Canvas.Left="98.838089" Canvas.Top="222.10779" />
+                                    <Rectangle hd:BodyGraph.Center="Root" Style="{StaticResource MotorCenterStyle}" Canvas.Left="98.838089" Canvas.Top="272.74216" />
+                                </Canvas>
+
+                                <Canvas Name="PART_Gates" Panel.ZIndex="30" Visibility="{TemplateBinding ShowGates, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <!-- Head -->
+                                    <ContentPresenter hd:BodyGraph.Gate="64" Canvas.Left="105.2" Canvas.Top="32.6"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="61" Canvas.Left="114.2" Canvas.Top="32.6"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="63" Canvas.Left="123.1" Canvas.Top="32.6"/>
+
+                                    <!-- Ajna -->
+                                    <ContentPresenter hd:BodyGraph.Gate="17" Canvas.Left="105.2" Canvas.Top="65.8"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="11" Canvas.Left="123.1" Canvas.Top="65.8"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="43" Canvas.Left="114.2" Canvas.Top="79.6"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="47" Canvas.Left="105.2" Canvas.Top="52.9"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="24" Canvas.Left="114.2" Canvas.Top="52.9"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="4"  Canvas.Left="123.1" Canvas.Top="52.9"/>
+
+                                    <!-- Throat -->
+                                    <ContentPresenter hd:BodyGraph.Gate="20" Canvas.Left="100.3" Canvas.Top="116.5"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="16" Canvas.Left="100.3" Canvas.Top="106.2"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="12" Canvas.Left="127.7" Canvas.Top="114.5"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="35" Canvas.Left="127.7" Canvas.Top="106.2"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="45" Canvas.Left="127.7" Canvas.Top="122.9"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="62" Canvas.Left="105.2" Canvas.Top="99.7" />
+                                    <ContentPresenter hd:BodyGraph.Gate="23" Canvas.Left="114.2" Canvas.Top="99.7" />
+                                    <ContentPresenter hd:BodyGraph.Gate="56" Canvas.Left="123.1" Canvas.Top="99.7" />
+
+                                    <ContentPresenter hd:BodyGraph.Gate="31" Canvas.Left="105.2" Canvas.Top="129.6"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="8"  Canvas.Left="114.2" Canvas.Top="129.6"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="33" Canvas.Left="123.1" Canvas.Top="129.6"/>
+
+                                    <!-- G -->
+                                    <ContentPresenter hd:BodyGraph.Gate="1"  Canvas.Left="114.1" Canvas.Top="147.7"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="7"  Canvas.Left="105.2" Canvas.Top="156.9"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="13" Canvas.Left="123.1" Canvas.Top="156.9"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="10" Canvas.Left="93.9"  Canvas.Top="167.8"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="25" Canvas.Left="134.1" Canvas.Top="167.8"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="15" Canvas.Left="105.2" Canvas.Top="178.6"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="46" Canvas.Left="123.1" Canvas.Top="178.6"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="2"  Canvas.Left="114.1" Canvas.Top="187.7"/>
+
+                                    <!-- Heart -->
+                                    <ContentPresenter hd:BodyGraph.Gate="26" Canvas.Left="144.3" Canvas.Top="199.2"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="51" Canvas.Left="151.7" Canvas.Top="191.0"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="21" Canvas.Left="158.9" Canvas.Top="183.2"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="40" Canvas.Left="167.5" Canvas.Top="203.2"/>
+
+                                    <!-- Solar Plexus -->
+                                    <ContentPresenter hd:BodyGraph.Gate="36" Canvas.Left="199.7" Canvas.Top="217.3"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="22" Canvas.Left="191.0" Canvas.Top="223.2"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="37" Canvas.Left="182.3" Canvas.Top="228.7"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="6"  Canvas.Left="173.6" Canvas.Top="234.3"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="49" Canvas.Left="182.3" Canvas.Top="239.9"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="55" Canvas.Left="191.0" Canvas.Top="245.5"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="30" Canvas.Left="199.7" Canvas.Top="251.4"/>
+
+                                    <!-- Spleen -->
+                                    <ContentPresenter hd:BodyGraph.Gate="48" Canvas.Left="27.3" Canvas.Top="217.3"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="57" Canvas.Left="36.2" Canvas.Top="223.2"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="44" Canvas.Left="45.1" Canvas.Top="228.7"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="50" Canvas.Left="54.1" Canvas.Top="234.3"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="32" Canvas.Left="45.1" Canvas.Top="239.9"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="28" Canvas.Left="36.2" Canvas.Top="245.5"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="18" Canvas.Left="27.9" Canvas.Top="251.4"/>
+
+                                    <!-- Sacral -->
+                                    <ContentPresenter hd:BodyGraph.Gate="14" Canvas.Left="114.2" Canvas.Top="223.9"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="29" Canvas.Left="123.1" Canvas.Top="223.9"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="5"  Canvas.Left="105.2" Canvas.Top="223.9"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="3"  Canvas.Left="114.2" Canvas.Top="251.1"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="9"  Canvas.Left="123.1" Canvas.Top="251.1"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="42" Canvas.Left="105.2" Canvas.Top="251.1"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="59" Canvas.Left="127.7" Canvas.Top="244.6"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="27" Canvas.Left="100.3" Canvas.Top="244.6"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="34" Canvas.Left="100.3" Canvas.Top="230.8"/>
+
+                                    <!-- Root -->
+                                    <ContentPresenter hd:BodyGraph.Gate="60" Canvas.Left="114.2" Canvas.Top="274.4" />
+                                    <ContentPresenter hd:BodyGraph.Gate="52" Canvas.Left="123.1" Canvas.Top="274.4" />
+                                    <ContentPresenter hd:BodyGraph.Gate="53" Canvas.Left="105.2" Canvas.Top="274.4" />
+
+                                    <ContentPresenter hd:BodyGraph.Gate="58" Canvas.Left="100.3" Canvas.Top="300.2"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="38" Canvas.Left="100.3" Canvas.Top="290.5"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="54" Canvas.Left="100.3" Canvas.Top="280.8"/>
+
+                                    <ContentPresenter hd:BodyGraph.Gate="41" Canvas.Left="127.7" Canvas.Top="300.2"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="39" Canvas.Left="127.7" Canvas.Top="290.5"/>
+                                    <ContentPresenter hd:BodyGraph.Gate="19" Canvas.Left="127.7" Canvas.Top="280.8"/>
+                                </Canvas>
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
