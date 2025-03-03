@@ -6,6 +6,8 @@
     <Nullable>disable</Nullable>
     <NoWarn>1701;1702;NU1702</NoWarn>
     <IsPackable>true</IsPackable>
+    <Description>Model of I Ching concepts.</Description>
+    <PackageTags>Hexagram;Trigram;King Wen;Yarrow sticks</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

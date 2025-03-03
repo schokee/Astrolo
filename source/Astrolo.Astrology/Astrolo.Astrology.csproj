@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <IsPackable>true</IsPackable>
+    <Description>Common Astrology concepts used by HumanDesign and GeneKeys packages.</Description>
+    <PackageTags>Astrology; Zodiac</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

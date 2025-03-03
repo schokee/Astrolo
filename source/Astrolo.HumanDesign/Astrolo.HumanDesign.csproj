@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
+    <Description>Model of Human Design concepts, with mappings to astrology and I Ching.</Description>
+    <PackageTags>Channel;Gate;Incarnation Cross;Mandala;Center;Circuit</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

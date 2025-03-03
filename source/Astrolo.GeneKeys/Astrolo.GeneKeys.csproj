@@ -5,6 +5,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>true</IsPackable>
+    <Description>Model of Gene Keys concepts, with mappings to Human Design and I Ching.</Description>
+    <PackageTags>Gene Keys; Human Design; Hexagram</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

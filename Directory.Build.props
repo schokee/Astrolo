@@ -10,10 +10,13 @@
     <LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;NU1702</NoWarn>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
-    <EnablePackageValidation>false</EnablePackageValidation>
-    <!--<PackOnBuild>true</PackOnBuild>-->
     <PackageOutputPath Condition="'$(PackageOutputPath)' == ''">$(MSBuildThisFileDirectory)bin</PackageOutputPath>
     <PackageIcon>YinYang.png</PackageIcon>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <PackOnBuild>true</PackOnBuild>
+    <EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
   <Choose>
