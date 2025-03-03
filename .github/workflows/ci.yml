@@ -14,7 +14,8 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
       with:
-        fetchDepth: 0 # Clone full repo history for GitVersion to work
+        # Clone full repo history for GitVersion to work
+        fetch-depth: 0
 
     - name: Setup .NET 9.x
       uses: actions/setup-dotnet@v4
