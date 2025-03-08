@@ -1,21 +1,18 @@
 ﻿using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Astrolo.Explorer.Components;
-using Astrolo.Explorer.Messages;
 using Astrolo.YiJing;
-using Caliburn.Micro;
 
 namespace Astrolo.Explorer.UI.Visualisation.Filtering;
 
-public sealed class InspectionFilterViewModel : Selectable, IDisposable, IHexagramFilter, IHandle<ActiveProfileChanged>
+public sealed class InspectionFilterViewModel : Selectable, IDisposable, IHexagramFilter
 {
     private readonly IDisposable _shutdown;
 
     public InspectionFilterViewModel()
     {
-        Filters = new(HexagramFilter.All.Prepend(ProfileFilter));
+        Filters = new(HexagramFilter.All);
 
         GroupedFilters = CollectionViewSource.GetDefaultView(Filters);
         GroupedFilters.GroupDescriptions.Add(new PropertyGroupDescription(nameof(HexagramFilter.Category)));
@@ -33,8 +30,6 @@ public sealed class InspectionFilterViewModel : Selectable, IDisposable, IHexagr
         _shutdown.Dispose();
     }
 
-    public ProfileFilter ProfileFilter { get; } = new();
-
     public ICollectionView GroupedFilters { get; }
 
     public PickList<HexagramFilter> Filters { get; }
@@ -49,17 +44,5 @@ public sealed class InspectionFilterViewModel : Selectable, IDisposable, IHexagr
         return IsSelected
             ? Filters.CurrentSelection.Aggregate(VisualStates.None, (result, x) => result | x.GetState(hexagram))
             : VisualStates.None;
-    }
-
-    Task IHandle<ActiveProfileChanged>.HandleAsync(ActiveProfileChanged message, CancellationToken cancellationToken)
-    {
-        ProfileFilter.Profile = message.GeneKeyProfile;
-
-        if (ProfileFilter.IsSelected)
-        {
-            OnSelectionChanged();
-        }
-
-        return Task.CompletedTask;
     }
 }
