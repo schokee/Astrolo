@@ -8,8 +8,10 @@
 ## Package Dependencies
 ![image](https://github.com/schokee/Astrolo/assets/94783963/12f98560-2770-4472-9634-f2442486571b)
 
-## Visualisations
+## Profile Generation
+![image](https://github.com/user-attachments/assets/85dc02c9-db5c-44f2-9fc1-314e7a27cdaa)
 
+## Visualisations
 ### Yi Sphere
 ![image](https://github.com/schokee/Astrolo/assets/94783963/12bea6df-514c-4d23-9913-de5e47ba45da)
 
