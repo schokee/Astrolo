@@ -1,5 +1,4 @@
-using System.Reactive.Linq;
-using System.Threading.Tasks;
+using System.Reactive.Disposables;
 using System.Windows.Input;
 using System.Windows.Media.Media3D;
 using Astrolo.Explorer.UI.Visualisation.Filtering;
@@ -12,7 +11,7 @@ namespace Astrolo.Explorer.UI.Visualisation.Sphere;
 
 public sealed class YiSphereViewModel : Screen, IDisposable
 {
-    private readonly IDisposable _shutdown;
+    private readonly SerialDisposable _shutdown = new();
 
     private InspectionFilterViewModel _filter;
     private bool _showLabels;
@@ -31,14 +30,15 @@ public sealed class YiSphereViewModel : Screen, IDisposable
 
         ResetViewCommand = new RelayCommand(() => View?.ViewFrom(new(1, -1, -1)));
 
-        _shutdown = Observable
-            .FromEventPattern(h => CompositionTarget.Rendering += h, h => CompositionTarget.Rendering -= h)
-            .Subscribe(_ =>
-            {
-                PathVisual.Points = Filter?.IsSelected == true && Filter.ProfileFilter.IsSelected && Filter.ProfileFilter.Profile != null
-                    ? new(Filter.ProfileFilter.Profile.Points.Select(x => x.GeneKey.Hexagram.Info.SphereLocation).ToLines(4.8))
-                    : new Point3DCollection();
-            });
+        //_shutdown.Disposable = Observable
+        //    .FromEventPattern(h => CompositionTarget.Rendering += h, h => CompositionTarget.Rendering -= h)
+        //    .Subscribe(_ =>
+        //    {
+        //        PathVisual.Points = [];
+        //        //Filter?.IsSelected == true && Filter.ProfileFilter.IsSelected && Filter.ProfileFilter.Profile != null
+        //        //    ? new(Filter.ProfileFilter.Profile.Points.Select(x => x.GeneKey.Hexagram.Info.SphereLocation).ToLines(4.8))
+        //        //    : new Point3DCollection();
+        //    });
     }
 
     public void Dispose()
