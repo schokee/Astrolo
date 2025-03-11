@@ -3,20 +3,13 @@ using Astrolo.Geometry;
 
 namespace Astrolo.Explorer.UI.Visualisation.Sphere;
 
-public readonly struct PolarVector3D
+public readonly struct PolarVector3D(Angle theta, Angle phi, double magnitude = 1)
 {
-    public PolarVector3D(Angle theta, Angle phi, double magnitude = 1)
-    {
-        Magnitude = magnitude;
-        Theta = theta;
-        Phi = phi;
-    }
+    public double Magnitude { get; } = magnitude;
 
-    public double Magnitude { get; }
+    public Angle Theta { get; } = theta;
 
-    public Angle Theta { get; }
-
-    public Angle Phi { get; }
+    public Angle Phi { get; } = phi;
 
     public Vector3D ToVector()
     {

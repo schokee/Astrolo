@@ -51,17 +51,17 @@ namespace Astrolo.Presentation.Controls.Halo
             _outerArcSegment.SweepDirection = SweepDirection.Clockwise;
             _innerArcSegment.SweepDirection = SweepDirection.Counterclockwise;
 
-            _figure.Segments = new PathSegmentCollection
-            {
+            _figure.Segments =
+            [
                 _startCap,
                 _outerArcSegment,
                 _endCap,
                 _innerArcSegment
-            };
+            ];
 
             DefiningGeometry = new PathGeometry
             {
-                Figures = new PathFigureCollection { _figure }
+                Figures = [_figure]
             };
         }
 

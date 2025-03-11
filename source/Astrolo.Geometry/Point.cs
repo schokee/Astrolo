@@ -1,16 +1,10 @@
 ﻿namespace Astrolo.Geometry
 {
-    public readonly struct Point
+    public readonly struct Point(double x, double y)
     {
-        public Point(double x, double y)
-        {
-            X = x;
-            Y = y;
-        }
+        public double X { get; } = x;
 
-        public double X { get; }
-
-        public double Y { get; }
+        public double Y { get; } = y;
 
         public static Point Zero => new();
 

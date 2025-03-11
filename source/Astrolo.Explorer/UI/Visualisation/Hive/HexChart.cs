@@ -11,14 +11,9 @@ namespace Astrolo.Explorer.UI.Visualisation.Hive;
 
 public static class HexChart
 {
-    public class Statistics
+    public class Statistics(IEnumerable<HexagramFigure> hexagrams)
     {
-        private IReadOnlyCollection<HexagramFigure> Hexagrams { get; }
-
-        public Statistics(IEnumerable<HexagramFigure> hexagrams)
-        {
-            Hexagrams = hexagrams.ToList();
-        }
+        private IReadOnlyCollection<HexagramFigure> Hexagrams { get; } = hexagrams.ToList();
 
         public IEnumerable<uint> AllValues => Hexagrams.Select(x => x.Ordinal).OrderBy(x => x);
 
@@ -81,24 +76,17 @@ public static class HexChart
         return new LowerChartGenerator(radius, sequence.Hexagrams).GenerateCells();
     }
 
-    private abstract class ChartGenerator
+    private abstract class ChartGenerator(uint startValue, double radius, IReadOnlyList<HexagramFigure> hexagrams)
     {
-        private double Radius { get; }
-        private IReadOnlyList<HexagramFigure> Hexagrams { get; }
-
-        protected ChartGenerator(uint startValue, double radius, IReadOnlyList<HexagramFigure> hexagrams)
-        {
-            StartValue = startValue;
-            Radius = radius;
-            Hexagrams = hexagrams;
-        }
+        private double Radius { get; } = radius;
+        private IReadOnlyList<HexagramFigure> Hexagrams { get; } = hexagrams;
 
         public IEnumerable<HexChartCell> GenerateCells()
         {
             return GenerateRings(StartValue).SelectMany(x => x).ToList();
         }
 
-        protected uint StartValue { get; }
+        protected uint StartValue { get; } = startValue;
 
         protected abstract uint Combine(uint v1, uint v2);
 
@@ -177,12 +165,9 @@ public static class HexChart
         }
     }
 
-    private class LowerChartGenerator : ChartGenerator
+    private class LowerChartGenerator(double radius, IReadOnlyList<HexagramFigure> hexagrams)
+        : ChartGenerator(0, radius, hexagrams)
     {
-        public LowerChartGenerator(double radius, IReadOnlyList<HexagramFigure> hexagrams) : base(0, radius, hexagrams)
-        {
-        }
-
         protected override uint Combine(uint v1, uint v2)
         {
             return v1 | v2;
@@ -195,12 +180,9 @@ public static class HexChart
         protected override IEnumerable<HexChartCell> Ring6 => MoreEnumerable.Return(CreateCell(6, Point.Origin.NeighborAt(Face.TopLeft).Scale(4), 42));
     }
 
-    private class UpperChartGenerator : ChartGenerator
+    private class UpperChartGenerator(double radius, IReadOnlyList<HexagramFigure> hexagrams)
+        : ChartGenerator((1 << 6) - 1, radius, hexagrams)
     {
-        public UpperChartGenerator(double radius, IReadOnlyList<HexagramFigure> hexagrams) : base((1 << 6) - 1, radius, hexagrams)
-        {
-        }
-
         protected override uint Combine(uint v1, uint v2)
         {
             return v1 & v2;

@@ -16,7 +16,7 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
 
     public PickList()
     {
-        _collection = new();
+        _collection = [];
         _collection.CollectionChanged += (_, e) => CollectionChanged?.Invoke(this, e);
     }
 

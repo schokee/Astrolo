@@ -42,7 +42,7 @@ public static class YiSphere3D
         public Geometry(double iconHeight = 1, double spacer = 1.5)
         {
             FigureSize = new(iconHeight * 0.9, iconHeight, iconHeight / (6 + SpacingFactor * 5));
-            Radius = (iconHeight + spacer) * 6 / System.Math.PI;
+            Radius = (iconHeight + spacer) * 6 / Math.PI;
         }
 
         public double SpacingFactor { get; } = 0.4;

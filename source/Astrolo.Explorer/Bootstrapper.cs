@@ -8,6 +8,7 @@ using Serilog;
 using System.Threading.Tasks;
 using Astrolo.Explorer.Services;
 using Astrolo.Explorer.UI;
+using Astrolo.Explorer.UI.Profiling;
 using Astrolo.Explorer.Windows;
 using Astrolo.GeneKeys;
 using Astrolo.HumanDesign;
@@ -100,7 +101,7 @@ internal sealed class Bootstrapper : BootstrapperBase
         ViewLocator.ConfigureTypeMappings(new()
         {
             IncludeViewSuffixInViewModelNames = false,
-            ViewSuffixList = new() { "View", "Window" }
+            ViewSuffixList = ["View", "Window"]
         });
 
         var assemblies = SelectAssemblies().ToArray();
@@ -136,6 +137,11 @@ internal sealed class Bootstrapper : BootstrapperBase
 
         containerBuilder
             .Register<Func<int, IGeneKey>>(c => n => c.Resolve<GeneKeyTable>()[n]);
+
+        containerBuilder
+            .RegisterType<ProfileDirectory>()
+            .As<IProfileDirectory>()
+            .SingleInstance();
 
         containerBuilder
             .RegisterType<CoinTossGenerator>()

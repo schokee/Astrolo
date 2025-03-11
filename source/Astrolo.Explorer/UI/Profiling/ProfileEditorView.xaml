@@ -115,7 +115,11 @@
                 </Style>
             </ToolBar.Resources>
 
-            <Button cm:Message.Attach="Clear" cm:Action.TargetWithoutContext="{Binding Editor}" Content="{iconPacks:Material Kind=FileDocumentOutline}" />
+            <Button cm:Message.Attach="AddNew" Content="{iconPacks:Material Kind=FileDocumentOutline}" />
+
+            <ComboBox x:Name="SortedProfiles" Width="200" DisplayMemberPath="Name" IsSynchronizedWithCurrentItem="True" />
+            <Button cm:Message.Attach="Rename" Content="{iconPacks:Material Kind=FormTextbox}" />
+            <Button cm:Message.Attach="Delete" Content="{iconPacks:Material Kind=DeleteOutline}" />
 
             <Separator Style="{StaticResource ToolSeparatorStyle}"/>
 
@@ -195,6 +199,9 @@
 
             <mah:ToggleSwitch IsOn="{Binding ShowStarPearl}" Focusable="False" Content="Show Star" Margin="6,0" />
         </ToolBar>
+
+        <TextBox DockPanel.Dock="Bottom" IsReadOnly="True" Text="{Binding Path=ProfileDirectory.FullPath, Mode=OneTime}" 
+                 IsTabStop="False" Opacity="0.5" BorderThickness="0" mah:TextBoxHelper.SelectAllOnFocus="True" />
 
         <Grid Margin="10">
             <Grid Grid.Row="0">
@@ -408,7 +415,8 @@
                     </StackPanel>
                 </astrolo:SpacingPanel>
 
-                <Viewbox Grid.Row="0" Grid.Column="2" Stretch="Uniform" VerticalAlignment="Top">
+                <Viewbox Grid.Row="0" Grid.Column="2" Stretch="Uniform" VerticalAlignment="Top"
+                         Visibility="{Binding Path=Editor.IsComplete, Converter={converters:ObjectToVisibilityConverter HiddenOnly=True}}">
                     <Grid>
                         <Grid.Resources>
                             <DataTemplate x:Key="GeneKeyToolTipTemplate" DataType="{x:Type geneKeys:IGeneKey}">

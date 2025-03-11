@@ -9,6 +9,8 @@ namespace Astrolo.Explorer.UI.Profiling;
 
 public sealed class ProfileEditor : PropertyChangedBase
 {
+    internal const string Delimiter = ";";
+
     private Func<int, IGeneKey> GetGeneKey { get; }
 
     public event System.Action ProfileChanged;
@@ -70,7 +72,7 @@ public sealed class ProfileEditor : PropertyChangedBase
 
     public void InitializeFrom(string designAndPersonality)
     {
-        InitializeFrom(designAndPersonality.Split(';'));
+        InitializeFrom(designAndPersonality.Split(Delimiter.ToCharArray()));
     }
 
     public void InitializeFrom(IEnumerable<string> values)
