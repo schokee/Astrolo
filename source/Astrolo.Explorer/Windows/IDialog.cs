@@ -2,6 +2,4 @@ using Caliburn.Micro;
 
 namespace Astrolo.Explorer.Windows;
 
-public interface IDialog : IClose
-{
-}
+public interface IDialog : IClose;

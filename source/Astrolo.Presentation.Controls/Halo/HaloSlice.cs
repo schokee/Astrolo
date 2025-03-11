@@ -44,16 +44,16 @@ namespace Astrolo.Presentation.Controls.Halo
         {
             _arcSegment.SweepDirection = SweepDirection.Clockwise;
 
-            _arcMarker.Segments = new PathSegmentCollection
-            {
+            _arcMarker.Segments =
+            [
                 _sliceStart,
                 _arcSegment,
                 _sliceEnd
-            };
+            ];
 
             DefiningGeometry = new PathGeometry
             {
-                Figures = new PathFigureCollection { _arcMarker }
+                Figures = [_arcMarker]
             };
         }
 

@@ -77,11 +77,6 @@ public sealed class MandalaViewModel : Screen, ISupportFiltering
         NotifyOfPropertyChange(nameof(Rays));
     }
 
-    private sealed class MandalaChart : Chart
-    {
-        public MandalaChart(IGateDictionary gateLookup, Func<IGateInfo, IGateConfiguration> createConfig)
-            : base(gateLookup, createConfig, _ => false)
-        {
-        }
-    }
+    private sealed class MandalaChart(IGateDictionary gateLookup, Func<IGateInfo, IGateConfiguration> createConfig)
+        : Chart(gateLookup, createConfig, _ => false);
 }

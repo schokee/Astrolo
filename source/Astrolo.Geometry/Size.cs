@@ -2,16 +2,10 @@
 
 namespace Astrolo.Geometry
 {
-    public readonly struct Size
+    public readonly struct Size(double width, double height)
     {
-        public Size(double width, double height)
-        {
-            Width = Math.Abs(width);
-            Height = Math.Abs(height);
-        }
+        public double Width { get; } = Math.Abs(width);
 
-        public double Width { get; }
-
-        public double Height { get; }
+        public double Height { get; } = Math.Abs(height);
     }
 }

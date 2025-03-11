@@ -53,11 +53,11 @@ namespace Astrolo.Presentation.Controls.Halo
 
         public HaloArc()
         {
-            _figure.Segments = new PathSegmentCollection { _segment };
+            _figure.Segments = [_segment];
 
             DefiningGeometry = new PathGeometry
             {
-                Figures = new PathFigureCollection { _figure }
+                Figures = [_figure]
             };
 
             BindingOperations.SetBinding(this, ConcentricPanel.ThicknessProperty, new Binding

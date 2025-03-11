@@ -6,15 +6,15 @@ namespace Astrolo.Explorer.UI.Visualisation;
 public sealed class IndexToBrushConverter : IValueConverter
 {
     public Brush[] Palette { get; set; } =
-    {
+    [
         Brushes.Gold,
         Brushes.DarkOrange,
         Brushes.MediumVioletRed,
         Brushes.RoyalBlue,
         Brushes.DodgerBlue,
         Brushes.YellowGreen,
-        Brushes.Gray,
-    };
+        Brushes.Gray
+    ];
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {

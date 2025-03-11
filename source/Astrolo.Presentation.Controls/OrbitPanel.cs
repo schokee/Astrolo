@@ -120,15 +120,12 @@ namespace Astrolo.Presentation.Controls
             {
                 child.RenderTransform = new TransformGroup
                 {
-                    Children = new TransformCollection
-                    {
-                        new TranslateTransform
-                        {
-                            X =  radius * offset.Sin(),
-                            Y = -radius * offset.Cos()
-                        },
+                    Children =
+                    [
+                        new TranslateTransform { X = radius * offset.Sin(), Y = -radius * offset.Cos() },
+
                         new RotateTransform { Angle = GetAngle(child) }
-                    }
+                    ]
                 };
             }
 

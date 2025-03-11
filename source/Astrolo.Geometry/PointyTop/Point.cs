@@ -6,47 +6,40 @@ namespace Astrolo.Geometry.PointyTop
 {
     // See also: http://www.redblobgames.com/grids/hexagons/
 
-    public readonly struct Point : IEquatable<Point>
+    public readonly struct Point(int x, int y, int z) : IEquatable<Point>
     {
         public static Point Origin { get; } = new();
 
         private static class Unit
         {
             public static Point[] Diagonal { get; } =
-            {
+            [
                 new(1, -2, 1),
                 new(-1, -1, 2),
                 new(-2, 1, 1),
                 new(-1, 2, -1),
                 new(1, 1, -2),
                 new(2, -1, -1)
-            };
+            ];
 
             public static Point[] Step { get; } =
-            {
+            [
                 new( 1, -1,  0 ),
                 new( 0, -1,  1 ),
                 new(-1,  0,  1 ),
                 new(-1,  1,  0 ),
                 new( 0,  1, -1 ),
                 new( 1,  0, -1 )
-            };
+            ];
         }
 
         public static IEnumerable<Face> AllFaces => Enum.GetValues(typeof(Face)).Cast<Face>();
 
         private static IEnumerable<Vertex> AllCorners => Enum.GetValues(typeof(Vertex)).Cast<Vertex>();
 
-        public Point(int x, int y, int z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        public int X { get; }
-        public int Y { get; }
-        public int Z { get; }
+        public int X { get; } = x;
+        public int Y { get; } = y;
+        public int Z { get; } = z;
 
         public int DistanceTo(Point other)
         {

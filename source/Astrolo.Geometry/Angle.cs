@@ -3,19 +3,13 @@ using System.Text.RegularExpressions;
 
 namespace Astrolo.Geometry
 {
-    public readonly struct Angle : IEquatable<Angle>
+    public readonly struct Angle(AngleUnitOfMeasure unitOfMeasure, double value) : IEquatable<Angle>
     {
         public const double DegreesPerRadian = 180 / Math.PI;
 
-        private double Value { get; }
+        private double Value { get; } = value;
 
-        public Angle(AngleUnitOfMeasure unitOfMeasure, double value)
-        {
-            UnitOfMeasure = unitOfMeasure;
-            Value = value;
-        }
-
-        public AngleUnitOfMeasure UnitOfMeasure { get; }
+        public AngleUnitOfMeasure UnitOfMeasure { get; } = unitOfMeasure;
 
         public bool IsMeasuredInRadians => UnitOfMeasure == AngleUnitOfMeasure.Radian;
 
