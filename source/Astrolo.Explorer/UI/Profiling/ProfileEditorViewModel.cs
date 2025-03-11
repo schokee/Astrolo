@@ -1,7 +1,10 @@
-﻿using System.Reactive.Disposables;
+﻿using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Astrolo.Explorer.UI.Visualisation.Mandala;
+using Astrolo.Explorer.Windows;
 using Astrolo.GeneKeys;
 using Astrolo.HumanDesign;
 using Astrolo.HumanDesign.Charting;
@@ -15,9 +18,6 @@ namespace Astrolo.Explorer.UI.Profiling;
 
 public sealed class ProfileEditorViewModel : Screen, IDisposable
 {
-    private const string Initial =
-        "15.5;10.5;16.6;42.3;32.3;35.1;62.1;16.5;60.5;59.2;15.3;48.4;7.2;" +
-        "46.3;25.3;32.3;51.2;57.2;57.4;44.4;33.4;61.2;64.1;52.2;48.6;7.5";
 
     private readonly SerialDisposable _shutdown = new();
     private readonly IGateDictionary _gateDictionary;
@@ -27,31 +27,61 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
     private IGeneKey _selectedGeneKey;
     private ChartValue _selectedChartValue;
 
-    public ProfileEditorViewModel(GeneKeyTable geneKeys, IGateDictionary gateDictionary)
+    private IUserPrompt Prompt { get; }
+    private Func<NameEditorViewModel> CreateNewProfileNameEditor { get; }
+    private Func<NameEditorViewModel> CreateRenameEditor { get; }
+
+    public ProfileEditorViewModel(
+        IProfileDirectory profileDirectory,
+        GeneKeyTable geneKeys,
+        IGateDictionary gateDictionary,
+        IUserPrompt prompt,
+        NameEditorViewModel.Factory createNameEditor)
     {
+        _gateDictionary = gateDictionary;
+
+        ProfileDirectory = profileDirectory;
         DisplayName = "Profile";
 
         GeneKeys = geneKeys;
-        Editor = new ProfileEditor(n => geneKeys[n]);
+        Prompt = prompt;
+        CreateRenameEditor = () => createNameEditor(profileDirectory.IsNameUnique, CurrentProfile.Name, rename: true);
+        CreateNewProfileNameEditor = () => createNameEditor(profileDirectory.IsNameUnique, profileDirectory.GenerateUniqueName("New Profile", x => x.Name));
 
         MandalaFigures = geneKeys
             .Select(x => new MandalaFigure(x))
             .OrderBy(x => x.StartAngle)
             .ToList();
 
-        _gateDictionary = gateDictionary;
-        _shutdown.Disposable = Observable
-            .FromEvent(h => Editor.ProfileChanged += h, h => Editor.ProfileChanged -= h)
-            .Throttle(TimeSpan.FromMilliseconds(200))
-            .Select(_ => CreateChart())
-            .Subscribe(x => CurrentChart = x);
-
-        Editor.InitializeFrom(Initial);
 
         SelectPointCommand = new RelayCommand<object>(SelectPoint, o => o != null);
         NavigateToGeneKeyCommand = new RelayCommand<object>(n => SelectedGeneKey = GeneKeys[(int)n], n => n is int);
         NavigateToGeneKeyDetailCommand = new RelayCommand(() => SelectedGeneKey.InfoLink.Browse());
 
+        SortedProfiles = CollectionViewSource.GetDefaultView(profileDirectory);
+        SortedProfiles.SortDescriptions.Add(new SortDescription(nameof(INamedProfile.Name), ListSortDirection.Ascending));
+
+        var selectionChanged = Observable
+            .FromEventPattern(h => SortedProfiles.CurrentChanged += h, h => SortedProfiles.CurrentChanged -= h)
+            .Do(_ =>
+            {
+                NotifyOfPropertyChange(nameof(CanRename));
+                NotifyOfPropertyChange(nameof(CanDelete));
+                NotifyOfPropertyChange(nameof(CurrentProfile));
+                NotifyOfPropertyChange(nameof(Editor));
+                NotifyOfPropertyChange(nameof(FilteredChart));
+            })
+            .Select(_ => Unit.Default);
+
+        _shutdown.Disposable = Observable
+            .FromEvent(h => Editor.ProfileChanged += h, h => Editor.ProfileChanged -= h)
+            .Merge(selectionChanged)
+            .StartWith(Unit.Default)
+            .Throttle(TimeSpan.FromMilliseconds(200))
+            .Select(_ => CreateChart(Editor))
+            .Subscribe(x => CurrentChart = x);
+
+        SortedProfiles.MoveCurrentToFirst();
     }
 
     public void Dispose()
@@ -71,7 +101,13 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
 
     #endregion
 
-    public ProfileEditor Editor { get; }
+    public IProfileDirectory ProfileDirectory { get; }
+
+    public ICollectionView SortedProfiles { get; }
+
+    public INamedProfile CurrentProfile => (INamedProfile)SortedProfiles.CurrentItem;
+
+    public ProfileEditor Editor => CurrentProfile.Editor;
 
     public GeneKeyTable GeneKeys { get; }
 
@@ -203,6 +239,40 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
         }
     }
 
+    [UsedImplicitly]
+    public async Task AddNew()
+    {
+        var nameEditor = CreateNewProfileNameEditor();
+        await nameEditor.ShowModalAsync();
+
+        SortedProfiles.MoveCurrentTo(ProfileDirectory.AddNew(nameEditor.NewName));
+    }
+
+    public bool CanRename => CurrentProfile is not null;
+
+    [UsedImplicitly]
+    public async Task Rename()
+    {
+        if (CanRename)
+        {
+            var nameEditor = CreateRenameEditor();
+            await nameEditor.ShowModalAsync();
+
+            CurrentProfile.Name = nameEditor.NewName;
+        }
+    }
+
+    public bool CanDelete => CurrentProfile is not null && ProfileDirectory.Count > 1;
+
+    [UsedImplicitly]
+    public void Delete()
+    {
+        if (CanDelete && Prompt.Confirm($"Are you sure you want to delete the profile '{CurrentProfile}'?") == UserResponse.Accept)
+        {
+            CurrentProfile.Delete();
+        }
+    }
+
     private PersonalChart CurrentChart
     {
         get => _currentChart;
@@ -218,10 +288,10 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
         }
     }
 
-    private PersonalChart CreateChart()
+    private PersonalChart CreateChart(ProfileEditor editor)
     {
-        return Editor.IsComplete
-            ? PersonalChart.Create(_gateDictionary, Editor.GetValue)
+        return editor.IsComplete
+            ? PersonalChart.Create(_gateDictionary, editor.GetValue)
             : null;
     }
 
