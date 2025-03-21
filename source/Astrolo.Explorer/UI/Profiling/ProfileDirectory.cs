@@ -35,13 +35,7 @@ public sealed class ProfileDirectory : ObservableCollection<INamedProfile>, IPro
             return;
         }
 
-        Add(new ProfileDto
-        {
-            Name = "John Lennon",
-            Points =
-                "53.4;54.4;57.1;51.1;6.6;31.4;12.6;31.3;24.4;24.6;8.1;6.1;31.1;" +
-                "57.2;51.2;48.2;21.2;41.2;44.1;59.4;46.5;2.1;24.6;8.2;6.4;31.3"
-        });
+        KnownProfiles.All.ForEach(Add);
     }
 
     public void Dispose()
@@ -206,6 +200,47 @@ public sealed class ProfileDirectory : ObservableCollection<INamedProfile>, IPro
         public override string ToString()
         {
             return Name;
+        }
+    }
+
+    private static class KnownProfiles
+    {
+        public static IEnumerable<ProfileDto> All
+        {
+            get
+            {
+                yield return new ProfileDto
+                {
+                    Name = "John Lennon",
+                    Points =
+                        "53.4;54.4;57.1;51.1;6.6;31.4;12.6;31.3;24.4;24.6;8.1;6.1;31.1;" +
+                        "57.2;51.2;48.2;21.2;41.2;44.1;59.4;46.5;2.1;24.6;8.2;6.4;31.3"
+                };
+
+                yield return new ProfileDto
+                {
+                    Name = "Paul McCartney",
+                    Points =
+                        "36.6;6.6;64.3;63.3;42.6;55.4;13.2;16.2;35.3;23.6;8.3;46.1;31.2;" +
+                        "12.4;11.4;40.1;37.1;33.5;45.2;2.6;31.1;15.4;20.6;20.2;6.5;31.3;"
+                };
+
+                yield return new ProfileDto
+                {
+                    Name = "George Harrison",
+                    Points =
+                        "9.2;16.2;29.5;30.5;29.5;9.2;9.6;43.1;62.5;16.4;20.3;46.4;31.6;" +
+                        "55.6;59.6;29.1;30.1;50.5;19.3;25.2;61.1;53.1;16.1;20.1;46.4;31.4"
+                };
+
+                yield return new ProfileDto
+                {
+                    Name = "Ringo Starr",
+                    Points =
+                        "51.2;57.2;57.6;51.6;25.6;22.4;20.2;20.4;51.6;27.1;23.2;6.1;56.5;" +
+                        "39.6;38.6;57.1;51.1;31.3;31.4;15.2;31.1;24.3;24.6;8.1;6.1;56.6"
+                };
+            }
         }
     }
 

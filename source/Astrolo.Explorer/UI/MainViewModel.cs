@@ -7,11 +7,16 @@ namespace Astrolo.Explorer.UI;
 
 internal sealed class MainViewModel : Conductor<Screen>.Collection.OneActive
 {
-    public MainViewModel(ReadingViewModel reading, GeometryViewModel geometry, ProfileEditorViewModel profileEditor)
+    public MainViewModel(
+        ReadingViewModel reading,
+        GeometryViewModel geometry,
+        ProfileEditorViewModel profileEditor,
+        ComparerViewModel profileComparer)
     {
         DisplayName = "Astrolo " + ProductInfo.Version;
 
         Items.Add(profileEditor);
+        Items.Add(profileComparer);
         Items.Add(geometry);
         Items.Add(reading);
 

@@ -1,0 +1,178 @@
+﻿<UserControl x:Class="Astrolo.Explorer.UI.Profiling.ComparerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:cm="http://caliburnmicro.com"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:astrolo="http://schemas.astrolo.org/"
+             xmlns:humanDesign="clr-namespace:Astrolo.HumanDesign;assembly=Astrolo.HumanDesign"
+             xmlns:charting="clr-namespace:Astrolo.HumanDesign.Charting;assembly=Astrolo.HumanDesign"
+             xmlns:converters="clr-namespace:Astrolo.Explorer.Converters"
+             xmlns:local="clr-namespace:Astrolo.Explorer.UI.Profiling"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800"
+             d:DataContext="{d:DesignInstance {x:Type local:ComparerViewModel}, IsDesignTimeCreatable=false}">
+    <Grid Margin="10">
+        <Grid.Resources>
+            <Style x:Key="Border.Panel" TargetType="{x:Type Border}">
+                <Setter Property="BorderBrush" Value="Gainsboro"/>
+                <Setter Property="BorderThickness" Value="1"/>
+            </Style>
+
+            <SolidColorBrush x:Key="DesignBrush" Color="SteelBlue"/>
+            <SolidColorBrush x:Key="PersonalityBrush" Color="Orange"/>
+
+            <DataTemplate DataType="{x:Type local:ComparisonSubject}">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Rectangle Stroke="Gainsboro" StrokeThickness="1" Margin="0,0,6,0"
+                                   Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}"
+                                   Fill="{Binding Path=(local:ComparerView.Subject), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}} }"/>
+
+                        <ComboBox ItemsSource="{Binding SortedProfiles}" SelectedItem="{Binding Profile, Delay=150}"
+                                  BorderBrush="Gainsboro" mah:TextBoxHelper.ClearTextButton="True" />
+                    </DockPanel>
+                    <Border Style="{StaticResource Border.Panel}" Background="Transparent" Margin="0,6,0,0">
+                        <Grid>
+                            <StackPanel Opacity="0.3" VerticalAlignment="Center"
+                                    Visibility="{Binding HasContent, Converter={converters:ObjectToVisibilityConverter Invert=True}}">
+                                <iconPacks:PackIconMaterial Kind="AccountBoxOutline" Width="32" Height="32" HorizontalAlignment="Center" Margin="0,0,0,3" />
+                                <TextBlock Text="No profile selected" HorizontalAlignment="Center"/>
+                            </StackPanel>
+                            <DockPanel Visibility="{Binding HasContent, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <!--
+                                <DockPanel DockPanel.Dock="Top" Margin="5,3" VerticalAlignment="Top">
+                                    <astrolo:SpacingPanel Spacing="4">
+                                        <Rectangle Width="16" Height="16" Stroke="Gainsboro" StrokeThickness="1"
+                                                   Fill="{Binding (local:ComparerView.Subject), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}} }"/>
+                                        <TextBlock Text="{Binding Path=Profile.Name}" Foreground="DimGray" FontSize="14 " FontWeight="SemiBold"
+                                                   VerticalAlignment="Center" TextTrimming="CharacterEllipsis"  />
+                                    </astrolo:SpacingPanel>
+                                    <Button cm:Message.Attach="Clear" Style="{StaticResource MahApps.Styles.Button.Chromeless}"
+                                            Content="{iconPacks:Material Kind=Close, Width=16, Height=16}" HorizontalAlignment="Right" ToolTip="Clear"/>
+                                </DockPanel>
+                                -->
+                                <mah:TransitioningContentControl Content="{Binding Chart}"
+                                                                 Transition="RightReplace" Focusable="False" IsTabStop="False" VerticalAlignment="Top">
+                                    <mah:TransitioningContentControl.ContentTemplate>
+                                        <DataTemplate DataType="{x:Type charting:PersonalChart}">
+                                            <Viewbox Stretch="Uniform" VerticalAlignment="Top">
+                                                <astrolo:BodyGraph Chart="{Binding}"/>
+                                            </Viewbox>
+                                        </DataTemplate>
+                                    </mah:TransitioningContentControl.ContentTemplate>
+                                </mah:TransitioningContentControl>
+                            </DockPanel>
+                        </Grid>
+                    </Border>
+                </DockPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320"/>
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="320"/>
+            </Grid.ColumnDefinitions>
+
+            <ContentPresenter Grid.Row="0" Grid.Column="0" local:ComparerView.Subject="{StaticResource DesignBrush}" Content="{Binding Lhs}" />
+
+            <Border Grid.Row="0" Grid.Column="2" Style="{StaticResource Border.Panel}">
+                <Grid Visibility="{Binding Result, Converter={converters:ObjectToVisibilityConverter}}">
+                    <Grid.Resources>
+                        <CollectionViewSource x:Key="Channels" Source="{Binding Path=Result.Channels}">
+                            <CollectionViewSource.GroupDescriptions>
+                                <PropertyGroupDescription PropertyName="Assessment"/>
+                            </CollectionViewSource.GroupDescriptions>
+                        </CollectionViewSource>
+                    </Grid.Resources>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Viewbox Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500">
+                        <astrolo:BodyGraph Chart="{Binding Result}" Design="{StaticResource DesignBrush}" Personality="{StaticResource PersonalityBrush}"/>
+                    </Viewbox>
+
+                    <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <ItemsControl ItemsSource="{Binding Source={StaticResource Channels}}" Padding="5" HorizontalAlignment="Center"  >
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel Orientation="Vertical" IsItemsHost="True" MinWidth="150" Height="150"/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" Margin="3,2" FontWeight="SemiBold" Foreground="{StaticResource MahApps.Brushes.Accent}"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                    <GroupStyle.Panel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal" Margin="10,0" IsItemsHost="True" />
+                                        </ItemsPanelTemplate>
+                                    </GroupStyle.Panel>
+                                </GroupStyle>
+                            </ItemsControl.GroupStyle>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type charting:ChannelComparison}">
+                                    <DockPanel Margin="-2,1,8,3">
+                                        <Border Width="16" Height="16" Margin="0,0,5,0"
+                                                Visibility="{Binding HasConflict, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                            <Border.Style>
+                                                <Style TargetType="{x:Type Border}" BasedOn="{StaticResource Border.Panel}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Activation}" Value="{x:Static humanDesign:GateActivation.Design}">
+                                                            <Setter Property="Background" Value="{StaticResource DesignBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Activation}" Value="{x:Static humanDesign:GateActivation.Personality}">
+                                                            <Setter Property="Background" Value="{StaticResource PersonalityBrush}"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Activation}" Value="{x:Static humanDesign:GateActivation.Both}">
+                                                            <Setter Property="Background" >
+                                                                <Setter.Value>
+                                                                    <DrawingBrush Viewport="0,0,1,1" TileMode="Tile">
+                                                                        <DrawingBrush.Drawing>
+                                                                            <DrawingGroup>
+                                                                                <GeometryDrawing Brush="{StaticResource DesignBrush}">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry Rect="0,0,8,8" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+
+                                                                                <GeometryDrawing Brush="{StaticResource PersonalityBrush}">
+                                                                                    <GeometryDrawing.Geometry>
+                                                                                        <RectangleGeometry Rect="8,0,8,8" />
+                                                                                    </GeometryDrawing.Geometry>
+                                                                                </GeometryDrawing>
+                                                                            </DrawingGroup>
+                                                                        </DrawingBrush.Drawing>
+                                                                    </DrawingBrush>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                        </Border>
+                                        <TextBlock Text="{Binding Channel, StringFormat=c}" VerticalAlignment="Center" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </Border>
+
+            <ContentPresenter Grid.Row="0" Grid.Column="4" Content="{Binding Rhs}" local:ComparerView.Subject="{StaticResource PersonalityBrush}"/>
+        </Grid>
+    </Grid>
+</UserControl>

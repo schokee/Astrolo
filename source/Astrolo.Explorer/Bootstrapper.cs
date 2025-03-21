@@ -6,9 +6,7 @@ using Caliburn.Micro;
 using Autofac.Core;
 using Serilog;
 using System.Threading.Tasks;
-using Astrolo.Explorer.Services;
 using Astrolo.Explorer.UI;
-using Astrolo.Explorer.UI.Profiling;
 using Astrolo.Explorer.Windows;
 using Astrolo.GeneKeys;
 using Astrolo.HumanDesign;
@@ -139,21 +137,12 @@ internal sealed class Bootstrapper : BootstrapperBase
             .Register<Func<int, IGeneKey>>(c => n => c.Resolve<GeneKeyTable>()[n]);
 
         containerBuilder
-            .RegisterType<ProfileDirectory>()
-            .As<IProfileDirectory>()
-            .SingleInstance();
-
-        containerBuilder
             .RegisterType<CoinTossGenerator>()
             .As<IChangeGenerator>();
 
         containerBuilder
             .RegisterType<YarrowStalkGenerator>()
             .As<IChangeGenerator>();
-
-        containerBuilder
-            .RegisterType<YiJingBrowser>()
-            .As<IYiJingBrowser>();
 
         return containerBuilder.Build();
     }
