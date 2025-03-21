@@ -5,11 +5,11 @@
 - GeneKeys Profile
 - YiJing Hexagram
 
-## Package Dependencies
-![image](https://github.com/schokee/Astrolo/assets/94783963/12f98560-2770-4472-9634-f2442486571b)
-
 ## Profile Generation
 ![image](https://github.com/user-attachments/assets/85dc02c9-db5c-44f2-9fc1-314e7a27cdaa)
+
+## Relationship Chart
+![image](https://github.com/user-attachments/assets/bb1330f0-acde-49ad-ae64-5b28fef8f0fc)
 
 ## Visualisations
 ### Yi Sphere
@@ -23,3 +23,6 @@
 
 ### Hex Grid
 ![image](https://github.com/schokee/Astrolo/assets/94783963/c9012d03-3244-42f5-bc00-bb700b230fab)
+
+## Package Dependencies
+![image](https://github.com/schokee/Astrolo/assets/94783963/12f98560-2770-4472-9634-f2442486571b)
