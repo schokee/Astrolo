@@ -4,7 +4,7 @@
     <EnablePackageVersionOverride>false</EnablePackageVersionOverride>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="Autofac" Version="8.2.0" />
+    <PackageVersion Include="Autofac" Version="8.3.0" />
     <PackageVersion Include="Autofac.Extras.AttributeMetadata" Version="6.0.0" />
     <PackageVersion Include="Caliburn.Micro" Version="4.0.230" />
     <PackageVersion Include="CommunityToolkit.Mvvm" Version="8.4.0" />
@@ -15,7 +15,7 @@
     <PackageVersion Include="Expression.Interaction" Version="3.0.40218" />
     <PackageVersion Include="GitVersion.MsBuild" Version="6.1.0" />
     <PackageVersion Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageVersion Include="HelixToolkit.Wpf" Version="2.26.0" />
+    <PackageVersion Include="HelixToolkit.Wpf" Version="2.27.0" />
     <PackageVersion Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageVersion Include="MahApps.Metro" Version="2.4.10" />
     <PackageVersion Include="MahApps.Metro.IconPacks.Material" Version="5.1.0" />
@@ -29,10 +29,10 @@
     <PackageVersion Include="Scriban" Version="5.6.0" />
     <PackageVersion Include="Serilog" Version="4.2.0" />
     <PackageVersion Include="Serilog.Sinks.Debug" Version="3.0.0" />
-    <PackageVersion Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageVersion Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageVersion Include="Sprache" Version="2.3.1" />
     <PackageVersion Include="System.Reactive" Version="6.0.1" />
-    <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.0" />
+    <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.1.2" />
     <PackageVersion Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 </Project>
