@@ -38,9 +38,9 @@ namespace Astrolo.Explorer.Windows
             return HasBeenConfirmed || await ConfirmCancelAsync();
         }
 
-        protected override async Task OnActivateAsync(CancellationToken cancellationToken)
+        protected override async Task OnActivatedAsync(CancellationToken cancellationToken)
         {
-            await base.OnActivateAsync(cancellationToken);
+            await base.OnActivatedAsync(cancellationToken);
             HasBeenConfirmed = false;
         }
 

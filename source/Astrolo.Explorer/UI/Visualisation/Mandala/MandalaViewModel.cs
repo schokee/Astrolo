@@ -57,10 +57,10 @@ public sealed class MandalaViewModel : Screen, ISupportFiltering
         ? GeneKeys.Where(x => x.IsEmphasized).Select(x => x.Gate.MandalaSlice)
         : [];
 
-    protected override Task OnActivateAsync(CancellationToken cancellationToken)
+    protected override Task OnActivatedAsync(CancellationToken cancellationToken)
     {
         Refresh();
-        return base.OnActivateAsync(cancellationToken);
+        return base.OnActivatedAsync(cancellationToken);
     }
 
     void ISupportFiltering.UpdateSelection(IHexagramFilter filter)

@@ -59,10 +59,10 @@ public sealed class GeometryViewModel : Conductor<Screen>.Collection.OneActive
         }
     }
 
-    protected override Task OnActivateAsync(CancellationToken cancellationToken)
+    protected override Task OnActivatedAsync(CancellationToken cancellationToken)
     {
         ApplyFilters();
-        return base.OnActivateAsync(cancellationToken);
+        return base.OnActivatedAsync(cancellationToken);
     }
 
     private void ApplyFilters()
