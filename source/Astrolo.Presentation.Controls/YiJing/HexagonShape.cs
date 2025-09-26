@@ -44,7 +44,7 @@ namespace Astrolo.Presentation.Controls.YiJing
             {
                 Figures =
                 {
-                    new PathFigure(points[0], new [] { new PolyLineSegment(points.Skip(1), true) }, true)
+                    new PathFigure(points[0], [new PolyLineSegment(points.Skip(1), true)], true)
                 },
                 FillRule = FillRule.EvenOdd
             };

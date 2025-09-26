@@ -172,7 +172,7 @@ namespace Astrolo.Presentation.Controls.HumanDesign
         {
             return GetTemplateChild(panelName) is Panel panel
                 ? panel.Children.OfType<T>()
-                : Enumerable.Empty<T>();
+                : [];
         }
     }
 }
