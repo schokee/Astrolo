@@ -60,7 +60,7 @@ namespace Astrolo.Presentation.Controls.GeneKeys
             }
 
             var segments = Metrics.PointsInSequence(Sequence).Select(x => new LineSegment(x.ToPoint(), true)).ToList();
-            return new PathGeometry(new[] { new PathFigure(segments[0].Point, segments.Skip(1), false) });
+            return new PathGeometry([new PathFigure(segments[0].Point, segments.Skip(1), false)]);
         }
     }
 }

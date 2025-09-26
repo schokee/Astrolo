@@ -103,7 +103,7 @@ public class HexagramFilter : Filter<HexagramFigure>, IHexagramFilter
             };
         });
 
-    private static ISet<int> DeltaPath { get; } = new HashSet<int>(new[] { 22, 12, 6, 59, 27, 50, 57, 20 });
+    private static ISet<int> DeltaPath { get; } = new HashSet<int>([22, 12, 6, 59, 27, 50, 57, 20]);
 
     public static IEnumerable<HexagramFilter> GeneKeys
     {
