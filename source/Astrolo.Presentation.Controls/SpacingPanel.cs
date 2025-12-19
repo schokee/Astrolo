@@ -29,7 +29,10 @@ namespace Astrolo.Presentation.Controls
             for (var final = Children.Count - 1; index <= final; ++index)
             {
                 var uiElement = Children[index];
-                if (uiElement == null) continue;
+                if (uiElement == null)
+                {
+                    continue;
+                }
 
                 uiElement.Measure(constraint);
                 var desiredSize = uiElement.DesiredSize;
@@ -62,7 +65,10 @@ namespace Astrolo.Presentation.Controls
             for (var count = Children.Count; index < count; ++index)
             {
                 var uiElement = Children[index];
-                if (uiElement == null) continue;
+                if (uiElement == null)
+                {
+                    continue;
+                }
 
                 if (isHorizontal)
                 {

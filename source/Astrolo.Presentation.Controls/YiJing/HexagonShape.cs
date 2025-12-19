@@ -24,7 +24,9 @@ namespace Astrolo.Presentation.Controls.YiJing
         protected override Size MeasureOverride(Size constraint)
         {
             if (Radius <= 0)
+            {
                 return new Size(0, 0);
+            }
 
             var hexagon = new Hexagon((float)Radius);
             return new Size(hexagon.Apotherm * 2 + StrokeThickness, hexagon.Radius * 2 + StrokeThickness);

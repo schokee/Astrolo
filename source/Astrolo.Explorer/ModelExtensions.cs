@@ -39,7 +39,7 @@ internal static class ModelExtensions
             }
 
             var match = pattern.Match(name);
-            return match.Success ? int.Parse(match.Groups[1].Value) : default(int?);
+            return match.Success ? int.Parse(match.Groups[1].Value) : null;
         }
     }
 }

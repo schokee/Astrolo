@@ -20,7 +20,7 @@ namespace Astrolo.Explorer.Windows
             await TryCloseAsync(false);
         }
 
-        public override async Task TryCloseAsync(bool? dialogResult = default)
+        public override async Task TryCloseAsync(bool? dialogResult = null)
         {
             if (HasBeenConfirmed)
             {

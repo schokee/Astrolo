@@ -68,21 +68,31 @@ namespace Astrolo.Geometry
 
         public static Angle ParseCoordinate(string s)
         {
-            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (s == null)
+            {
+                throw new ArgumentNullException(nameof(s));
+            }
 
             var matchPattern = CoordinatePattern.Match(s);
-            if (!matchPattern.Success) throw new FormatException("Failed to parse angle: " + s);
+            if (!matchPattern.Success)
+            {
+                throw new FormatException("Failed to parse angle: " + s);
+            }
 
             var deg = double.Parse(matchPattern.Groups["deg"].Value);
             var min = matchPattern.Groups["min"];
 
             if (min.Success)
+            {
                 deg += int.Parse(min.Value) / 60d;
+            }
 
             var sec = matchPattern.Groups["sec"];
 
             if (sec.Success)
+            {
                 deg += int.Parse(sec.Value) / 3600d;
+            }
 
             return FromDegrees(deg);
         }

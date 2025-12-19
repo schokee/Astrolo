@@ -26,7 +26,9 @@ public class EnumToStringConverter : MarkupExtension, IValueConverter
     public static string ConvertToString(object value)
     {
         if (value == null)
+        {
             return null;
+        }
 
         var type = value.GetType();
 

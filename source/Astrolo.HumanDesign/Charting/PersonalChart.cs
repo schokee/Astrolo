@@ -150,10 +150,14 @@ public sealed class PersonalChart : Chart
             ActiveMarkersInPersonality = values[false].ToList();
 
             if (ActiveMarkersInDesign.Any())
+            {
                 ActivationState |= GateActivation.Design;
+            }
 
             if (ActiveMarkersInPersonality.Any())
+            {
                 ActivationState |= GateActivation.Personality;
+            }
         }
 
         public IGateInfo Gate { get; }

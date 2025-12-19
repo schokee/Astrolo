@@ -10,8 +10,15 @@ namespace Astrolo.Geometry
 
         public static int FromDegrees(int degrees, uint minutes = 0, uint seconds = 0)
         {
-            if (minutes > 60) throw new ArgumentOutOfRangeException(nameof(minutes));
-            if (seconds > 60) throw new ArgumentOutOfRangeException(nameof(seconds));
+            if (minutes > 60)
+            {
+                throw new ArgumentOutOfRangeException(nameof(minutes));
+            }
+
+            if (seconds > 60)
+            {
+                throw new ArgumentOutOfRangeException(nameof(seconds));
+            }
 
             var fraction = (int) (minutes * PerMinute + seconds);
             return degrees * PerDegree + (degrees > 0 ? fraction : -fraction);

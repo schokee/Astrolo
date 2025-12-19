@@ -6,7 +6,10 @@ namespace Astrolo.Geometry
     {
         public Circle(Point center, double radius)
         {
-            if (radius < 0) throw new ArgumentOutOfRangeException(nameof(Radius));
+            if (radius < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(Radius));
+            }
 
             Center = center;
             Radius = radius;

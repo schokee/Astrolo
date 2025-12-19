@@ -54,7 +54,7 @@ internal sealed class Bootstrapper : BootstrapperBase
         var language = XmlLanguage.GetLanguage(Culture.IetfLanguageTag);
         FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(language));
 
-        Log.Information("--- Application starting: v" + ProductInfo.Version);
+        Log.Information("--- Application starting: v{version}", ProductInfo.Version);
 
         var exitCode = await RunAsync();
 

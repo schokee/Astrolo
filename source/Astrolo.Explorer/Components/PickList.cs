@@ -47,7 +47,7 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
 
     public bool? AllSelected
     {
-        get => AnySelected ? SelectionCount == Count ? true : default(bool?) : false;
+        get => AnySelected ? SelectionCount == Count ? true : null : false;
         // ReSharper disable once ValueParameterNotUsed
         set => SetSelection(SelectionCount < Count);
     }
@@ -114,7 +114,10 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
 
     public void MoveTo(PickList<T> target, Predicate<T> canBeMoved)
     {
-        if (!HasItems) return;
+        if (!HasItems)
+        {
+            return;
+        }
 
         var anyMoved = false;
 
@@ -137,7 +140,10 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
             anyMoved = true;
         }
 
-        if (!anyMoved) return;
+        if (!anyMoved)
+        {
+            return;
+        }
 
         OnCollectionChanged();
         target.OnCollectionChanged();
@@ -149,7 +155,10 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
 
         return Disposable.Create(() =>
         {
-            if (--NotificationLockCount == 0) UpdateStateOfSelection();
+            if (--NotificationLockCount == 0)
+            {
+                UpdateStateOfSelection();
+            }
         });
     }
 
@@ -167,7 +176,10 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
 
     private void OnSelectionChanged(object sender, EventArgs args)
     {
-        if (NotificationLockCount == 0) UpdateStateOfSelection();
+        if (NotificationLockCount == 0)
+        {
+            UpdateStateOfSelection();
+        }
     }
 
     private void OnCollectionChanged()
@@ -178,7 +190,10 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
 
     private void AddRange(IEnumerable<T> items)
     {
-        if (items == null) throw new ArgumentNullException(nameof(items));
+        if (items == null)
+        {
+            throw new ArgumentNullException(nameof(items));
+        }
 
         foreach (var item in items.Where(x => x != null))
         {
@@ -191,7 +206,10 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
 
     private void SetSelection(bool select)
     {
-        if (IsEmpty || AllSelected == select) return;
+        if (IsEmpty || AllSelected == select)
+        {
+            return;
+        }
 
         using (SuspendEvents())
         {
@@ -205,7 +223,10 @@ public sealed class PickList<T> : PropertyChangedBase, INotifyCollectionChanged,
     private void UpdateStateOfSelection()
     {
         var currentCount = CurrentSelection.Count();
-        if (currentCount == SelectionCount) return;
+        if (currentCount == SelectionCount)
+        {
+            return;
+        }
 
         SelectionCount = currentCount;
 

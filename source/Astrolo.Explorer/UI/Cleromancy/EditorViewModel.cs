@@ -38,7 +38,10 @@ public sealed class EditorViewModel : PropertyChangedBase
         get => _changes;
         private set
         {
-            if (Equals(value, _changes)) return;
+            if (Equals(value, _changes))
+            {
+                return;
+            }
 
             void OnStateChanged(object sender, EventArgs e)
             {
@@ -74,7 +77,10 @@ public sealed class EditorViewModel : PropertyChangedBase
         get => StartState.Number;
         set
         {
-            if (value == StartId) return;
+            if (value == StartId)
+            {
+                return;
+            }
 
             StartState = Source[value];
             Changes = EnumerateChanges();
@@ -87,7 +93,10 @@ public sealed class EditorViewModel : PropertyChangedBase
         get => EndState.Number;
         set
         {
-            if (value == EndId) return;
+            if (value == EndId)
+            {
+                return;
+            }
 
             EndState = Source[value];
             Changes = EnumerateChanges();

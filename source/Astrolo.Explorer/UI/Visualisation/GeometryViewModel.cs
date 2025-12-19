@@ -12,8 +12,6 @@ namespace Astrolo.Explorer.UI.Visualisation;
 
 public sealed class GeometryViewModel : Conductor<Screen>.Collection.OneActive
 {
-    private bool _showSphere;
-
     public GeometryViewModel(
         YiSphereViewModel sphere,
         HexChartViewModel hexChart,
@@ -44,20 +42,6 @@ public sealed class GeometryViewModel : Conductor<Screen>.Collection.OneActive
     public HexChartViewModel HexChart { get; }
 
     public YiSphereViewModel Sphere { get; }
-
-    public bool ShowHexChart => !ShowSphere;
-
-    public bool ShowSphere
-    {
-        get => _showSphere;
-        set
-        {
-            if (value == _showSphere) return;
-            _showSphere = value;
-            NotifyOfPropertyChange();
-            NotifyOfPropertyChange(nameof(ShowHexChart));
-        }
-    }
 
     protected override Task OnActivatedAsync(CancellationToken cancellationToken)
     {

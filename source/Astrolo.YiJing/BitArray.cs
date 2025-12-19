@@ -21,7 +21,10 @@ public readonly struct BitArray : IEnumerable<bool>, IEquatable<BitArray>
 
     public BitArray(int length)
     {
-        if (length is < 1 or > MaxLength) throw new ArgumentOutOfRangeException(nameof(length));
+        if (length is < 1 or > MaxLength)
+        {
+            throw new ArgumentOutOfRangeException(nameof(length));
+        }
 
         _length = (byte)length;
         Value = 0;
@@ -35,7 +38,11 @@ public readonly struct BitArray : IEnumerable<bool>, IEquatable<BitArray>
     {
         get
         {
-            if (index < 0 || index >= Length) throw new IndexOutOfRangeException();
+            if (index < 0 || index >= Length)
+            {
+                throw new IndexOutOfRangeException();
+            }
+
             return (Value & (1 << (Length - 1 - index))) != 0;
         }
     }
@@ -89,7 +96,11 @@ public readonly struct BitArray : IEnumerable<bool>, IEquatable<BitArray>
 
     public static uint TakeBits(int count, uint value)
     {
-        if (count is < 1 or > MaxLength) throw new ArgumentOutOfRangeException(nameof(count));
+        if (count is < 1 or > MaxLength)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count));
+        }
+
         return value & (uint)((1 << count) - 1);
     }
 
