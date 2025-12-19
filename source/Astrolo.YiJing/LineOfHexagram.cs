@@ -11,10 +11,14 @@ public readonly struct LineOfHexagram : IComparable, IComparable<LineOfHexagram>
     public LineOfHexagram(int hexagram, int line)
     {
         if (hexagram is < 1 or > HexagramInfo.TotalHexagrams)
+        {
             throw new ArgumentOutOfRangeException(nameof(hexagram));
+        }
 
         if (line is < 1 or > HexagramInfo.TotalLines)
+        {
             throw new ArgumentOutOfRangeException(nameof(line));
+        }
 
         Hexagram = hexagram;
         Line = line;

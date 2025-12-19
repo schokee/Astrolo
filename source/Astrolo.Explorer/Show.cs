@@ -29,7 +29,9 @@ public static class Show
         await closed;
 
         if (wasCancelled?.Invoke(model) != true)
+        {
             return model;
+        }
 
         throw new OperationCanceledException();
     }
@@ -49,7 +51,9 @@ public static class Show
     {
         var result = await IoC.Get<IWindowManager>().ShowDialogAsync(dialog);
         if (result != true)
+        {
             throw new OperationCanceledException("Dialog cancelled");
+        }
 
         return dialog;
     }

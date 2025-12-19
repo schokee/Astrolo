@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:cm="http://caliburnmicro.com"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:astrolo="http://schemas.astrolo.org/"
@@ -42,18 +41,6 @@
                                 <TextBlock Text="No profile selected" HorizontalAlignment="Center"/>
                             </StackPanel>
                             <DockPanel Visibility="{Binding HasContent, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <!--
-                                <DockPanel DockPanel.Dock="Top" Margin="5,3" VerticalAlignment="Top">
-                                    <astrolo:SpacingPanel Spacing="4">
-                                        <Rectangle Width="16" Height="16" Stroke="Gainsboro" StrokeThickness="1"
-                                                   Fill="{Binding (local:ComparerView.Subject), RelativeSource={RelativeSource AncestorType={x:Type ContentPresenter}} }"/>
-                                        <TextBlock Text="{Binding Path=Profile.Name}" Foreground="DimGray" FontSize="14 " FontWeight="SemiBold"
-                                                   VerticalAlignment="Center" TextTrimming="CharacterEllipsis"  />
-                                    </astrolo:SpacingPanel>
-                                    <Button cm:Message.Attach="Clear" Style="{StaticResource MahApps.Styles.Button.Chromeless}"
-                                            Content="{iconPacks:Material Kind=Close, Width=16, Height=16}" HorizontalAlignment="Right" ToolTip="Clear"/>
-                                </DockPanel>
-                                -->
                                 <mah:TransitioningContentControl Content="{Binding Chart}"
                                                                  Transition="RightReplace" Focusable="False" IsTabStop="False" VerticalAlignment="Top">
                                     <mah:TransitioningContentControl.ContentTemplate>

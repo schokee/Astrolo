@@ -138,7 +138,9 @@ namespace Astrolo.Presentation.Controls.HumanDesign
             {
                 var gate = GetGate(child);
                 if (gate <= 0)
+                {
                     continue;
+                }
 
                 BindingOperations.SetBinding(child, ContentPresenter.ContentTemplateProperty, new Binding
                 {

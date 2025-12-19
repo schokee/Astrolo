@@ -13,10 +13,10 @@ public class Selectable : PropertyChangedBase, ISelectable
         get => _isSelected;
         set
         {
-            if (value == _isSelected) return;
-            _isSelected = value;
-            NotifyOfPropertyChange();
-            OnSelectionChanged();
+            if (Set(ref _isSelected, value))
+            {
+                OnSelectionChanged();
+            }
         }
     }
 

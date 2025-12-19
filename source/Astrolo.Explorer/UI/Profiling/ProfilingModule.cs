@@ -2,7 +2,7 @@
 
 namespace Astrolo.Explorer.UI.Profiling;
 
-public sealed class ProfilingModule : Autofac.Module
+public sealed class ProfilingModule : Module
 {
     protected override void Load(ContainerBuilder builder)
     {

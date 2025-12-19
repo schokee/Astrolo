@@ -56,7 +56,10 @@ public sealed partial class GateDictionary : IGateDictionary
         public int Compare(HexagramFigure? x, HexagramFigure? y)
         {
             var diff = GetLowerTrigramOrdinal(y!) - GetLowerTrigramOrdinal(x!);
-            if (diff != 0) return diff;
+            if (diff != 0)
+            {
+                return diff;
+            }
 
             return GetUpperTrigramOrdinal(y!) - GetUpperTrigramOrdinal(x!);
         }

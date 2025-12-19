@@ -39,7 +39,10 @@ public sealed class IncarnationCross : IComparable, IComparable<IncarnationCross
 
     public bool Matches(LineOfHexagram[] points)
     {
-        if (points.Length != 4) throw new ArgumentException(nameof(points));
+        if (points.Length != 4)
+        {
+            throw new ArgumentException(nameof(points));
+        }
 
         return IsApplicableToDesign(points[0].Line, points[3].Line) && Gates.SequenceEqual(points.Select(x => x.Hexagram));
     }
@@ -57,17 +60,27 @@ public sealed class IncarnationCross : IComparable, IComparable<IncarnationCross
 
     public int CompareTo(IncarnationCross? other)
     {
-        if (ReferenceEquals(this, other)) return 0;
+        if (ReferenceEquals(this, other))
+        {
+            return 0;
+        }
 
-        if (ReferenceEquals(null, other)) return 1;
+        if (ReferenceEquals(null, other))
+        {
+            return 1;
+        }
 
         var diff = Type.CompareTo(other.Type);
 
         if (diff == 0)
+        {
             diff = string.Compare(PartialName, other.PartialName, StringComparison.CurrentCulture);
+        }
 
         if (diff == 0)
+        {
             diff = Quarter.CompareTo(other.Quarter);
+        }
 
         return diff;
     }

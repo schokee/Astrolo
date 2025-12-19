@@ -63,12 +63,16 @@ public sealed class YiSphereViewModel : Screen, IDisposable
             }
 
             if (_filter != null)
+            {
                 _filter.SelectionChanged -= OnSelectionChanged;
+            }
 
             _filter = value;
 
             if (_filter != null)
+            {
                 _filter.SelectionChanged += OnSelectionChanged;
+            }
 
             UpdateModels();
         }

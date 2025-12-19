@@ -65,7 +65,9 @@ namespace Astrolo.Presentation.Controls.YiJing
         {
             base.OnRender(drawingContext);
             if (Hexagram == null)
+            {
                 return;
+            }
 
             HexagramShape.Render(Hexagram, new Size(ActualWidth, ActualHeight), Spacer, 0, (isLowerTrigram, bounds) =>
             {

@@ -21,11 +21,11 @@ public sealed class Change : PropertyChangedBase
         get => _startState;
         set
         {
-            if (value.Equals(_startState)) return;
-            _startState = value;
-            NotifyOfPropertyChange();
-            NotifyOfPropertyChange(nameof(IsMoving));
-            StateChanged?.Invoke(this, EventArgs.Empty);
+            if (Set(ref _startState, value))
+            {
+                NotifyOfPropertyChange(nameof(IsMoving));
+                StateChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 
@@ -34,11 +34,11 @@ public sealed class Change : PropertyChangedBase
         get => _endState;
         set
         {
-            if (value == _endState) return;
-            _endState = value;
-            NotifyOfPropertyChange();
-            NotifyOfPropertyChange(nameof(IsMoving));
-            StateChanged?.Invoke(this, EventArgs.Empty);
+            if (Set(ref _endState, value))
+            {
+                NotifyOfPropertyChange(nameof(IsMoving));
+                StateChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
     }
 

@@ -71,7 +71,10 @@ namespace Astrolo.Geometry.PointyTop
 
         public IEnumerable<Point> EnumeratePerimeter(int size, Face startingFace = Face.Right)
         {
-            if (size <= 0) throw new ArgumentOutOfRangeException(nameof(size));
+            if (size <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(size));
+            }
 
             var neighboringPoint = NeighborAt(startingFace).Scale(size);
             var traversalSequence = AllFaces.Concat(AllFaces).Skip(startingFace - Face.Right + 2).Take(6);

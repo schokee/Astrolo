@@ -32,7 +32,9 @@ public sealed class ChannelComparison
         var rNotDefined = !rStart.IsActive && !rEnd.IsActive;
 
         if (lNotDefined && rNotDefined)
+        {
             return null;
+        }
 
         var lIsComplete = lStart.IsActive && lEnd.IsActive;
         var rIsComplete = rStart.IsActive && rEnd.IsActive;

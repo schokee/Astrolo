@@ -28,7 +28,7 @@ public sealed class ProfilePoint(ProfileEditor editor, Marker marker, bool isDes
 
     public LineOfHexagram? Value
     {
-        get => LineOfHexagram.TryParse(ValueAsText, out var result) ? result : default(LineOfHexagram?);
+        get => LineOfHexagram.TryParse(ValueAsText, out var result) ? result : null;
         set => ValueAsText = value is null ? string.Empty : value.Value.ToString();
     }
 

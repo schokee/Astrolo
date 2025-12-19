@@ -32,7 +32,10 @@ namespace Astrolo.Presentation.Controls
 
         protected override Size ArrangeOverride(Size arrangeSize)
         {
-            if (Children.Count <= 0) return arrangeSize;
+            if (Children.Count <= 0)
+            {
+                return arrangeSize;
+            }
 
             var lineHeight = ActualHeight / (Children.Count + (Children.Count - 1) * Spacer);
             var spacer = lineHeight * Spacer;
@@ -43,7 +46,10 @@ namespace Astrolo.Presentation.Controls
             for (var count = Children.Count; index < count; ++index)
             {
                 var uiElement = Children[index];
-                if (uiElement == null) continue;
+                if (uiElement == null)
+                {
+                    continue;
+                }
 
                 var bounds = new Rect(0, y, arrangeSize.Width, lineHeight);
                 uiElement.Arrange(bounds);

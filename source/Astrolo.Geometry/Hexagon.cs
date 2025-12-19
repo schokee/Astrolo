@@ -8,7 +8,11 @@ namespace Astrolo.Geometry
 
         public Hexagon(double radius)
         {
-            if (radius < 0) throw new ArgumentOutOfRangeException(nameof(radius));
+            if (radius < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(radius));
+            }
+
             Radius = radius;
         }
 

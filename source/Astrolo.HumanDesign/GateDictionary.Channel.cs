@@ -13,7 +13,11 @@ public sealed partial class GateDictionary
 
         public bool Equals(Channel? other)
         {
-            if (other == null) return false;
+            if (other == null)
+            {
+                return false;
+            }
+
             return ReferenceEquals(this, other) || Gates.SequenceEqual(other.Gates);
         }
 

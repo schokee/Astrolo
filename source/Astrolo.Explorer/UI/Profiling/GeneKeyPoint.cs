@@ -55,18 +55,29 @@ public sealed class GeneKeyPoint(IGeneKey geneKey, Sphere sphere, ChartValue cha
     public int CompareTo(object obj)
     {
         if (ReferenceEquals(null, obj))
+        {
             return 1;
+        }
+
         if (ReferenceEquals(this, obj))
+        {
             return 0;
+        }
+
         return obj is GeneKeyPoint other ? CompareTo(other) : throw new ArgumentException($"Object must be of type {nameof(GeneKeyPoint)}");
     }
 
     public int CompareTo(GeneKeyPoint other)
     {
         if (ReferenceEquals(this, other))
+        {
             return 0;
+        }
+
         if (ReferenceEquals(null, other))
+        {
             return 1;
+        }
 
         var diff = GeneKey.Number.CompareTo(other.GeneKey.Number);
         return diff == 0 ? Line.CompareTo(other.Line) : diff;

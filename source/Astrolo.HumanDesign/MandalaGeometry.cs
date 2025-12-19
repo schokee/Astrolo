@@ -23,13 +23,20 @@ public static class MandalaGeometry
 
     public static Angle LineStartAngle(this HexagramFigure hexagram, int line)
     {
-        if (line is < 1 or > HexagramInfo.TotalLines) throw new ArgumentOutOfRangeException(nameof(line));
+        if (line is < 1 or > HexagramInfo.TotalLines)
+        {
+            throw new ArgumentOutOfRangeException(nameof(line));
+        }
+
         return hexagram.StartAngle() - Seconds.ToAngle((line - 1) * SecondsPerLine);
     }
 
     public static IEnumerable<(T Item, Angle StartAngle)> InTransitOrder<T>(this IEnumerable<T> source, Func<T, HexagramFigure> select)
     {
-        if (source == null) throw new ArgumentNullException(nameof(source));
+        if (source == null)
+        {
+            throw new ArgumentNullException(nameof(source));
+        }
 
         return source
             .Select(x => (Item: x, StartAngle: select(x).StartAngle()))
