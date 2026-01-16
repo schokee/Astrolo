@@ -23,10 +23,6 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
     private readonly IGateDictionary _gateDictionary;
     private readonly KeynoteMap _keyNotes = new();
 
-    private PersonalChart _currentChart;
-    private IGeneKey _selectedGeneKey;
-    private ChartValue _selectedChartValue;
-
     private IUserPrompt Prompt { get; }
     private Func<NameEditorViewModel> CreateNewProfileNameEditor { get; }
     private Func<NameEditorViewModel> CreateRenameEditor { get; }
@@ -125,52 +121,48 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
         }
     }
 
-    private bool _viewPersonalityAndDesign = true;
     public bool ViewPersonalityAndDesign
     {
-        get => _viewPersonalityAndDesign;
+        get;
         set
         {
-            if (Set(ref _viewPersonalityAndDesign, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(FilteredChart));
             }
         }
-    }
+    } = true;
 
-    private bool _viewDesignOnly;
     public bool ViewDesignOnly
     {
-        get => _viewDesignOnly;
+        get;
         set
         {
-            if (Set(ref _viewDesignOnly, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(FilteredChart));
             }
         }
     }
 
-    private bool _viewPersonalityOnly;
     public bool ViewPersonalityOnly
     {
-        get => _viewPersonalityOnly;
+        get;
         set
         {
-            if (Set(ref _viewPersonalityOnly, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(FilteredChart));
             }
         }
     }
 
-    private bool _showStarPearl;
     public bool ShowStarPearl
     {
-        get => _showStarPearl;
+        get;
         set
         {
-            if (Set(ref _showStarPearl, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(Points));
                 UpdateSelectedFigures();
@@ -215,10 +207,10 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
 
     public IGeneKey SelectedGeneKey
     {
-        get => _selectedGeneKey;
+        get;
         set
         {
-            if (Set(ref _selectedGeneKey, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(SelectedHexagram));
                 NotifyOfPropertyChange(nameof(SelectedGate));
@@ -229,10 +221,10 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
 
     public ChartValue SelectedChartValue
     {
-        get => _selectedChartValue;
+        get;
         set
         {
-            if (Set(ref _selectedChartValue, value))
+            if (Set(ref field, value))
             {
                 SelectedGeneKey = SelectedChartValue != null ? GeneKeys[SelectedChartValue.Gate.Number] : null;
             }
@@ -275,10 +267,10 @@ public sealed class ProfileEditorViewModel : Screen, IDisposable
 
     private PersonalChart CurrentChart
     {
-        get => _currentChart;
+        get;
         set
         {
-            if (Set(ref _currentChart, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(FilteredChart));
                 NotifyOfPropertyChange(nameof(Points));

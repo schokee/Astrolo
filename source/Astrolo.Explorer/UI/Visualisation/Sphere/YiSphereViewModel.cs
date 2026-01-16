@@ -13,10 +13,6 @@ public sealed class YiSphereViewModel : Screen, IDisposable
 {
     private readonly SerialDisposable _shutdown = new();
 
-    private InspectionFilterViewModel _filter;
-    private bool _showLabels;
-    private int _selectedHexagram = 1;
-
     private IReadOnlyDictionary<int, Vector3D> ViewingVectors { get; }
 
     private LinesVisual3D PathVisual { get; } = new() { Color = Colors.DarkViolet, Thickness = 2 };
@@ -54,7 +50,7 @@ public sealed class YiSphereViewModel : Screen, IDisposable
 
     public InspectionFilterViewModel Filter
     {
-        get => _filter;
+        get;
         set
         {
             void OnSelectionChanged(object sender, EventArgs e)
@@ -62,16 +58,16 @@ public sealed class YiSphereViewModel : Screen, IDisposable
                 UpdateModels();
             }
 
-            if (_filter != null)
+            if (field != null)
             {
-                _filter.SelectionChanged -= OnSelectionChanged;
+                field.SelectionChanged -= OnSelectionChanged;
             }
 
-            _filter = value;
+            field = value;
 
-            if (_filter != null)
+            if (field != null)
             {
-                _filter.SelectionChanged += OnSelectionChanged;
+                field.SelectionChanged += OnSelectionChanged;
             }
 
             UpdateModels();
@@ -80,10 +76,10 @@ public sealed class YiSphereViewModel : Screen, IDisposable
 
     public bool ShowLabels
     {
-        get => _showLabels;
+        get;
         set
         {
-            if (Set(ref _showLabels, value))
+            if (Set(ref field, value))
             {
                 UpdateModels();
             }
@@ -92,15 +88,15 @@ public sealed class YiSphereViewModel : Screen, IDisposable
 
     public int SelectedHexagram
     {
-        get => _selectedHexagram;
+        get;
         set
         {
-            if (Set(ref _selectedHexagram, value))
+            if (Set(ref field, value))
             {
                 ResetView();
             }
         }
-    }
+    } = 1;
 
     //public async Task Export()
     //{

@@ -9,7 +9,6 @@ namespace Astrolo.Explorer.UI.Visualisation.Mandala;
 public sealed class MandalaFigure : Selectable, IGateConfiguration
 {
     private static readonly Angle Half = Seconds.ToAngle(MandalaGeometry.SecondsPerHexagram / 2);
-    private bool _isEmphasized;
 
     public MandalaFigure(IGeneKey geneKey)
     {
@@ -25,8 +24,8 @@ public sealed class MandalaFigure : Selectable, IGateConfiguration
 
     public bool IsEmphasized
     {
-        get => _isEmphasized;
-        set => Set(ref _isEmphasized, value);
+        get;
+        set => Set(ref field, value);
     }
 
     #region IGateConfiguration

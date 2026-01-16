@@ -9,8 +9,6 @@ namespace Astrolo.Explorer.UI.Profiling;
 public sealed class GeneKeyPoint(IGeneKey geneKey, Sphere sphere, ChartValue chartValue, string lineNote, bool isCenterDefined)
     : Selectable, IComparable<GeneKeyPoint>, IComparable, IFormattable
 {
-    private bool _isEnabled = true;
-
     public ChartValue ChartValue { get; } = chartValue;
     public Sphere Sphere { get; } = sphere;
     public IGeneKey GeneKey => geneKey;
@@ -25,9 +23,9 @@ public sealed class GeneKeyPoint(IGeneKey geneKey, Sphere sphere, ChartValue cha
 
     public bool IsEnabled
     {
-        get => _isEnabled;
-        set => Set(ref _isEnabled, value);
-    }
+        get;
+        set => Set(ref field, value);
+    } = true;
 
     public Uri Link => new("https://genekeys.com/gene-key-" + $"{GeneKey.Number}/");
 

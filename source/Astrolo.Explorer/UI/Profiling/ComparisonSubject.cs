@@ -7,8 +7,6 @@ namespace Astrolo.Explorer.UI.Profiling;
 
 public sealed class ComparisonSubject : PropertyChangedBase
 {
-    private INamedProfile _profile;
-
     private Func<INamedProfile, PersonalChart> CreateChart { get; }
 
     public event EventHandler ProfileChanged;
@@ -25,10 +23,10 @@ public sealed class ComparisonSubject : PropertyChangedBase
 
     public INamedProfile Profile
     {
-        get => _profile;
+        get;
         set
         {
-            if (Set(ref _profile, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(HasContent));
                 NotifyOfPropertyChange(nameof(Chart));

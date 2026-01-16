@@ -10,8 +10,6 @@ namespace Astrolo.Explorer.UI.Cleromancy;
 
 public sealed class EditorViewModel : PropertyChangedBase
 {
-    private IReadOnlyList<Change> _changes;
-
     private GeneKeyTable Source { get; }
 
     public EditorViewModel(GeneKeyTable source, IEnumerable<Movement> changes, IYiJingBrowser browser)
@@ -35,10 +33,10 @@ public sealed class EditorViewModel : PropertyChangedBase
 
     public IReadOnlyList<Change> Changes
     {
-        get => _changes;
+        get;
         private set
         {
-            if (Equals(value, _changes))
+            if (Equals(value, field))
             {
                 return;
             }
@@ -48,19 +46,19 @@ public sealed class EditorViewModel : PropertyChangedBase
                 UpdateState();
             }
 
-            if (_changes != null)
+            if (field != null)
             {
-                foreach (var change in _changes)
+                foreach (var change in field)
                 {
                     change.StateChanged -= OnStateChanged;
                 }
             }
 
-            _changes = value;
+            field = value;
 
-            if (_changes != null)
+            if (field != null)
             {
-                foreach (var change in _changes)
+                foreach (var change in field)
                 {
                     change.StateChanged += OnStateChanged;
                 }

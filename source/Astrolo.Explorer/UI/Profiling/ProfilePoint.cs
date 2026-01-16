@@ -12,13 +12,12 @@ public sealed class ProfilePoint(ProfileEditor editor, Marker marker, bool isDes
 
     public bool IsDesign { get; } = isDesign;
 
-    private string _valueAsText;
     public string ValueAsText
     {
-        get => _valueAsText;
+        get;
         set
         {
-            if (Set(ref _valueAsText, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(Value));
                 ValueChanged?.Invoke(this);
