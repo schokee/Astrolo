@@ -5,9 +5,6 @@ namespace Astrolo.Explorer.UI.Cleromancy;
 
 public sealed class ReadingViewModel : Screen
 {
-    private IChangeGenerator _selectedGenerator;
-    private EditorViewModel _editor;
-
     private Random Random { get; } = new();
     private Func<EditorViewModel> CreateEditor { get; }
 
@@ -32,14 +29,14 @@ public sealed class ReadingViewModel : Screen
 
     public IChangeGenerator SelectedGenerator
     {
-        get => _selectedGenerator;
-        set => Set(ref _selectedGenerator, value);
+        get;
+        set => Set(ref field, value);
     }
 
     public EditorViewModel Editor
     {
-        get => _editor;
-        private set => Set(ref _editor, value);
+        get;
+        private set => Set(ref field, value);
     }
 
     public void Generate()

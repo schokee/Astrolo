@@ -4,9 +4,6 @@ namespace Astrolo.Explorer.UI.Profiling;
 
 public sealed class NameEditorViewModel : Dialog, IDataErrorInfo
 {
-    private string _newName;
-    private string _error;
-
     private Func<string, bool> IsNameUnique { get; }
 
     public delegate NameEditorViewModel Factory(Func<string, bool> isNameUnique, string newName, bool rename = false);
@@ -28,10 +25,10 @@ public sealed class NameEditorViewModel : Dialog, IDataErrorInfo
 
     public string NewName
     {
-        get => _newName;
+        get;
         set
         {
-            if (Set(ref _newName, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(CanAccept));
                 NotifyOfPropertyChange(nameof(Error));
@@ -61,10 +58,10 @@ public sealed class NameEditorViewModel : Dialog, IDataErrorInfo
 
     public string Error
     {
-        get => _error;
+        get;
         private set
         {
-            if (Set(ref _error, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(CanAccept));
             }

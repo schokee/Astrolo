@@ -1,0 +1,29 @@
+<Solution>
+  <Folder Name="/.Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".github/workflows/ci.yml" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="GitVersion.yml" />
+    <File Path="global.json" />
+    <File Path="nuget.config" />
+  </Folder>
+  <Folder Name="/Applications/">
+    <Project Path="source/Astrolo.Explorer/Astrolo.Explorer.csproj" />
+  </Folder>
+  <Folder Name="/Components/">
+    <Project Path="source/Astrolo.Astrology/Astrolo.Astrology.csproj" />
+    <Project Path="source/Astrolo.Core/Astrolo.Core.csproj" />
+    <Project Path="source/Astrolo.GeneKeys/Astrolo.GeneKeys.csproj" />
+    <Project Path="source/Astrolo.Geometry/Astrolo.Geometry.csproj" />
+    <Project Path="source/Astrolo.HumanDesign/Astrolo.HumanDesign.csproj" />
+    <Project Path="source/Astrolo.YiJing/Astrolo.YiJing.csproj" />
+  </Folder>
+  <Folder Name="/Controls/">
+    <Project Path="source/Astrolo.Presentation.Controls/Astrolo.Presentation.Controls.csproj" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="tests/Astrolo.Tests/Astrolo.Tests.csproj" />
+  </Folder>
+</Solution>

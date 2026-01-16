@@ -10,7 +10,6 @@ namespace Astrolo.Explorer.UI.Profiling;
 public sealed class ComparerViewModel : Screen, IDisposable
 {
     private readonly SerialDisposable _shutdown = new();
-    private RelationshipChart _result;
 
     public ComparerViewModel(IGateDictionary gateDictionary, ComparisonSubject lhs, ComparisonSubject rhs)
     {
@@ -43,8 +42,8 @@ public sealed class ComparerViewModel : Screen, IDisposable
 
     public RelationshipChart Result
     {
-        get => _result;
-        private set => Set(ref _result, value);
+        get;
+        private set => Set(ref field, value);
     }
 
     [UsedImplicitly]

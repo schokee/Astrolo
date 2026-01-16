@@ -5,9 +5,6 @@ namespace Astrolo.Explorer.UI.Cleromancy;
 
 public sealed class Change : PropertyChangedBase
 {
-    private bool _startState;
-    private bool _endState;
-
     public event EventHandler StateChanged;
 
     public Change(Movement movement)
@@ -18,10 +15,10 @@ public sealed class Change : PropertyChangedBase
 
     public bool StartState
     {
-        get => _startState;
+        get;
         set
         {
-            if (Set(ref _startState, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(IsMoving));
                 StateChanged?.Invoke(this, EventArgs.Empty);
@@ -31,10 +28,10 @@ public sealed class Change : PropertyChangedBase
 
     public bool EndState
     {
-        get => _endState;
+        get;
         set
         {
-            if (Set(ref _endState, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(IsMoving));
                 StateChanged?.Invoke(this, EventArgs.Empty);

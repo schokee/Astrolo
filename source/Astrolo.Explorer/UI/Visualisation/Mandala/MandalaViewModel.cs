@@ -11,9 +11,6 @@ namespace Astrolo.Explorer.UI.Visualisation.Mandala;
 
 public sealed class MandalaViewModel : Screen, ISupportFiltering
 {
-    private bool _showBinary;
-    private bool _isFilterActive;
-
     public MandalaViewModel(GeneKeyTable geneKeys)
     {
         DisplayName = "Mandala";
@@ -36,10 +33,10 @@ public sealed class MandalaViewModel : Screen, ISupportFiltering
 
     public bool IsFilterActive
     {
-        get => _isFilterActive;
+        get;
         set
         {
-            if (Set(ref _isFilterActive, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(Rays));
             }
@@ -49,8 +46,8 @@ public sealed class MandalaViewModel : Screen, ISupportFiltering
     [UsedImplicitly]
     public bool ShowBinary
     {
-        get => _showBinary;
-        set => Set(ref _showBinary, value);
+        get;
+        set => Set(ref field, value);
     }
 
     public IEnumerable<MandalaSlice> Rays => IsFilterActive

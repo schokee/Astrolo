@@ -40,13 +40,12 @@ public sealed class ProfileEditor : PropertyChangedBase
 
     public bool IsComplete => Points.All(x => x.Value is not null) && !IsIncarnationCrossInvalid;
 
-    private bool _isIncarnationCrossInvalid;
     public bool IsIncarnationCrossInvalid
     {
-        get => _isIncarnationCrossInvalid;
+        get;
         private set
         {
-            if (Set(ref _isIncarnationCrossInvalid, value))
+            if (Set(ref field, value))
             {
                 NotifyOfPropertyChange(nameof(IsComplete));
             }
