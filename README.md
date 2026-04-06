@@ -5,7 +5,7 @@
 - GeneKeys Profile
 - YiJing Hexagram
 
-[DeepWiki](https://deepwiki.com/schokee/Astrolo)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/schokee/Astrolo)
 
 ## Profile Generation
 ![image](https://github.com/user-attachments/assets/85dc02c9-db5c-44f2-9fc1-314e7a27cdaa)
